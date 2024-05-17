@@ -1,0 +1,46 @@
+<div class="contact-details" id="contactDetails1">
+    <form class="contact-details-form" hx-post="/establishments{% if establishment.id is defined %}/{{ establishment.id }}{% endif %}" hx-target="#content" hx-swap="innerHTML">
+
+        <h2>Establishment Details{% if establishment.id is defined %}:{{ establishment.id }}{% endif %}</h2>
+
+        <label for="company_name">Specification:</label>
+        <input type="text" id="company_name" name="company_name"
+               value="{% if establishment.id is defined %}{{ establishment.specification }}{% endif %}">
+        <br><br>
+
+        <label for="contact_name">Zip:</label>
+        <input type="text" id="contact_name" name="contact_name"
+               value="{% if establishment.id is defined %}{{ establishment.zip }}{% endif %}">
+        <br><br>
+
+        <label for="contact_title">Locality:</label>
+        <input type="text" id="contact_title" name="contact_title"
+               value="{% if establishment.id is defined %}{{ establishment.locality }}{% endif %}">
+        <br><br>
+
+        <label for="address">Street:</label>
+        <input type="text" id="address" name="address" size="120"
+               value="{% if establishment.id is defined %}{{ establishment.street }}{% endif %}">
+        <br><br>
+
+        <label for="city">Number:</label>
+        <input type="text" id="city" name="city"
+               value="{% if establishment.id is defined %}{{ establishment.number }}{% endif %}">
+        <br><br>
+
+        <label for="region">Manager NIF:</label>
+        <input type="text" id="region" name="region"
+               value="{% if establishment.id is defined %}{{ establishment.manager_nif }}{% endif %}">
+        <br><br>
+
+        <label for="zip">Manager_init_date:</label>
+        <input type="text" id="zip" name="postal_code"
+               value="{% if establishment.id is defined %}{{ establishment.manager_init_date}}{% endif %}">
+        <br><br>
+
+        <button class="btn">Save</button>
+        {% if establishment.id is defined %}
+            <button class="btn" hx-get="/establishments/{{ establishment.id }}">Cancel</button>
+        {% endif %}
+    </form>
+</div>

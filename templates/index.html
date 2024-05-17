@@ -1,0 +1,30 @@
+<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>StylistData</title>
+        <!--<link rel="stylesheet" href="static/css/index.css">-->
+        <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">-->
+        <!-- tailwind -->
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.2/dist/tailwind.min.css" rel="stylesheet">
+
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="left-column">
+                <div>
+                    <input type="text" class="search-bar" placeholder="Search establishments...">
+                    <button class="top-button">Search</button>
+                    <button class="top-button" hx-get="establishments" hx-swap="innerHTML" hx-target="#content">New</button>
+                </div>
+                <div class="establishment-list shadow shadow-xl rounded-xl" hx-get="/establishments-list" hx-trigger="refreshEstablishmentsList from:body">
+                    {% include "establishments_list.html" %}
+                </div>
+            </div>
+            <div id="content" class="right-column"></div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,3 @@
+como dar drop à db done
+como usar tailwind ?
+como usar ficheirro css separado done
