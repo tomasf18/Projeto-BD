@@ -1,12 +1,12 @@
 {% for establishment in establishments %} <!-- 'establishments' é o argumento passado a este 'componente' -->
-    <div class="establishment-list-item" hx-swap="innerHTML" hx-target="#content">
-        <div class="establishment-list-item-details" hx-get="/establishments/{{ establishment.id }}">
-            <div class="establishment-id h-10">{{ establishment.id }}</div>
+    <div class="w-11/12 border-4 border-black my-2 rounded-lg flex flex-row items-center justify-between" hx-swap="innerHTML" hx-target="#content">
+        <div class="establishment-list-item-details flex flex-row text-lg p-3 cursor-pointer" hx-get="/establishments/{{ establishment.id }}" hx-trigger="click">
+            <div class="establishment-id mr-3"><strong>{{ establishment.id }}</strong></div>
             <div class="establishment-specification">{{ establishment.specification }}</div>
         </div>
         <div>
-            <button class="edit-button" hx-get="/establishments/{{ establishment.id }}?edit=true">Edit</button>
-            <button class="delete-button" hx-delete="/establishments/{{ establishment.id }}" hx-confirm="Are you sure?">Delete</button>
+            <button class="edit-button btn border mx-2" hx-get="/establishments/{{ establishment.id }}?edit=true" hx-trigger="click">Edit</button>
+            <button class="delete-button btn border mx-2" hx-delete="/establishments/{{ establishment.id }}" hx-confirm="Are you sure?" hx-trigger="click">Delete</button>
         </div>
     </div>
 {% endfor %}  

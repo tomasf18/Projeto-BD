@@ -1,46 +1,49 @@
-<div class="contact-details" id="contactDetails1">
-    <form class="contact-details-form" hx-post="/establishments{% if establishment.id is defined %}/{{ establishment.id }}{% endif %}" hx-target="#content" hx-swap="innerHTML">
+<div id="establishmentDetails1" class="establishment-details">
+       <!-- When this form is submited, the content returned by the function responsible for taking care 
+            of @app.route("/establishments/id", method="POST") will be displayed in the DOM element that has
+            id='content' -->
+       <form class="establishment-details-form" hx-post="/establishments{% if establishment_id is defined %}/{{ establishment_id }}{% endif %}" hx-target="#content" hx-swap="innerHTML">
 
-        <h2>Establishment Details{% if establishment.id is defined %}:{{ establishment.id }}{% endif %}</h2>
-
-        <label for="company_name">Specification:</label>
-        <input type="text" id="company_name" name="company_name"
-               value="{% if establishment.id is defined %}{{ establishment.specification }}{% endif %}">
-        <br><br>
-
-        <label for="contact_name">Zip:</label>
-        <input type="text" id="contact_name" name="contact_name"
-               value="{% if establishment.id is defined %}{{ establishment.zip }}{% endif %}">
-        <br><br>
-
-        <label for="contact_title">Locality:</label>
-        <input type="text" id="contact_title" name="contact_title"
-               value="{% if establishment.id is defined %}{{ establishment.locality }}{% endif %}">
-        <br><br>
-
-        <label for="address">Street:</label>
-        <input type="text" id="address" name="address" size="120"
-               value="{% if establishment.id is defined %}{{ establishment.street }}{% endif %}">
-        <br><br>
-
-        <label for="city">Number:</label>
-        <input type="text" id="city" name="city"
-               value="{% if establishment.id is defined %}{{ establishment.number }}{% endif %}">
-        <br><br>
-
-        <label for="region">Manager NIF:</label>
-        <input type="text" id="region" name="region"
-               value="{% if establishment.id is defined %}{{ establishment.manager_nif }}{% endif %}">
-        <br><br>
-
-        <label for="zip">Manager_init_date:</label>
-        <input type="text" id="zip" name="postal_code"
-               value="{% if establishment.id is defined %}{{ establishment.manager_init_date}}{% endif %}">
-        <br><br>
-
-        <button class="btn">Save</button>
-        {% if establishment.id is defined %}
-            <button class="btn" hx-get="/establishments/{{ establishment.id }}">Cancel</button>
-        {% endif %}
-    </form>
+              <h2>{% if establishment_id is not defined %}New {{ establishment_id }}{% endif %}Establishment Details{% if establishment_id is defined %}:{{ establishment_id }}{% endif %}</h2>
+              <div class="grid grid-cols-2 grid-rows-7 gap-2">
+                     <!-- Muito importante: o 'id' de cada elemento do forms vai ter de ter o nome exato do atributo correspondente! -->
+                     <label for="specification">Specification:</label>
+                     <input type="text" id="specification" name="specification"
+                            value="{% if establishment_id is defined %}{{ establishment.specification }}{% endif %}">
+       
+                     <label for="zip">Zip:</label>
+                     <input type="text" id="zip" name="zip"
+                            value="{% if establishment_id is defined %}{{ establishment.zip }}{% endif %}">
+       
+                     <label for="locality">Locality:</label>
+                     <input type="text" id="locality" name="locality"
+                            value="{% if establishment_id is defined %}{{ establishment.locality }}{% endif %}">
+       
+                     <label for="street">Street:</label>
+                     <input type="text" id="street" name="street" size="120"
+                            value="{% if establishment_id is defined %}{{ establishment.street }}{% endif %}">
+       
+                     <label for="number">Number:</label>
+                     <input type="text" id="number" name="number"
+                            value="{% if establishment_id is defined %}{{ establishment.number }}{% endif %}">
+       
+                     <label for="manager_nif">Manager NIF:</label>
+                     <input type="text" id="manager_nif" name="manager_nif"
+                            value="{% if establishment_id is defined %}{{ establishment.manager_nif }}{% endif %}">
+       
+                     <label for="manager_init_date">Manager_init_date:</label>
+                     <input type="text" id="manager_init_date" name="manager_init_date"
+                            value="{% if establishment_id is defined %}{{ establishment.manager_init_date}}{% endif %}">
+              </div>   
+              <div class="w-full flex items-center justify-center">
+                     <div class="w-9/12 mt-3 grid grid-cols-2 grid-rows-1 gap-3">
+                            <button class="btn border submit">Save</button>
+                            {% if establishment_id is defined %}
+                            <!-- clicking in Cancel btn, returns to view mode (see @app.route("/establishments/est_id", method="GET") function) -->
+                            <button class="btn border" hx-get="/establishments/{{ establishment_id }}">Cancel</button>
+                            {% endif %}
+                     </div>
+              </div>                     
+              
+       </form>
 </div>

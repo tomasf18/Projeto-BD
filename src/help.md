@@ -165,3 +165,131 @@ Here is an example template:
 ```
 
 ### Head over to the official Jinja2 Template Documentation for more information on templates: [Jinja2 - Templates](https://jinja.palletsprojects.com/templates/)
+
+# Important (using teacher's python example in class 7)
+
+index.html
+```html
+<div class="contact-list" hx-get="/contact-list" hx-trigger="refreshContactList from:body">
+    <!-- trigger means that when the HTTPS solicitation reply contains "refreshContactList" in its body, 
+    that will trigger an data update in this div without having to reload the website -->
+    {% include "contact_list.html" %}
+</div>
+```
+
+Everytime there is a HTTP that triggers that hx, there will be a GET request for /contact-list endpoint. 
+This means that the following function whill be called when it happens:
+
+app.py
+```python
+# when user goes to /establishments-list, this function is called
+@app.route("/contact-list", methods=["GET"])
+def contact_list():
+    contacts = customers.list_all()
+    return render_template("contact_list.html", customers=contacts)
+```
+
+Now, where will this list be loaded to?
+
+client_list.html
+```html 
+{% for customer in customers %}
+    <div class="contact-list-item" hx-swap="innerHTML" hx-target="#content">
+        <div class="contact-list-item-details" hx-get="/customers/{{ customer.id }}">
+            <div class="contact-name">{{ customer.contact_name }}</div>
+            <div class="company-name">{{ customer.company_name }}</div>
+        </div>
+        <div>
+            <button class="edit-button" hx-get="/customers/{{ customer.id }}?edit=true">Edit</button>
+            <button class="delete-button" hx-delete="/customers/{{ customer.id }}" hx-confirm="Are you sure?">Delete</button>
+        </div>
+    </div>
+{% endfor %}  
+```
+
+index.html
+```html
+<div id="content" class="right-column"></div>
+```
+
+As you can see in the following explanation, the DOM is very important:
+
+In the code provided, we have two important attributes from the HTMX library: `hx-swap` and `hx-target`. These attributes are used to control how content is updated on the page when an HTMX request is made.
+
+### `hx-swap`
+
+The `hx-swap` attribute specifies how the content returned by the HTMX request should be inserted into the DOM. In your code, `hx-swap` is set to `innerHTML`:
+
+```html
+<div class="contact-list-item" hx-swap="innerHTML" hx-target="#content">
+```
+
+Here, `hx-swap="innerHTML"` means that the content returned from the request will replace the inner content (inner HTML) of the target element. There are different values that `hx-swap` can have, such as `outerHTML`, `beforebegin`, `afterbegin`, `beforeend`, and `afterend`, but in your case, it is set to replace the inner content of the target element.
+
+### `hx-target`
+
+The `hx-target` attribute specifies which element in the DOM should be updated with the content returned by the HTMX request. In your code, `hx-target` is set to `#content`:
+
+```html
+<div class="contact-list-item" hx-swap="innerHTML" hx-target="#content">
+```
+
+Here, `hx-target="#content"` indicates that the content returned from the request should be inserted into the element with the ID `content`. This means that when a contact list item is clicked and an HTMX request is made, the result of the request (e.g., customer details or an edit form) will be inserted inside the `<div id="content">` element.
+
+### Workflow
+
+1. **Displaying Customer Details**: When a user clicks on a contact list item (`<div class="contact-list-item-details" hx-get="/customers/{{ customer.id }}">`), a GET request is made to `/customers/{{ customer.id }}`. The content returned by this request will replace the inner content of the `<div id="content">` element due to `hx-target="#content"` and `hx-swap="innerHTML"`.
+
+2. **Editing Customer**: When the Edit button (`<button class="edit-button" hx-get="/customers/{{ customer.id }}?edit=true">Edit</button>`) is clicked, a GET request is made to `/customers/{{ customer.id }}?edit=true`. Again, the returned content (likely an edit form) will replace the inner content of the `<div id="content">` element due to `hx-target="#content"`.
+
+3. **Deleting Customer**: When the Delete button (`<button class="delete-button" hx-delete="/customers/{{ customer.id }}" hx-confirm="Are you sure?">Delete</button>`) is clicked, a DELETE request is made to `/customers/{{ customer.id }}`. The `hx-confirm="Are you sure?"` adds a confirmation prompt before proceeding with the deletion. After deletion, the specific DOM update behavior will depend on additional server-side configuration or other HTMX response settings.
+
+### Summary
+
+- **`hx-swap="innerHTML"`**: Specifies that the inner content of the target element should be replaced by the content returned from the request.
+- **`hx-target="#content"`**: Specifies that the element with the ID `content` should be the target for the DOM update with the returned content.
+
+These configurations enable a more dynamic user experience where specific parts of the page are updated without the need to reload the entire page.
+
+
+## SQL Exception Explanation
+
+establishments.py
+```python
+except IntegrityError as e:
+    if e.args[0] == '23000':
+        raise ValueError("ERROR: could not delete establishment")
+```
+The `except` block catches `IntegrityError` exceptions that might occur during the execution of the operation in the `try` block.
+
+- `except IntegrityError as e` catches integrity exceptions that may be raised by the database. These exceptions usually 
+indicate violations of integrity constraints, such as foreign keys, primary keys (uniqueness), etc.
+- `if e.args[0] == '23000':` checks if the specific error code is `'23000'`, which is the standard SQL code for referential 
+integrity violations (e.g., trying to delete a row that is referenced by a foreign key in another table, or adding a row with 
+an already existing primary key).
+
+The `except IntegrityError` block can be used to catch integrity exceptions in INSERT, UPDATE, and DELETE operations. Any operation 
+that violates integrity constraints defined in the database, such as primary keys, foreign keys, uniqueness, or other constraints, 
+can raise an `IntegrityError`.
+
+
+## Error resolution: I added 'hx-trigger="click"
+
+The issue you are facing is due to the `hx-trigger="click"` attribute in the form. This attribute causes the form to be submitted 
+on any click, regardless of where the click occurs within the form. To fix this, you should remove `hx-trigger="click"` and ensure 
+that the form is only submitted when the "Save" button is clicked.
+
+### Explanation of Changes
+
+1. **Removal of `hx-trigger="click"`:** This prevents the form from being submitted on any click within the form. Now, the form will 
+only be submitted when the "Save" button is clicked.
+
+2. **Using `hx-post` on the form:** This ensures that the form submission uses the POST method to the correct URL with the 
+establishment ID, if defined.
+
+With these changes, the form will only be submitted when you click the "Save" button, avoiding the accidental creation of new records.
+
+To submit the form only when the "Save" button is clicked, you can rely on the default behavior of HTML forms. When any form 
+is submitted, the HTML itself initiates a POST request, so there's no need to use a trigger because the HTML DOM already has 
+a default trigger. It is not necessary to use `hx-trigger` in this case, as the default behavior of a submit button within a 
+form is to submit the form (POST).
