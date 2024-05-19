@@ -1,0 +1,13 @@
+{% for employee in employees %} <!-- 'employees' é o argumento passado a este 'componente' -->
+    <div class="w-11/12 border-4 border-black my-2 rounded-lg flex flex-row items-center justify-between" hx-swap="innerHTML" hx-target="#content">
+        <div class="employee-list-item-details flex flex-row text-lg p-3 cursor-pointer w-1/2" hx-get="/employees/{{ employee.employee_number }}" hx-trigger="click">
+            <div class="employee-specification mr-3">{{ employee.employee_number }}</div>
+            <div class="employee-name"><strong>{{ employee.fname }} {{ employee.lname }}</strong></div>
+        </div>
+        <div class="employee-type text-lg"><strong>{{ employee.type }}</strong></div>
+        <div>
+            <button class="edit-button btn border mx-2" hx-get="/employees/{{ employee.employee_number }}?edit=true" hx-trigger="click">Edit</button>
+            <button class="delete-button btn border mx-2" hx-delete="/employees/{{ employee.employee_number }}" hx-confirm="Are you sure?" hx-trigger="click">Delete</button>
+        </div>
+    </div>
+{% endfor %}  

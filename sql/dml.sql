@@ -136,11 +136,11 @@ INSERT INTO Efetivo(nif) VALUES
 
 -- Inserção de estagiários
 INSERT INTO Estagiario(nif, data_fim_estagio) VALUES
-(928374156, '2024-06-30'), -- Raquel Alves
-(736491825, '2024-06-30'), -- Sofia Pires
-(182736495, '2024-06-30'), -- Tiago Carvalho
-(839274651, '2024-06-30'), -- Vanessa Sousa
-(527364891, '2024-06-30'); -- Xavier Fernandes
+(928374156, '2024-06-01'), -- Raquel Alves
+(736491825, '2024-06-02'), -- Sofia Pires
+(182736495, '2024-06-03'), -- Tiago Carvalho
+(839274651, '2024-06-04'), -- Vanessa Sousa
+(527364891, '2024-06-05'); -- Xavier Fernandes
 
 
 UPDATE Estabelecimento

@@ -11,7 +11,7 @@ class EstablishmentSummary(NamedTuple): # named tuple that represents a establis
 
 
 class EstablishmentDetails(NamedTuple): # named tuple that represents a establishment
-    # This is a subclass of NamedTuple and serves as a basic descriptor for establishments
+    # this is a subclass of NamedTuple and serves as a basic descriptor for establishments
     specification: str
     zip: str
     locality: str
@@ -27,7 +27,7 @@ def list_establishments() -> list[EstablishmentSummary]:
         # create a cursor object to execute SQL queries and iterate over the results 
         cursor = conn.cursor()     
         # execute a query to select all establishments
-        cursor.execute("SELECT * FROM Estabelecimento") 
+        cursor.execute("SELECT id, especificacao FROM Estabelecimento") 
         # fetch all rows from the result of the query (returns a list of tuples like: [(...), (1, 'Restaurante', '4000-007', 'Porto', 'Rua do Almada', 13, 123456789, '2020-01-01'), (...)]
         rows = cursor.fetchall()
         # close the cursor
@@ -46,7 +46,7 @@ def list_establishments() -> list[EstablishmentSummary]:
 def list_establishments_by_locality(local: str) -> list[EstablishmentSummary]:
     with create_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(f"SELECT * FROM Estabelecimento WHERE localidade LIKE '%{local}%';")
+        cursor.execute(f"SELECT id, especificacao FROM Estabelecimento WHERE localidade LIKE '%{local}%';")
         rows = cursor.fetchall()
         cursor.close()
 
@@ -99,7 +99,7 @@ def create(establishment: EstablishmentDetails):
             return new_est_id
         except IntegrityError as e:
             if e.args[0] == '23000':
-                raise ValueError(f"ERROR: could not create establishment. Probably has orders.") from e
+                raise ValueError(f"ERROR: could not create establishment. Data integrity issue.") from e
         
 
 def update(est_id: int, establishment: EstablishmentDetails):
@@ -124,7 +124,7 @@ def update(est_id: int, establishment: EstablishmentDetails):
             conn.commit()
         except IntegrityError as e:
             if e.args[0] == '23000':
-                raise ValueError(f"ERROR: could not update establishment {est_id}. Probably has orders.") from e
+                raise ValueError(f"ERROR: could not update establishment {est_id}. Data integrity issue.") from e
 
 
 def delete(est_id: int):
@@ -135,8 +135,4 @@ def delete(est_id: int):
             conn.commit()
         except IntegrityError as e:
             if e.args[0] == '23000':
-                raise ValueError(f"ERROR: could not delete establishment {est_id}. Probably has orders.") from e
-
-
-
-
+                raise ValueError(f"ERROR: could not delete establishment {est_id}. Data integrity issue.") from e

@@ -1,7 +1,7 @@
 {% include "header.html" %}
 
     <body class="bg-gray-400 flex flex-col items-center justify-center">        
-        <div class="big w-8/12 m-4 border-2 border-blue-300 flex flex-col items-center" style="height: 50rem; maxHeight: 50rem"> 
+        <div class="big w-8/12 m-4 border-2 border-blue-300 flex flex-col items-center" style="height: 55rem; maxHeight: 55rem"> 
             <div class="w-full">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
@@ -37,23 +37,23 @@
                 </div>
                 <div class="small w-full h-full border-2 border-green-200">
                     <div class="w-full p-4"> 
-                        <form class="form-inline w-1/2 flex flex-row" hx-post="/search-establishment" hx-trigger="keyup, submit" hx-target="#est_list" hx-swap="innerHTML">
-                            <input class="form-control w-1/2 mr-3" name="locality" type="search" placeholder="Search by locality" aria-label="Search">
+                        <form class="form-inline w-1/2 flex flex-row" hx-post="/search-employee" hx-trigger="keyup, submit" hx-target="#emp_list" hx-swap="innerHTML">
+                            <input class="form-control w-1/2 mr-3" name="name" type="search" placeholder="Search by name" aria-label="Search">
                             <button class="btn btn-success" type="submit">Search</button>
                         </form>            
                     </div>
-                    <div class="w-full px-4 grid grid-cols-2 grid-rows-1" style="height: 30rem; maxHeight: 30rem">
-                        <div id="est_list" class="col-span-1 overflow-auto border-2 border-red-200 flex flex-col items-center" hx-get="/establishments-list" hx-trigger="load, refreshEstablishmentsList from:body"> 
-                            <!-- trigger means that when the HTTPS solicitation reply contains "refreshEstablishmentsList" in its body, 
+                    <div class="w-full px-4 grid grid-cols-2 grid-rows-1" style="height: 35rem; maxHeight: 35rem">
+                        <div id="emp_list" class="col-span-1 overflow-auto border-2 border-red-200 flex flex-col items-center" hx-get="/employees-list" hx-trigger="load, refreshEmployeesList from:body"> 
+                            <!-- trigger means that when the HTTPS solicitation reply contains "refreshemployeesList" in its body, 
                                 that will trigger an data update in this div without having to reload the website -->
-                            {% include "establishments_list.html" %}
+                            {% include "employees_list.html" %}
                         </div>
-                        <div id="content" class="col-span-1 mx-8 border-2 border-black">
-                            <!-- This div will be updated by the 'establishments_list.html' component -->
+                        <div id="content" class="overflow-auto col-span-1 mx-8 border-2 border-black">
+                            <!-- This div will be updated -->
                         </div>
                     </div>
                     <div class="w-full py-3 px-4">
-                        <button class="btn border w-1/4" hx-get="/establishments" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">Add New Establishment</button>
+                        <button class="btn border w-1/4" hx-get="/employees" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">Add New Employee</button>
                     <div>
                 </div>        
             </div> 

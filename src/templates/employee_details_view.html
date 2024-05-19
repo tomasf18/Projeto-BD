@@ -1,0 +1,22 @@
+<div class="employee-details" id="employeeDetails1">
+    <h2>NIF: {{ employee_nif }}</h2>
+
+    <p><strong>Employee Number:</strong> {{ employee_number }}</p>
+    <p><strong>Name:</strong> {{ employee.fname }}</p>
+    <p><strong>Surname:</strong> {{ employee.lname }}</p>
+    <p><strong>Zip:</strong> {{ employee.zip }}</p>
+    <p><strong>Locality:</strong> {{ employee.locality }}</p>
+    <p><strong>Street:</strong> {{ employee.street }}</p>
+    <p><strong>Number:</strong> {{ employee.number }}</p>
+    <p><strong>Birth Date:</strong> {{ employee.birth_date }}</p>
+    <p><strong>Sex:</strong> {{ employee.sex }}</p>
+    <p><strong>Establishment Number:</strong> {{ employee.establishment_number }}</p>
+    <p><strong>Employee Type:</strong>{% if emp_type == 'E' %} Effective{% else %} Intern{% endif %}</p>
+    {% if emp_type == 'I' %}
+    <p><strong>Internship End Date:</strong> {{ employee.internship_end_date }}</p>
+    {% endif %}
+    <button class="btn border mx-2" hx-get="/employees/{{ employee_number }}/schedule" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">See Schedule</button>
+    {% if emp_type == 'E' %}
+    <button class="edit-button btn border mx-2" hx-get="/effective-employees/{{ employee.employee_number }}/contract">See Contract</button>
+    {% endif %}
+</div>

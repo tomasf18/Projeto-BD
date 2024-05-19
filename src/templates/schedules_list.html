@@ -1,0 +1,17 @@
+{% for schedule in schedules %} <!-- 'schedules' é o argumento passado a este 'componente' -->
+    <div class="w-11/12 border-4 border-black my-2 rounded-lg flex flex-row items-center justify-self-center">
+        <div class="w-full schedule-list-item-details flex flex-row text-lg p-3 cursor-pointer"
+             hx-put="/employees/{{ employee_number }}/schedule/{{ schedule.id }}"
+             hx-trigger="click"
+             hx-target="#content"
+             hx-swap="innerHTML">
+            <div class="schedule-id mr-4"><strong>{{ schedule.id }}</strong></div>
+            <div class="schedule-time mr-10">
+                {{ schedule.start_time.split(":")[0] + ":" + schedule.start_time.split(":")[1] }}
+                -
+                {{ schedule.end_time.split(":")[0] + ":" + schedule.end_time.split(":")[1] }}
+            </div>
+            <div class="schedule-dayoff"> Day-off: {{ schedule.day_off }}</div>
+        </div>
+    </div>
+{% endfor %}
