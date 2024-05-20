@@ -1,8 +1,9 @@
 from flask import Flask, make_response, render_template, render_template_string, request
 
-from persistence import establishment, schedule, effective, intern, employee
+from persistence import establishment, schedule, effective, intern, employee, speciality
 from persistence.employee import EmployeeDetails
 from persistence.establishment import EstablishmentDetails
+from persistence.speciality import SpecialitySummary
 
 app = Flask(__name__) # create a Flask application instance
 
@@ -19,6 +20,10 @@ def admin_emp():
 @app.route('/admin-est')
 def admin_est():
     return render_template('admin_est.html')
+
+@app.route('/admin-spc')
+def admin_spc():
+    return render_template('admin_spc.html')
 
 
 @app.route("/employees-list", methods=["GET"])
@@ -140,7 +145,44 @@ def search_establishment():
     establishmentsData = establishment.list_establishments_by_locality(local)
     return render_template("establishments_list.html", establishments=establishmentsData)
 
+@app.route("/specialities-list", methods=["GET"]) # when user goes to /specialities-list, this function is called
+def get_specialities_list():
+    specialitiesData = speciality.list_specialities()
+    return render_template("specialities_list.html", specialities=specialitiesData)
 
+@app.route("/specialities", methods=["GET"])
+def create_speciality_form():
+    return render_template("speciality_details_form.html")
+
+@app.route("/specialities", methods=["POST"])
+def create_speciality():
+    speciality_designation = request.form.get("designation")
+    speciality.create(SpecialitySummary(speciality_designation))
+
+    response = make_response(render_template_string(f"Speciality {speciality_designation} created successfully!"))
+    response.headers["HX-Trigger"] = "refreshSpecialityList"
+
+    return response
+
+@app.route("/specialities/<spc_designation>", methods=["DELETE"])
+def delete_speciality(spc_designation: str):
+    try:
+        speciality.delete(spc_designation)
+
+        response = make_response(render_template_string(f"Speciality {spc_designation} deleted successfully!"))
+        response.headers["HX-Trigger"] = "refreshSpecialityList"
+        
+        return response
+    
+    except Exception as e:
+        response = make_response(render_template_string(f"{e}"))
+        return response
+
+@app.route("/search-speciality", methods=["POST"])
+def search_speciality():
+    designation = request.form.get("designation")
+    specialitiesData = speciality.list_specialities_by_designation(designation)
+    return render_template("specialities_list.html", specialities=specialitiesData)
 
 if __name__ == '__main__':
     app.run(debug=True) # start the Flask application in debug mode

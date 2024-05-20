@@ -1,0 +1,10 @@
+{% for speciality in specialities %} <!-- 'establishments' é o argumento passado a este 'componente' -->
+    <div class="w-11/12 border-4 border-black my-2 rounded-lg flex flex-row items-center justify-between" hx-swap="innerHTML" hx-target="#content">
+        <div class="specialities-list-item-details flex flex-row text-lg p-3">
+            <div class="speciality-designation mr-3"><strong>{{ speciality.designation }}</strong></div>
+        </div>
+        <div>
+            <button class="delete-button btn border mx-2" hx-delete="/specialities/{{ speciality.designation }}" hx-confirm="Are you sure?" hx-trigger="click">Delete</button>
+        </div>
+    </div>
+{% endfor %}  
