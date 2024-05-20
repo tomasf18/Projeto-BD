@@ -232,79 +232,58 @@ CREATE TABLE Servico (
 /* FK Constraints */
 
 ALTER TABLE Cliente 
-    ADD CONSTRAINT FK_Cliente_Pessoa FOREIGN KEY (nif) REFERENCES Pessoa(nif) 
-    ON DELETE CASCADE
-    ON UPDATE CASCADE;
+    ADD CONSTRAINT FK_Cliente_Pessoa FOREIGN KEY (nif) REFERENCES Pessoa(nif);
 
 ALTER TABLE Funcionario 
-    ADD CONSTRAINT FK_Funcionario_Pessoa FOREIGN KEY (nif) REFERENCES Pessoa(nif) 
-    ON DELETE CASCADE
-    ON UPDATE CASCADE;
+    ADD CONSTRAINT FK_Funcionario_Pessoa FOREIGN KEY (nif) REFERENCES Pessoa(nif);
 
+-- Done
 ALTER TABLE Funcionario 
-    ADD CONSTRAINT FK_Funcionario_Horario FOREIGN KEY (id_horario) REFERENCES Horario(id)
-    -- ON DELETE RESTRICT /* Como não existe RESTRICT em SQL Server, a ação é feita implicitamente, visto que o SGBD não deixa eliminar um tuplo com dependências */
-    ON UPDATE CASCADE;
+    ADD CONSTRAINT FK_Funcionario_Horario FOREIGN KEY (id_horario) REFERENCES Horario(id);
+    -- ON DELETE RESTRICT /* TRIGGER INSTEAD OF que atribui um novo horário ao funcionário antes do antigo ser eliminado (se possível) */
+
 
 ALTER TABLE Funcionario
-    ADD CONSTRAINT FK_Funcionario_Estabelecimento FOREIGN KEY (num_estabelecimento) REFERENCES Estabelecimento(id)
-    -- ON DELETE RESTRICT -> Como estou a adicionar a funcionalidade de atribuir o funcionario a outros deps, não ha himpotese sem ser usar INSTEAD OF
-    ON UPDATE CASCADE;
+    ADD CONSTRAINT FK_Funcionario_Estabelecimento FOREIGN KEY (num_estabelecimento) REFERENCES Estabelecimento(id);
+    -- ON DELETE CASCADE /* Criar trigger para eliminar as pessoas que trabalhavam naquele estabelecimento */
 
+
+-- Done
 ALTER TABLE Estabelecimento 
-    ADD CONSTRAINT FK_Estabelecimento_Efetivo FOREIGN KEY (nif_gerente) REFERENCES Efetivo(nif)
-    -- ON DELETE RESTRICT -> Usar um trigger para resolver estes RESTRICT e apanhar o erro e resolvê-lo /* Se uma linha na tabela Efetivo for eliminada, e essa linha é referenciada por uma linha na tabela Estabelecimento, a operação de exclusão será recusada -> Primeiro é necessário mudar o gerente, e só depois é que o outro efetivo pode ser eliminado */
-    ON UPDATE CASCADE;
+    ADD CONSTRAINT FK_Estabelecimento_Efetivo FOREIGN KEY (nif_gerente) REFERENCES Efetivo(nif);
+    -- ON DELETE RESTRICT -> TRIGGER INSTEAD OF que atribui um novo gerente ao estabelecimento antes do antigo ser eliminado (se possível) */
 
 ALTER TABLE Efetivo 
-    ADD CONSTRAINT FK_Efetivo_Funcionario FOREIGN KEY (nif) REFERENCES Funcionario(nif)
-    /*ON DELETE CASCADE -> Aqui tabém estou a adicionar a funcionalidade de eliminar tuplos quanto eliminamos um funcionario, logo tem di ser trigger instead of
-    ON UPDATE CASCADE;*/
+    ADD CONSTRAINT FK_Efetivo_Funcionario FOREIGN KEY (nif) REFERENCES Funcionario(nif);
 
 ALTER TABLE Estagiario 
-    ADD CONSTRAINT FK_Estagiario_Funcionario FOREIGN KEY (nif) REFERENCES Funcionario(nif)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE;
+    ADD CONSTRAINT FK_Estagiario_Funcionario FOREIGN KEY (nif) REFERENCES Funcionario(nif);
 
 ALTER TABLE Nums_telem_func 
-    ADD CONSTRAINT FK_Nums_telem_func_Funcionario FOREIGN KEY (nif_func) REFERENCES Funcionario(nif)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE;
+    ADD CONSTRAINT FK_Nums_telem_func_Funcionario FOREIGN KEY (nif_func) REFERENCES Funcionario(nif);
 
 ALTER TABLE Avaliacao 
-    ADD CONSTRAINT FK_Avaliacao_Funcionario FOREIGN KEY (nif_funcionario) REFERENCES Funcionario(nif)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE;
+    ADD CONSTRAINT FK_Avaliacao_Funcionario FOREIGN KEY (nif_funcionario) REFERENCES Funcionario(nif);
 
 ALTER TABLE Avaliacao 
-    ADD CONSTRAINT FK_Avaliacao_Cliente FOREIGN KEY (nif_cliente) REFERENCES Cliente(nif)
-    /*ON DELETE CASCADE -> Temos de implementar estes casos usando um sp e um trigger -> quando deteta um delete errado, apanha o erro e resolve-o
-    ON UPDATE CASCADE;*/ /* Se um cliente for eliminado, todas as avaliações feitas por esse cliente também serão eliminadas */
+    ADD CONSTRAINT FK_Avaliacao_Cliente FOREIGN KEY (nif_cliente) REFERENCES Cliente(nif); /* Se um cliente for eliminado, todas as avaliações feitas por esse cliente também serão eliminadas */
 
 ALTER TABLE Tem 
     ADD CONSTRAINT FK_Tem_Especialidade FOREIGN KEY (especialidade) REFERENCES Especialidade(designacao)
-    ON DELETE CASCADE  /* Se uma especialidade for eliminada, o registo Tem que liga um efetivo à especialidde é eliminado também */
-    ON UPDATE CASCADE;
+    ON DELETE CASCADE;  /* Se uma especialidade for eliminada, o registo Tem que liga um efetivo à especialidde é eliminado também */
+
 
 ALTER TABLE Tem 
-    ADD CONSTRAINT FK_Tem_Efetivo FOREIGN KEY (nif_efetivo) REFERENCES Efetivo(nif)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE;
+    ADD CONSTRAINT FK_Tem_Efetivo FOREIGN KEY (nif_efetivo) REFERENCES Efetivo(nif);
 
 ALTER TABLE Contrato
-    ADD CONSTRAINT FK_Contrato_Efetivo FOREIGN KEY (nif_efetivo) REFERENCES Efetivo(nif)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE;
+    ADD CONSTRAINT FK_Contrato_Efetivo FOREIGN KEY (nif_efetivo) REFERENCES Efetivo(nif);
 
 ALTER TABLE Marcacao 
-    ADD CONSTRAINT FK_Marcacao_Funcionario FOREIGN KEY (nif_funcionario) REFERENCES Funcionario(nif)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE;
+    ADD CONSTRAINT FK_Marcacao_Funcionario FOREIGN KEY (nif_funcionario) REFERENCES Funcionario(nif);
 
 ALTER TABLE Marcacao 
-    ADD CONSTRAINT FK_Marcacao_Cliente FOREIGN KEY (nif_cliente) REFERENCES Cliente(nif)
-    /*ON DELETE CASCADE
-    ON UPDATE CASCADE;*/
+    ADD CONSTRAINT FK_Marcacao_Cliente FOREIGN KEY (nif_cliente) REFERENCES Cliente(nif);
 
 ALTER TABLE Inclui 
     ADD CONSTRAINT FK_Inclui_Marcacao FOREIGN KEY (nif_funcionario, nif_cliente, data_marcacao) REFERENCES Marcacao(nif_funcionario, nif_cliente, data_marcacao)
@@ -313,10 +292,8 @@ ALTER TABLE Inclui
 
 ALTER TABLE Inclui
     ADD CONSTRAINT FK_Inclui_Tipo_servico FOREIGN KEY (sexo, designacao_tipo_serv) REFERENCES Tipo_servico(sexo, designacao)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE;
+    ON DELETE CASCADE;
 
 ALTER TABLE Servico 
     ADD CONSTRAINT FK_Servico_Tipo_servico FOREIGN KEY (sexo, designacao) REFERENCES Tipo_servico(sexo, designacao)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE;
+    ON DELETE CASCADE;

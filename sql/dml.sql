@@ -56,8 +56,6 @@ INSERT INTO Pessoa(Pnome, Unome, nif, cod_postal, localidade, rua, numero, data_
 ('Tiago', 'Carvalho', 182736495, '1500-018', 'Lisboa', 'Avenida do Mar', 48, '1993-06-03', 'M'),
 ('Vanessa', 'Sousa', 839274651, '4100-019', 'Porto', 'Rua do Sol', 17, '1996-01-12', 'F'),
 ('Xavier', 'Fernandes', 527364891, '2655-020', 'Ericeira', 'Rua do Mar', 23, '1998-09-05', 'M'),
-('Yara', 'Machado', 748192536, '1500-021', 'Lisboa', 'Avenida das Gaivotas', 33, '1991-05-18', 'F'),
-('Zé', 'Oliveira', 485729163, '4100-022', 'Porto', 'Rua das Palmeiras', 28, '1987-07-31', 'M'),
 ('Ingrid', 'Santos', 679183254, '2655-023', 'Ericeira', 'Rua das Oliveiras', 16, '1994-02-14', 'F'),
 ('Luís', 'Martins', 918273645, '1500-024', 'Lisboa', 'Avenida da Liberdade', 42, '1986-12-20', 'M'),
 ('Ana', 'Santos', 538194627, '4100-025', 'Porto', 'Rua das Gaivotas', 14, '1993-08-22', 'F'),
@@ -99,18 +97,18 @@ INSERT INTO Funcionario(nif, num_funcionario, num_estabelecimento, id_horario) V
 (527364891, 25, 7, 11); -- Xavier Fernandes no Estabelecimento 7
 
 INSERT INTO Cliente(nif, num_conta, num_telemovel) VALUES
-(538194627, 123456789, 912345678), -- Ana Santos
-(825719364, 234567890, 923456789), -- Pedro Silva
-(371928546, 345678901, 934567890), -- Mariana Fernandes
-(917284563, 456789012, 945678901), -- Ricardo Pereira
-(649182735, 567890123, 956789012), -- Catarina Oliveira
-(728361954, 678901234, 967890123), -- André Martins
-(819473625, 789012345, 978901234), -- Carolina Rodrigues
-(375926184, 890123456, 989012345), -- Gonçalo Sousa
-(619482753, 901234567, 991234567), -- Inês Ferreira
-(927364815, 012345678, 992345678), -- Diogo Carvalho
-(679183254, 112345678, 993456789), -- Ingrid Santos
-(918273645, 223456789, 994567890); -- Luís Martins
+(538194627, 1, 912345678), -- Ana Santos
+(825719364, 2, 923456789), -- Pedro Silva
+(371928546, 3, 934567890), -- Mariana Fernandes
+(917284563, 4, 945678901), -- Ricardo Pereira
+(649182735, 5, 956789012), -- Catarina Oliveira
+(728361954, 6, 967890123), -- André Martins
+(819473625, 7, 978901234), -- Carolina Rodrigues
+(375926184, 8, 989012345), -- Gonçalo Sousa
+(619482753, 9, 991234567), -- Inês Ferreira
+(927364815, 10, 992345678), -- Diogo Carvalho
+(679183254, 11, 993456789), -- Ingrid Santos
+(918273645, 12, 994567890); -- Luís Martins
 
 INSERT INTO Efetivo(nif) VALUES
 (238475910), -- João Silva
@@ -136,11 +134,11 @@ INSERT INTO Efetivo(nif) VALUES
 
 -- Inserção de estagiários
 INSERT INTO Estagiario(nif, data_fim_estagio) VALUES
-(928374156, '2024-06-01'), -- Raquel Alves
-(736491825, '2024-06-02'), -- Sofia Pires
-(182736495, '2024-06-03'), -- Tiago Carvalho
-(839274651, '2024-06-04'), -- Vanessa Sousa
-(527364891, '2024-06-05'); -- Xavier Fernandes
+(928374156, '2024-06-30'), -- Raquel Alves
+(736491825, '2024-06-30'), -- Sofia Pires
+(182736495, '2024-06-30'), -- Tiago Carvalho
+(839274651, '2024-06-30'), -- Vanessa Sousa
+(527364891, '2024-06-30'); -- Xavier Fernandes
 
 
 UPDATE Estabelecimento

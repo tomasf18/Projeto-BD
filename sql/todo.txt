@@ -1,7 +1,0 @@
-Estabelecimento: 
-    - Ao adicionar estabelecimento, tenho de verificar se o nif do gerente introduzido existe
-    Se existir, tenho de verificar se ele não é gerente
-    Se não for, tenho de o transferir de departamento, verificando antes se o departamento anterior não fica sem funcionários
-    Se as verificações forem bem sucedidas, o estabelecimento é criado com sucesso sendo o novo funcionario e gerente aquele que foi transferido (foi uma escolha do CEO)
-
-    - Ao remover estabelecimento, tenho de eliminar todos os funcionários que ficaram desempregados

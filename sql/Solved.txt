@@ -1,0 +1,43 @@
+TRIGGERS:
+    - DeleteHorarioTrigger: TRIGGER INSTEAD OF DELETE desenvolvido para atribuir um novo horário
+                    aos funcionários que possuíam o horário a ser eliminado;
+
+    - DeletePessoaTrigger: TRIGGER INSTEAD OF DELETE desenvolvido para eliminar a pessoa com o 
+                    nif correspondente através da chamada ao STORED PROCEDURE DeletePessoa;
+
+    - DeleteEstabelecimentoTrigger: TRIGGER INSTEAD OF DELETE desenvolvido para eliminar o estabelecimento
+                    desejado, eliminando também todos os funcionários que lá trabalhavam (foram
+                    despedidos) chamando o SP DeleteFuncionariosEstabelecimento;
+    
+    - InsertEstabelecimentoTrigger: TRIGGER INSTEAD OF INSERT desenvolvido para verificar se o nif
+                    do gerente introduzido é válido e para transferir esse efetivo para o estabelecimento
+                    adicionado à base de dados;
+
+STORED PROCEDURES:
+    - DeletePessoa: STORED PROCEDURE desenvolvido para eliminar a pessoa com o nif desejado, caso 
+                    a pessoa seja um cliente, chama o SP DeleteCliente, caso contrário chama o SP
+                    DeleteFuncionario;
+
+    - DeleteCliente: STORED PROCEDURE desenvolvido para eliminar um cliente, eliminando também
+                    as avaliações e marcações que estavam associadas ao mesmo;
+    
+    - DeleteFuncionario: STORED PROCEDURE desenvolvido para eliminar um funcionário, caso este seja
+                    um efetivo, chama o SP DeleteEfetivo, caso contrário elimina o Estagiario com os
+                    nif correspondente, e em seguida elimina as marcações, avaliações e números de 
+                    telemóvel associados ao funcionário;
+    
+    - DeleteEfetivo: STORED PROCEDURE desenvolvido para eliminar o Efetivo com o nif correspondente.
+                    Caso o efetivo seja um gerente, é atrinuído, se possível, um novo gerente ao estabelecimento
+                    e, em seguida, elimina as entradas na tabela TEM (relativamente às especializações desse
+                    efetivo) e o contrato do efetivo;
+
+    - DeleteFuncionariosEstabelecimento: STORED PROCEDURE desenvolvido para eliminar todos os funcionários
+                    do estabelecimento a ser eliminado (foram despedidos). Para isso
+                    é alterada temporariamente a restrição NOT NULL da chave estrangeira 
+                    nif_gerente, para que o gerente também possa ser eliminado;
+
+INDEX:
+    - Ix_EstabelecimentoLocalidade: INDEX para tornar a pesquisa de estabelecimentos pela localidade mais
+                    eficiente;
+    
+    - Ix_PessoaNome: INDEX para tornar a pesquisa de pessoas pelo primeiro e último nome mais eficiente;
