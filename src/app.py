@@ -1,9 +1,11 @@
 from flask import Flask, make_response, render_template, render_template_string, request
 
-from persistence import establishment, schedule, effective, intern, employee, speciality
+from persistence import establishment, schedule, effective, intern, employee, speciality, client
 from persistence.employee import EmployeeDetails
+from persistence.client import ClientDetails
 from persistence.establishment import EstablishmentDetails
 from persistence.speciality import SpecialitySummary
+
 
 app = Flask(__name__) # create a Flask application instance
 
@@ -17,6 +19,10 @@ def index():
 def admin_emp():
     return render_template('admin_emp.html')
 
+@app.route('/admin-cli')
+def admin_cli():
+    return render_template('admin_cli.html')
+
 @app.route('/admin-est')
 def admin_est():
     return render_template('admin_est.html')
@@ -24,6 +30,11 @@ def admin_est():
 @app.route('/admin-spc')
 def admin_spc():
     return render_template('admin_spc.html')
+
+
+
+# ----------------- Employees -----------------
+
 
 
 @app.route("/employees-list", methods=["GET"])
@@ -82,6 +93,96 @@ def search_employee_by_name():
     intern_employeesData = intern.list_interns_by_name(name)
     employeesData = sorted(effective_employeesData + intern_employeesData)
     return render_template("employees_list.html", employees=employeesData)
+
+
+
+# ----------------- Clients -----------------
+
+
+
+@app.route("/clients-list", methods=["GET"])
+def get_clients_list():
+    clientsData = sorted(client.list_clients())
+    return render_template("clients_list.html", clients=clientsData)
+
+@app.route("/clients/<acc_num>", methods=["GET"])
+def client_details(acc_num: int):
+    nif, acc_num, client_details = client.read(acc_num)
+    template = "client_details_view.html" if not request.args.get("edit") else "client_details_form.html"
+    return render_template(template, client_nif=nif, account_number=acc_num, client=client_details)
+
+@app.route("/clients/<nif>", methods=["POST"])
+def update_client(nif: int):
+
+    fname = request.form.get("fname")
+    lname = request.form.get("lname")
+    zip_code = request.form.get("zip")
+    locality = request.form.get("locality")
+    street = request.form.get("street")
+    number = request.form.get("number")
+    birth_date = request.form.get("birth_date")
+    sex = request.form.get("sex")
+    phone_number = request.form.get("phone_number")
+
+    client_details = ClientDetails(
+        nif=nif,  # Include nif from the route URL
+        fname=fname,
+        lname=lname,
+        zip=zip_code,
+        locality=locality,
+        street=street,
+        number=number,
+        birth_date=birth_date,
+        sex=sex,
+        phone_number=phone_number
+    )
+    client.update(nif, client_details)
+
+    response = make_response(render_template_string(f"Client {nif} updated successfully!"))
+    response.headers["HX-Trigger"] = "refreshClientList"
+
+    return response
+
+@app.route("/clients/<acc_num>", methods=["DELETE"])
+def delete_client(acc_num: int):
+    try:
+        client.delete(acc_num)
+
+        response = make_response(render_template_string(f"Client {acc_num} deleted successfully!"))
+        response.headers["HX-Trigger"] = "refreshClientList"
+        
+        return response
+    
+    except Exception as e:
+        response = make_response(render_template_string(f"{e}"))
+        return response
+
+@app.route("/clients", methods=["GET"])
+def create_client_form():
+    return render_template("client_details_form_create.html")
+
+@app.route("/clients", methods=["POST"])
+def create_client():
+    new_client = ClientDetails(**request.form)
+    nif = new_client.nif
+    new_acc_num = client.create(nif, new_client)
+
+    response = make_response(render_template_string(f"Client {new_acc_num} created successfully!"))
+    response.headers["HX-Trigger"] = "refreshClientList"
+
+    return response
+
+@app.route("/search-client", methods=["POST"])
+def search_client_by_name():
+    name = request.form.get("name")
+    clientsData = sorted(client.list_clients_by_name(name))
+    return render_template("clients_list.html", clients=clientsData)
+
+
+
+# ----------------- Establishments -----------------
+
+
 
 @app.route("/establishments-list", methods=["GET"]) # when user goes to /establishments-list, this function is called
 def get_establishments_list():
@@ -144,6 +245,12 @@ def search_establishment():
     local = request.form.get("locality")
     establishmentsData = establishment.list_establishments_by_locality(local)
     return render_template("establishments_list.html", establishments=establishmentsData)
+
+
+
+# ----------------- Specialities -----------------
+
+
 
 @app.route("/specialities-list", methods=["GET"]) # when user goes to /specialities-list, this function is called
 def get_specialities_list():

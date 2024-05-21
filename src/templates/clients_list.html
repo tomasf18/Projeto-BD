@@ -1,0 +1,12 @@
+{% for client in clients %}
+    <div class="w-11/12 border-4 border-black my-2 rounded-lg flex flex-row items-center justify-between" hx-swap="innerHTML" hx-target="#content">
+        <div class="client-list-item-details flex flex-row text-lg p-3 cursor-pointer w-1/2" hx-get="/clients/{{ client.acc_num }}" hx-trigger="click">
+            <div class="client-nif mr-3">{{ client.acc_num }}</div>
+            <div class="client-name"><strong>{{ client.fname }} {{ client.lname }}</strong></div>
+        </div>
+        <div>
+            <button class="edit-button btn border mx-2" hx-get="/clients/{{ client.acc_num }}?edit=true" hx-trigger="click">Edit</button>
+            <button class="delete-button btn border mx-2" hx-delete="/clients/{{ client.acc_num }}" hx-confirm="Are you sure?" hx-trigger="click">Delete</button>
+        </div>
+    </div>
+{% endfor %}  

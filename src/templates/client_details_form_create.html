@@ -1,0 +1,54 @@
+<div id="clientDetails1" class="client-details">
+    <form class="client-details-form" hx-post="/clients{% if client_nif is defined %}/{{ client_nif }}{% endif %}" hx-target="#content" hx-swap="innerHTML">
+
+           <h2>{% if client_nif is not defined %}New {{ client_nif }}{% endif %}Client Details{% if client_nif is defined %}:{{ client_nif }}{% endif %}</h2>
+           <div class="grid grid-cols-2 grid-rows-7 gap-2">
+                    <label for="nif">NIF:</label>
+                    <input type="text" id="nif" name="nif"
+                            value="{% if client_nif is defined %}{{ client_nif }}{% endif %}">
+                    <label for="fname">Name:</label>
+                    <input type="text" id="fname" name="fname"
+                           value="{% if client_nif is defined %}{{ client.fname }}{% endif %}">
+      
+                    <label for="lname">Surname:</label>
+                    <input type="text" id="lname" name="lname"
+                           value="{% if client_nif is defined %}{{ client.lname }}{% endif %}">
+
+                    <label for="zip">Zip:</label>
+                    <input type="text" id="zip" name="zip"
+                           value="{% if client_nif is defined %}{{ client.zip }}{% endif %}">
+
+                    <label for="locality">Locality:</label>
+                    <input type="text" id="locality" name="locality"
+                           value="{% if client_nif is defined %}{{ client.locality }}{% endif %}">
+                    
+                    <label for="street">Street:</label>
+                    <input type="text" id="street" name="street"
+                           value="{% if client_nif is defined %}{{ client.street }}{% endif %}">
+                    
+                    <label for="number">Number:</label>
+                    <input type="text" id="number" name="number"
+                           value="{% if client_nif is defined %}{{ client.number }}{% endif %}">
+                    
+                    <label for="birth_date">Birth Date:</label>
+                    <input type="date" id="birth_date" name="birth_date"
+                           value="{% if client_nif is defined %}{{ client.birth_date }}{% endif %}">
+                    
+                    <label for="sex">Sex:</label>
+                    <input type="text" id="sex" name="sex"
+                           value="{% if client_nif is defined %}{{ client.sex }}{% endif %}">
+                    
+                    <label for="phone_number">Phone:</label>
+                    <input type="text" id="phone_number" name="phone_number"
+                           value="{% if client_nif is defined %}{{ client.phone_number }}{% endif %}">
+           </div>   
+           <div class="w-full flex items-center justify-center">
+                  <div class="w-9/12 mt-3 grid grid-cols-2 grid-rows-1 gap-3">
+                         <button class="btn border submit">Save</button>
+                         {% if client_nif is defined %}
+                         <button class="btn border" hx-get="/clients/{{ client_nif }}">Cancel</button>
+                         {% endif %}
+                  </div>
+           </div>                     
+    </form>
+</div>
