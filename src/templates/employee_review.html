@@ -19,43 +19,27 @@
                 <div class="w-full">
                     <ul class="nav justify-content-center">
                         <li class="nav-item">
-                            <a class="btn border h-10 m-2" aria-current="page" href="/admin-emp">Employees</a>
+                            <a class="btn border h-10 m-2" aria-current="page" href="#">Appointments</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn border h-10 m-2" aria-current="page" href="/admin-cli">Clients</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn border h-10 m-2" aria-current="page" href="/admin-est">Establishments</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn border h-10 m-2" aria-current="page" href="#">Services</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn border h-10 m-2" aria-current="page" href="#">Schedules</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn border h-10 m-2" aria-current="page" href="/admin-spc">Specialities</a>
+                            <a class="btn border h-10 m-2" aria-current="page" href="/employee-review">Reviews</a>
                         </li>
                     </ul>
                 </div>
                 <div class="small w-full h-full border-2 border-green-200">
                     <div class="w-full p-4"> 
-                        <form class="form-inline w-1/2 flex flex-row" hx-post="/search-client" hx-trigger="keyup, submit" hx-target="#cli_list" hx-swap="innerHTML">
-                            <input class="form-control w-1/2 mr-3" name="name" type="search" placeholder="Search by name" aria-label="Search">
-                            <button class="btn btn-success" type="submit">Search</button>
+                        <form class="form-inline w-1/2 flex flex-row" hx-post="/search-review-emp-NIF" hx-trigger="submit" hx-target="#review_list" hx-swap="innerHTML">
+                            <input class="form-control w-1/2 mr-3" name="nif" type="search" placeholder="Your NIF" aria-label="Search">
+                            <button class="btn btn-success" type="submit">Select</button>
                         </form>            
                     </div>
                     <div class="w-full px-4 grid grid-cols-2 grid-rows-1" style="height: 35rem; maxHeight: 35rem">
-                        <div id="cli_list" class="col-span-1 overflow-auto border-2 border-red-200 flex flex-col items-center" hx-get="/clients-list" hx-trigger="load, refreshClientsList from:body"> 
-
-                            {% include "clients_list.html" %}
+                        <div id="review_list" class="col-span-1 overflow-auto border-2 border-red-200 flex flex-col items-center"> 
+                            <h4 class="mt-4">Insert your NIF to check your reviews</h4>
                         </div>
                         <div id="content" class="overflow-auto col-span-1 mx-8 border-2 border-black">
                         </div>
                     </div>
-                    <div class="w-full py-3 px-4">
-                        <button class="btn border w-1/4" hx-get="/clients" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">Add New Client</button>
-                    <div>
                 </div>        
             </div> 
         </div>        

@@ -41,3 +41,7 @@ INDEX:
                     eficiente;
     
     - Ix_PessoaNome: INDEX para tornar a pesquisa de pessoas pelo primeiro e último nome mais eficiente;
+
+UDF:
+    - get_employee_performance: UDF para retornar uma string da performance de um employee de acordo com
+                    a média das suas avaliações

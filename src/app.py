@@ -1,6 +1,6 @@
 from flask import Flask, make_response, render_template, render_template_string, request
 
-from persistence import establishment, schedule, effective, intern, employee, speciality, client
+from persistence import establishment, schedule, effective, intern, employee, speciality, client, review
 from persistence.employee import EmployeeDetails
 from persistence.client import ClientDetails
 from persistence.establishment import EstablishmentDetails
@@ -13,6 +13,9 @@ app = Flask(__name__) # create a Flask application instance
 @app.route('/') # when 'methods' is not specified, it defaults to GET, so this function is called when user goes to /
 def index():
     return render_template('index.html')
+
+
+# ----------------- Admin -----------------
 
 
 @app.route('/admin-emp')
@@ -31,6 +34,12 @@ def admin_est():
 def admin_spc():
     return render_template('admin_spc.html')
 
+
+# ----------------- Employee -----------------
+
+@app.route('/employee-review')
+def employee_review():
+    return render_template('employee_review.html')
 
 
 # ----------------- Employees -----------------
@@ -291,5 +300,23 @@ def search_speciality():
     specialitiesData = speciality.list_specialities_by_designation(designation)
     return render_template("specialities_list.html", specialities=specialitiesData)
 
+
+# ----------------- ReviewsEmployee -----------------
+
+@app.route("/search-review-emp-NIF", methods=["POST"])
+def search_review_employee_by_nif():
+    nif = request.form.get("nif")
+    employee_reviews = review.list_reviews_by_nif_emp(nif)
+    average_rating = review.average_rating_by_nif_emp(nif)
+    performance = review.performance_by_nif_emp(nif)
+    return render_template("employee_reviews_list.html", reviews=employee_reviews, average_rating=average_rating, performance=performance)
+
+@app.route("/reviews", methods=["GET"])
+def get_reviews():
+    nif_emp = request.args.get('nif_emp', type=int)
+    nif_cli = request.args.get('nif_cli', type=int)
+    date = request.args.get('date', type=str)
+    reviewDetails = review.read(nif_emp, nif_cli, date)
+    return render_template("review_details_view.html", review=reviewDetails)
 if __name__ == '__main__':
     app.run(debug=True) # start the Flask application in debug mode
