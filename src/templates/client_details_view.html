@@ -1,14 +1,19 @@
-<div class="client-details" id="clientDetails1">
-    <h2>NIF: {{ client_nif }}</h2>
+<div class="client-details p-3" id="clientDetails1">
+    <h2 class="mb-4">Client Details:</h2>
 
-    <p><strong>Account Number:</strong> {{ account_number }}</p>
-    <p><strong>Name:</strong> {{ client.fname }}</p>
-    <p><strong>Surname:</strong> {{ client.lname }}</p>
-    <p><strong>Zip:</strong> {{ client.zip }}</p>
-    <p><strong>Locality:</strong> {{ client.locality }}</p>
-    <p><strong>Street:</strong> {{ client.street }}</p>
-    <p><strong>Number:</strong> {{ client.number }}</p>
-    <p><strong>Birth Date:</strong> {{ client.birth_date }}</p>
-    <p><strong>Sex:</strong> {{ client.sex }}</p>
-    <p><strong>Phone:</strong> {{ client.phone_number }}</p>
+    <table class="table">
+        <tbody>
+            <tr><th>NIF:</th><td>{{ client_nif }}</td></tr>
+            <tr><th>Account Number:</th><td>{{ account_number }}</td></tr>
+            <tr><th>Name:</th><td>{{ client.fname }}</td></tr>
+            <tr><th>Surname:</th><td>{{ client.lname }}</td></tr>
+            <tr><th>Zip:</th><td>{{ client.zip }}</td></tr>
+            <tr><th>Locality:</th><td>{{ client.locality }}</td></tr>
+            <tr><th>Street:</th><td>{{ client.street }}</td></tr>
+            <tr><th>Number:</th><td>{{ client.number }}</td></tr>
+            <tr><th>Birth Date:</th><td>{{ client.birth_date }}</td></tr>
+            <tr><th>Sex:</th><td>{{ client.sex }}</td></tr>
+            <tr><th>Phone:</th><td>{{ client.phone_number }}</td></tr>
+        </tbody>
+    </table>
 </div>

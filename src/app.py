@@ -34,6 +34,10 @@ def admin_est():
 def admin_spc():
     return render_template('admin_spc.html')
 
+@app.route('/admin-sch')
+def admin_sch():
+    return render_template('admin_sch.html')
+
 
 # ----------------- Employee -----------------
 
@@ -257,6 +261,37 @@ def search_establishment():
 
 
 
+# ----------------- Schedules -----------------
+
+@app.route("/schedules-list", methods=["GET"]) # when user goes to /schedules-list, this function is called
+def get_schedules_list():
+    schedulesData = schedule.list_schedules()
+    return render_template("schedules_list_admin.html", schedules=schedulesData)
+
+@app.route("/schedule/<sch_id>", methods=["GET"])
+def schedule_details(sch_id: int):
+    schedule_details = schedule.read(sch_id)
+    start_time = schedule_details.start_time.split(":")[0] + ":" + schedule_details.start_time.split(":")[1]
+    end_time = schedule_details.end_time.split(":")[0] + ":" + schedule_details.end_time.split(":")[1]
+    template = "schedule_details_view_admin.html"
+    return render_template(template, schedule_id=sch_id, start_time=start_time, end_time=end_time, schedule=schedule_details)
+
+@app.route("/schedules/<sch_id>", methods=["DELETE"])
+def delete_schedule(sch_id: int):
+    try:
+        schedule.delete(sch_id)
+
+        response = make_response(render_template_string(f"Schedule {sch_id} deleted successfully!"))
+        response.headers["HX-Trigger"] = "refreshScheduleList"
+        
+        return response
+    
+    except Exception as e:
+        response = make_response(render_template_string(f"{e}"))
+        return response
+
+
+
 # ----------------- Specialities -----------------
 
 
@@ -318,5 +353,8 @@ def get_reviews():
     date = request.args.get('date', type=str)
     reviewDetails = review.read(nif_emp, nif_cli, date)
     return render_template("review_details_view.html", review=reviewDetails)
+
+
+
 if __name__ == '__main__':
     app.run(debug=True) # start the Flask application in debug mode

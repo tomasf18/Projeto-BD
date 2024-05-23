@@ -38,13 +38,13 @@
                             <a class="btn border h-10 m-2" aria-current="page" href="/admin-cli">Clients</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn border h-10 m-2 bg-info text-white" aria-current="page" href="/admin-est">Establishments</a>
+                            <a class="btn border h-10 m-2" aria-current="page" href="/admin-est">Establishments</a>
                         </li>
                         <li class="nav-item">
                             <a class="btn border h-10 m-2" aria-current="page" href="#">Services</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn border h-10 m-2" aria-current="page" href="/admin-sch">Schedules</a>
+                            <a class="btn border h-10 m-2 bg-info text-white" aria-current="page" href="admin-sch">Schedules</a>
                         </li>
                         <li class="nav-item">
                             <a class="btn border h-10 m-2" aria-current="page" href="/admin-spc">Specialities</a>
@@ -53,23 +53,20 @@
                 </div>
                 <div class="small w-full h-full">
                     <div class="w-full p-4"> 
-                        <form class="form-inline w-1/2 flex flex-row" hx-post="/search-establishment" hx-trigger="keyup, submit" hx-target="#est_list" hx-swap="innerHTML">
-                            <input class="form-control w-1/2 mr-3" name="locality" type="search" placeholder="Search by locality" aria-label="Search">
+                        <form class="form-inline w-1/2 flex flex-row" hx-post="/search-schedule" hx-trigger="keyup, submit" hx-target="#sch_list" hx-swap="innerHTML">
+                            <input class="form-control w-1/2 mr-3" name="dayoff" type="search" placeholder="Search by day off" aria-label="Search">
                             <button class="btn btn-primary" type="submit">Search</button>
                         </form>            
                     </div>
                     <div class="w-full px-4 grid grid-cols-2 grid-rows-1" style="height: 40rem; maxHeight: 40rem">
-                        <div id="est_list" class="col-span-1 overflow-auto border-2 rounded-md flex flex-col items-center" hx-get="/establishments-list" hx-trigger="load, refreshEstablishmentsList from:body"> 
-                            <!-- trigger means that when the HTTPS solicitation reply contains "refreshEstablishmentsList" in its body, 
-                                that will trigger an data update in this div without having to reload the website -->
-                            {% include "establishments_list.html" %}
+                        <div id="sch_list" class="col-span-1 overflow-auto border-2 rounded-md flex flex-col items-center" hx-get="/schedules-list" hx-trigger="load, refreshSchedulesList from:body"> 
+                            {% include "schedules_list.html" %}
                         </div>
                         <div id="content" class="col-span-1 mx-8 border-2 rounded-md">
-                            <!-- This div will be updated by the 'establishments_list.html' component -->
                         </div>
                     </div>
                     <div class="w-full py-3 px-4">
-                        <button class="btn btn-primary w-2/12" hx-get="/establishments" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">Add New Establishment</button>
+                        <button class="btn btn-primary w-2/12" hx-get="/schedules" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">Add New Schedule</button>
                     <div>
                 </div>        
             </div> 

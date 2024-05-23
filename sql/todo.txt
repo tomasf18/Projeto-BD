@@ -1,0 +1,2 @@
+ordenar as reviews por relevancia em termos de data
+views para algumas queries dejoins um pouco grandes

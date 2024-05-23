@@ -1,22 +1,31 @@
 {% include "header.html" %}
 
-    <body class="bg-gray-400 flex flex-col items-center justify-center">  
-        <div class="w-8/12 m-4 border-2 border-blue-300 flex flex-col items-center" style="height: 50rem; maxHeight: 50rem">      
+    <body class="bg-gray-100 flex flex-col items-center justify-center">  
+        <style>
+            .nav-link {
+                color: black;
+            }
+            .nav-link:hover {
+                background-color: rgb(13, 202, 240); /* Corresponde ao bg-info no Bootstrap */
+                color: white;
+            }
+        </style>
+        <div class="bg-white w-10/12 m-8 flex flex-col items-center rounded-xl shadow shadow-md" style="height: 83vh;">      
             <div class="w-full">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link text-black" aria-current="page" href="/admin-emp">Admin</a>
+                        <a class="nav-link" aria-current="page" href="/admin-emp">Admin</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-black" aria-current="page" href="/employee-review">Employee</a>
+                        <a class="nav-link" aria-current="page" href="/employee-review">Employee</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-black" href="/">Client</a>
+                        <a class="nav-link" href="/">Client</a>
                     </li>
                 </ul>
             </div>
-            <div class="w-11/12 h-full border-2 border-red-200 my-4">
-                <h1 class="text-4xl">Select a persona</h1>
+            <div class="w-11/12 h-full my-4">
+                <h1 class="text-4xl">Select a persona...</h1>
             </div> 
         <div>   
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

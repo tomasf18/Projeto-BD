@@ -1,12 +1,18 @@
 {% for establishment in establishments %} <!-- 'establishments' é o argumento passado a este 'componente' -->
-    <div class="w-11/12 border-4 border-black my-2 rounded-lg flex flex-row items-center justify-between" hx-swap="innerHTML" hx-target="#content">
-        <div class="establishment-list-item-details flex flex-row text-lg p-3 cursor-pointer" hx-get="/establishments/{{ establishment.id }}" hx-trigger="click">
-            <div class="establishment-id mr-3"><strong>{{ establishment.id }}</strong></div>
-            <div class="establishment-specification">{{ establishment.specification }}</div>
-        </div>
-        <div>
-            <button class="edit-button btn border mx-2" hx-get="/establishments/{{ establishment.id }}?edit=true" hx-trigger="click">Edit</button>
-            <button class="delete-button btn border mx-2" hx-delete="/establishments/{{ establishment.id }}" hx-confirm="Are you sure?" hx-trigger="click">Delete</button>
+    <div class="w-11/12 border-4 my-2 rounded-lg d-flex flex-column p-3" hx-swap="innerHTML" hx-target="#content">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="establishment-list-item-details text-lg cursor-pointer" hx-get="/establishments/{{ establishment.id }}" hx-trigger="click">
+                <div class="mb-2">
+                    <strong>Specification: {{ establishment.specification }} </strong>
+                </div>
+                <div>
+                    <strong>Establishment ID: {{ establishment.id }} </strong>
+                </div>
+            </div>
+            <div class="d-flex flex-column align-items-end">
+                <button style="width: 100px; margin-bottom: 10px;" class="edit-button btn btn-success border mx-2" hx-get="/establishments/{{ establishment.id }}?edit=true" hx-trigger="click">Edit</button>
+                <button style="width: 100px;" class="delete-button btn btn-danger border mx-2" hx-delete="/establishments/{{ establishment.id }}" hx-confirm="Are you sure?" hx-trigger="click">Delete</button>
+            </div>
         </div>
     </div>
 {% endfor %}  

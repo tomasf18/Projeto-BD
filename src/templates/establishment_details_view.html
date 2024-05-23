@@ -1,11 +1,16 @@
-<div class="establishment-details" id="establishmentDetails1">
-    <h2>Establishment ID: {{ establishment_id }}</h2>
+<div class="establishment-details p-3" id="establishmentDetails1">
+    <h2 class="mb-4">Establishment Details:</h2>
 
-    <p><strong>Specification:</strong> {{ establishment.specification }}</p>
-    <p><strong>Zip:</strong> {{ establishment.zip }}</p>
-    <p><strong>Locality:</strong> {{ establishment.locality }}</p>
-    <p><strong>Street:</strong> {{ establishment.street }}</p>
-    <p><strong>Number:</strong> {{ establishment.number }}</p>
-    <p><strong>Manager NIF:</strong> {{ establishment.manager_nif }}</p>
-    <p><strong>Manager init date:</strong> {{ establishment.manager_init_date }}</p>
+    <table class="table">
+        <tbody>
+            <tr><th>Establishment ID:</th><td>{{ establishment_id }}</td></tr>
+            <tr><th>Specification:</th><td>{{ establishment.specification }}</td></tr>
+            <tr><th>Zip:</th><td>{{ establishment.zip }}</td></tr>
+            <tr><th>Locality:</th><td>{{ establishment.locality }}</td></tr>
+            <tr><th>Street:</th><td>{{ establishment.street }}</td></tr>
+            <tr><th>Number:</th><td>{{ establishment.number }}</td></tr>
+            <tr><th>Manager NIF:</th><td>{{ establishment.manager_nif }}</td></tr>
+            <tr><th>Manager init date:</th><td>{{ establishment.manager_init_date }}</td></tr>
+        </tbody>
+    </table>
 </div>

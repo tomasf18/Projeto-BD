@@ -1,0 +1,29 @@
+{% for schedule in schedules %} <!-- 'schedules' é o argumento passado a este 'componente' -->
+    <div class="w-11/12 border-4 my-2 rounded-lg d-flex flex-column p-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="schedule-list-item-details text-lg cursor-pointer"
+                 hx-get="/schedule/{{ schedule.id }}"
+                 hx-trigger="click"
+                 hx-target="#content"
+                 hx-swap="innerHTML">
+                
+                <div class="mb-2">
+                    <strong>Schedule ID: {{ schedule.id }}</strong>
+                </div>
+                <div class="mb-2">
+                    <strong>Day-off: {{ schedule.day_off }}</strong>
+                </div>
+                <div>
+                    <strong>
+                        {{ schedule.start_time.split(":")[0] + ":" + schedule.start_time.split(":")[1] }}
+                        -
+                        {{ schedule.end_time.split(":")[0] + ":" + schedule.end_time.split(":")[1] }}
+                    </strong>
+                </div>
+            </div>
+            <div class="d-flex flex-column align-items-end">
+                <button style="width: 100px;" class="delete-button btn btn-danger border mx-2" hx-delete="/schedules/{{ schedule.id }}" hx-confirm="Are you sure?" hx-trigger="click" hx-swap="innerHTML" hx-target="#content">Delete</button>
+            </div> 
+        </div>
+    </div>
+{% endfor %}

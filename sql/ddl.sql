@@ -1,5 +1,3 @@
-USE StylistData
-GO
 ALTER TABLE Cliente DROP CONSTRAINT FK_Cliente_Pessoa
 ALTER TABLE Funcionario DROP CONSTRAINT FK_Funcionario_Pessoa
 ALTER TABLE Funcionario DROP CONSTRAINT FK_Funcionario_Horario
@@ -36,17 +34,6 @@ DROP TABLE IF EXISTS Tipo_servico
 DROP TABLE IF EXISTS Inclui
 DROP TABLE IF EXISTS Servico
 GO
-
-USE master;
-GO
-DROP DATABASE IF EXISTS StylistData;
-GO 
-
-CREATE DATABASE StylistData;
-GO
-USE StylistData;
-GO
-
 
 CREATE TABLE Pessoa (
     Pnome                   VARCHAR(15)             NOT NULL,

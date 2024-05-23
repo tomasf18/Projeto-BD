@@ -45,3 +45,6 @@ INDEX:
 UDF:
     - get_employee_performance: UDF para retornar uma string da performance de um employee de acordo com
                     a média das suas avaliações
+
+Aggr:
+    - obtain the next employee number or client's account number (employee.py, client.py)

@@ -1,28 +1,41 @@
 {% include "header.html" %}
 
-    <body class="bg-gray-400 flex flex-col items-center justify-center">        
-        <div class="big w-8/12 m-4 border-2 border-blue-300 flex flex-col items-center" style="height: 55rem; maxHeight: 55rem"> 
+    <body class="bg-gray-100 flex flex-col items-center justify-center">
+        <style>
+            .nav-link {
+                color: black;
+            }
+            .nav-link:hover {
+                background-color: rgb(13, 202, 240); /* Corresponde ao bg-info no Bootstrap */
+                color: white;
+            }
+            .nav-item .btn:hover {
+                background-color: rgb(13, 202, 240); /* Corresponde ao bg-info no Bootstrap */
+                color: white;
+            }
+        </style>        
+        <div class="bg-white big w-10/12 m-8 flex flex-col items-center rounded-xl shadow shadow-md" style="height: 83vh;"> 
             <div class="w-full">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link text-black" aria-current="page" href="/admin-emp">Admin</a>
+                        <a class="nav-link text-white active bg-info" aria-current="page" href="/admin-emp">Admin</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-black" aria-current="page" href="/employee-review">Employee</a>
+                        <a class="nav-link" aria-current="page" href="/employee-review">Employee</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-black" href="/">Client</a>
+                        <a class="nav-link" href="/">Client</a>
                     </li>
                 </ul>
             </div>
-            <div class="medium w-11/12 h-full border-2 border-red-200 my-4 flex flex-col items-center">
-                <div class="w-full">
+            <div class="medium w-11/12 h-full border-2 my-4 flex flex-col items-center rounded-xl">
+                <div class="w-full border-bottom">
                     <ul class="nav justify-content-center">
                         <li class="nav-item">
                             <a class="btn border h-10 m-2" aria-current="page" href="/admin-emp">Employees</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn border h-10 m-2" aria-current="page" href="/admin-cli">Clients</a>
+                            <a class="btn border h-10 m-2 bg-info text-white" aria-current="page" href="/admin-cli">Clients</a>
                         </li>
                         <li class="nav-item">
                             <a class="btn border h-10 m-2" aria-current="page" href="/admin-est">Establishments</a>
@@ -31,30 +44,30 @@
                             <a class="btn border h-10 m-2" aria-current="page" href="#">Services</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn border h-10 m-2" aria-current="page" href="#">Schedules</a>
+                            <a class="btn border h-10 m-2" aria-current="page" href="/admin-sch">Schedules</a>
                         </li>
                         <li class="nav-item">
                             <a class="btn border h-10 m-2" aria-current="page" href="/admin-spc">Specialities</a>
                         </li>
                     </ul>
                 </div>
-                <div class="small w-full h-full border-2 border-green-200">
+                <div class="small w-full h-full">
                     <div class="w-full p-4"> 
                         <form class="form-inline w-1/2 flex flex-row" hx-post="/search-client" hx-trigger="keyup, submit" hx-target="#cli_list" hx-swap="innerHTML">
                             <input class="form-control w-1/2 mr-3" name="name" type="search" placeholder="Search by name" aria-label="Search">
-                            <button class="btn btn-success" type="submit">Search</button>
+                            <button class="btn btn-primary" type="submit">Search</button>
                         </form>            
                     </div>
-                    <div class="w-full px-4 grid grid-cols-2 grid-rows-1" style="height: 35rem; maxHeight: 35rem">
-                        <div id="cli_list" class="col-span-1 overflow-auto border-2 border-red-200 flex flex-col items-center" hx-get="/clients-list" hx-trigger="load, refreshClientsList from:body"> 
+                    <div class="w-full px-4 grid grid-cols-2 grid-rows-1" style="height: 40rem; maxHeight: 40rem">
+                        <div id="cli_list" class="col-span-1 overflow-auto border-2 rounded-md flex flex-col items-center" hx-get="/clients-list" hx-trigger="load, refreshClientsList from:body"> 
 
                             {% include "clients_list.html" %}
                         </div>
-                        <div id="content" class="overflow-auto col-span-1 mx-8 border-2 border-black">
+                        <div id="content" class="overflow-auto col-span-1 mx-8 border-2 rounded-md">
                         </div>
                     </div>
                     <div class="w-full py-3 px-4">
-                        <button class="btn border w-1/4" hx-get="/clients" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">Add New Client</button>
+                        <button class="btn btn-primary w-2/12" hx-get="/clients" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">Add New Client</button>
                     <div>
                 </div>        
             </div> 

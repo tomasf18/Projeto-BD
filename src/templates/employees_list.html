@@ -6,8 +6,8 @@
         </div>
         <div class="employee-type text-lg"><strong>{{ employee.type }}</strong></div>
         <div>
-            <button class="edit-button btn border mx-2" hx-get="/employees/{{ employee.employee_number }}?edit=true" hx-trigger="click">Edit</button>
-            <button class="delete-button btn border mx-2" hx-delete="/employees/{{ employee.employee_number }}" hx-confirm="Are you sure?" hx-trigger="click">Delete</button>
+            <button class="edit-button btn btn-success border mx-2" hx-get="/employees/{{ employee.employee_number }}?edit=true" hx-trigger="click">Edit</button>
+            <button class="delete-button btn btn-danger border mx-2" hx-delete="/employees/{{ employee.employee_number }}" hx-confirm="Are you sure?" hx-trigger="click">Delete</button>
         </div>
     </div>
 {% endfor %}  

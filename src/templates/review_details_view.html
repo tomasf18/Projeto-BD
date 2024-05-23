@@ -1,9 +1,15 @@
-<div class="review-details" id="reviewDetails1">
-    <h2>Review Details</h2>
+<div class="review-details p-3" id="reviewDetails1">
+    <h2 class="mb-4">Review Details</h2>
 
-    <p><strong>Employee NIF:</strong> {{ review.emp_nif }}</p>
-    <p><strong>Client:</strong> {{ review.client_Fname + " " + review.client_Lname }}</p>
-    <p><strong>Rate:</strong> {{ review.rating }} <i class="fas fa-star"></i></p>
-    <p><strong>Date:</strong> {{ review.review_date }}</p>
-    <p><strong>Comment:</strong> {{ review.comment }}</p>
+    <table class="table">
+        <tbody>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Employee NIF:</th><td class="col-span-3">{{ review.emp_nif }}</td></tr>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Client:</th><td class="col-span-3">{{ review.client_Fname + " " + review.client_Lname }}</td></tr>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Rate:</th><td class="col-span-3">{{ review.rating }} <i class="fas fa-star text-warning"></i></td></tr>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Date:</th><td class="col-span-3">{{ review.review_date }}</td></tr>
+            {% if review.comment %}
+            <tr class="grid grid-cols-6"><th class="col-span-3">Comment:</th><td class="col-span-3">{{ review.comment }}</td></tr>
+            {% endif %}
+        </tbody>
+    </table>
 </div>

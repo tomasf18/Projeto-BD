@@ -15,7 +15,9 @@ class EffectiveSummary(NamedTuple):
 
 @dataclass
 class EffectiveDetails(EmployeeDetails):
-    pass  # no additional fields needed, inherits everything from EmployeeDetails
+    speciality: str
+    manager: bool
+    contract: ContractDetails
 
 
 def list_effectives() -> list[EffectiveSummary]:
@@ -51,31 +53,41 @@ def list_effectives_by_name(name: str) -> list[EffectiveSummary]:
 def read(emp_num: int) -> EffectiveDetails:
     with create_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Pessoa JOIN Funcionario ON Pessoa.nif = Funcionario.nif JOIN Efetivo ON Funcionario.nif = Efetivo.nif WHERE num_funcionario = ?;", emp_num)
+        cursor.execute("SELECT * FROM dbo.get_effective_details(?);", emp_num)
         row = cursor.fetchone()
 
-    return row.nif, row.num_funcionario, EffectiveDetails(
-        fname=row.Pnome,
-        lname=row.Unome,
-        zip=row.cod_postal or "",
-        locality=row.localidade or "",
-        street=row.rua or "",
-        number=row.numero or "",
-        birth_date=row.data_nascimento,
-        sex=row.sexo,
-        establishment_number=row.num_estabelecimento,
-        schedule_id=row.id_horario
+    return row.nif, row.num_funcionario, EffectiveDetails (
+        fname=row.fname,
+        lname=row.lname,
+        zip=row.zip or "",
+        locality=row.locality or "",
+        street=row.street or "",
+        number=row.number or "",
+        birth_date=row.birth_date,
+        sex=row.sex,
+        establishment_number=row.establishment_number,
+        schedule_id=row.schedule_id,
+        private_phone=row.private_phone,
+        company_phone=row.company_phone,
+        speciality=row.speciality,
+        manager=row.manager
     )
 
 
 def create(nif: int, effective: EffectiveDetails):
-    employee.create(nif, EmployeeDetails(effective.fname, effective.lname, effective.zip, effective.locality, effective.street, effective.number, effective.birth_date, effective.sex, effective.establishment_number, effective.schedule_id))  # create employee first
+    employee.create(nif, EmployeeDetails(effective.fname, effective.lname, effective.zip, effective.locality, effective.street, effective.number, effective.birth_date, effective.sex, effective.establishment_number, effective.schedule_id, effective.private_phone, effective.company_phone))  # create employee first
     with create_connection() as conn:
         cursor = conn.cursor()
         try:
             cursor.execute(
-                "INSERT INTO Efetivo (nif) VALUES (?);",
-                nif
+                """
+                INSERT INTO Efetivo (nif) VALUES (?);
+                INSERT INTO Tem (nif_efetivo, especialidade) VALUES (?, ?);
+                inserir contrato
+                """,
+                nif,
+                nif,
+                effective.speciality
             )
             conn.commit()
         except IntegrityError as e:
