@@ -1,2 +1,3 @@
 ordenar as reviews por relevancia em termos de data
-views para algumas queries dejoins um pouco grandes
+views para algumas queries de joins um pouco grandes
+trigger para quando eliminar um efetivo, o contrato tmb é eliminado

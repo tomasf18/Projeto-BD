@@ -12,6 +12,7 @@ class InternSummary(NamedTuple):
     lname: str
     type: str = "I"
 
+
 @dataclass
 class InternDetails(EmployeeDetails):
     internship_end_date: str  # Assuming the date is stored as a string in YYYY-MM-DD format
@@ -50,26 +51,28 @@ def list_interns_by_name(name: str) -> list[InternSummary]:
 def read(emp_num: int) -> InternDetails:
     with create_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Pessoa JOIN Funcionario ON Pessoa.nif = Funcionario.nif JOIN Estagiario ON Funcionario.nif = Estagiario.nif WHERE num_funcionario = ?;", emp_num)
+        cursor.execute("SELECT * FROM get_intern_details(?);", emp_num)
         row = cursor.fetchone()
 
     return row.nif, row.num_funcionario, InternDetails(
-        fname=row.Pnome,
-        lname=row.Unome,
-        zip=row.cod_postal or "",
-        locality=row.localidade or "",
-        street=row.rua or "",
-        number=row.numero or "",
-        birth_date=row.data_nascimento,
-        sex=row.sexo,
-        establishment_number=row.num_estabelecimento,
-        schedule_id=row.id_horario,
-        internship_end_date=row.data_fim_estagio
+        fname=row.fname,
+        lname=row.lname,
+        zip=row.zip or "",
+        locality=row.locality or "",
+        street=row.street or "",
+        number=row.number or "",
+        birth_date=row.birth_date,
+        sex=row.sex,
+        establishment_number=row.establishment_number,
+        schedule_id=row.schedule_id,
+        private_phone=row.private_phone,
+        company_phone=row.company_phone,
+        internship_end_date=row.internship_end_date
     )
 
 
 def create(nif: int, intern: InternDetails):
-    employee.create(nif, EmployeeDetails(intern.fname, intern.lname, intern.zip, intern.locality, intern.street, intern.number, intern.birth_date, intern.sex, intern.establishment_number, intern.schedule_id))  # create employee first
+    employee.create(nif, EmployeeDetails(intern.fname, intern.lname, intern.zip, intern.locality, intern.street, intern.number, intern.birth_date, intern.sex, intern.establishment_number, intern.schedule_id, intern.private_phone, intern.company_phone))  # create employee first
     with create_connection() as conn:
         cursor = conn.cursor()
         try:
@@ -85,7 +88,7 @@ def create(nif: int, intern: InternDetails):
 
 
 def update(nif: int, intern: InternDetails):
-    employee.update(nif, EmployeeDetails(intern.fname, intern.lname, intern.zip, intern.locality, intern.street, intern.number, intern.birth_date, intern.sex, intern.establishment_number, intern.schedule_id))  # update employee first
+    employee.update(nif, EmployeeDetails(fname=intern.fname, lname=intern.lname, zip=intern.zip, locality=intern.locality, street=intern.street, number=intern.number, birth_date=intern.birth_date, sex=intern.sex,establishment_number=intern.establishment_number, schedule_id=intern.schedule_id, private_phone=intern.private_phone, company_phone=intern.company_phone)) # update employee first
     with create_connection() as conn:
         cursor = conn.cursor()
         try:
