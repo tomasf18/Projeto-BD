@@ -126,35 +126,39 @@ def client_details(acc_num: int):
 
 @app.route("/clients/<nif>", methods=["POST"])
 def update_client(nif: int):
+    try:
 
-    fname = request.form.get("fname")
-    lname = request.form.get("lname")
-    zip_code = request.form.get("zip")
-    locality = request.form.get("locality")
-    street = request.form.get("street")
-    number = request.form.get("number")
-    birth_date = request.form.get("birth_date")
-    sex = request.form.get("sex")
-    phone_number = request.form.get("phone_number")
+        fname = request.form.get("fname")
+        lname = request.form.get("lname")
+        zip_code = request.form.get("zip")
+        locality = request.form.get("locality")
+        street = request.form.get("street")
+        number = request.form.get("number")
+        birth_date = request.form.get("birth_date")
+        sex = request.form.get("sex")
+        phone_number = request.form.get("phone_number")
 
-    client_details = ClientDetails(
-        nif=nif,  # Include nif from the route URL
-        fname=fname,
-        lname=lname,
-        zip=zip_code,
-        locality=locality,
-        street=street,
-        number=number,
-        birth_date=birth_date,
-        sex=sex,
-        phone_number=phone_number
-    )
-    client.update(nif, client_details)
+        client_details = ClientDetails(
+            nif=nif,  # Include nif from the route URL
+            fname=fname,
+            lname=lname,
+            zip=zip_code,
+            locality=locality,
+            street=street,
+            number=number,
+            birth_date=birth_date,
+            sex=sex,
+            phone_number=phone_number
+        )
+        client.update(nif, client_details)
 
-    response = make_response(render_template_string(f"Client {nif} updated successfully!"))
-    response.headers["HX-Trigger"] = "refreshClientList"
-
-    return response
+        response = make_response(render_template_string(f"Client {nif} updated successfully!"))
+        response.headers["HX-Trigger"] = "refreshClientsList"
+    
+        return response
+    except Exception as e:
+        response = make_response(render_template_string(f"{e}"))
+        return response
 
 @app.route("/clients/<acc_num>", methods=["DELETE"])
 def delete_client(acc_num: int):
@@ -162,7 +166,7 @@ def delete_client(acc_num: int):
         client.delete(acc_num)
 
         response = make_response(render_template_string(f"Client {acc_num} deleted successfully!"))
-        response.headers["HX-Trigger"] = "refreshClientList"
+        response.headers["HX-Trigger"] = "refreshClientsList"
         
         return response
     
@@ -176,14 +180,18 @@ def create_client_form():
 
 @app.route("/clients", methods=["POST"])
 def create_client():
-    new_client = ClientDetails(**request.form)
-    nif = new_client.nif
-    new_acc_num = client.create(nif, new_client)
+    try:
+        new_client = ClientDetails(**request.form)
+        nif = new_client.nif
+        new_acc_num = client.create(nif, new_client)
 
-    response = make_response(render_template_string(f"Client {new_acc_num} created successfully!"))
-    response.headers["HX-Trigger"] = "refreshClientList"
+        response = make_response(render_template_string(f"Client {new_acc_num} created successfully!"))
+        response.headers["HX-Trigger"] = "refreshClientsList"
 
-    return response
+        return response
+    except Exception as e:
+        response = make_response(render_template_string(f"{e}"))
+        return response
 
 @app.route("/search-client", methods=["POST"])
 def search_client_by_name():
@@ -212,13 +220,17 @@ def establishment_details(est_id: int):
 
 @app.route("/establishments/<est_id>", methods=["POST"]) 
 def update_establishment(est_id: int):
-    establishment = EstablishmentDetails(**request.form)
-    establishment.update(est_id, establishment)
+    try:
+        establishmentDetails = EstablishmentDetails(**request.form)
+        establishment.update(est_id, establishmentDetails)
 
-    response = make_response(render_template_string(f"Establishment {est_id} updated successfully!"))
-    response.headers["HX-Trigger"] = "refreshEstablishmentList"
+        response = make_response(render_template_string(f"Establishment {est_id} updated successfully!"))
+        response.headers["HX-Trigger"] = "refreshEstablishmentsList"
 
-    return response
+        return response
+    except Exception as e:
+        response = make_response(render_template_string(f"{e}"))
+        return response
 
 
 @app.route("/establishments", methods=["GET"])
@@ -228,15 +240,19 @@ def create_establishment_form():
 
 @app.route("/establishments", methods=["POST"]) # when user submits a form in /establishments/<est_id>, this function is called
 def create_establishment():
-    # print(request.form) # uncomment this to see the data in console: ImmutableMultiDict([('specification', 'Barbeiro'), ('zip', '4100-367'), ('locality', 'Ramalde'), ('street', 'Rua O 1º de Janeiro'), ('number', '30'), ('manager_nif', '539287461'), ('manager_init_date', '2020-03-02')])
-    new_establishment = EstablishmentDetails(**request.form)
-    # print(establishment) # uncomment this to see the data in console: EstablishmentDetails(specification='Barbeiro', zip='4100-367', locality='Ramalde', street='Rua O 1º de Janeiro', number='30', manager_nif='539287461', manager_init_date='2020-03-02')
-    new_est_id = establishment.create(new_establishment)
+    try:
+        # print(request.form) # uncomment this to see the data in console: ImmutableMultiDict([('specification', 'Barbeiro'), ('zip', '4100-367'), ('locality', 'Ramalde'), ('street', 'Rua O 1º de Janeiro'), ('number', '30'), ('manager_nif', '539287461'), ('manager_init_date', '2020-03-02')])
+        new_establishment = EstablishmentDetails(**request.form)
+        # print(establishment) # uncomment this to see the data in console: EstablishmentDetails(specification='Barbeiro', zip='4100-367', locality='Ramalde', street='Rua O 1º de Janeiro', number='30', manager_nif='539287461', manager_init_date='2020-03-02')
+        new_est_id = establishment.create(new_establishment)
 
-    response = make_response(render_template_string(f"Establishment {new_est_id} created successfully!"))
-    response.headers["HX-Trigger"] = "refreshEstablishmentList"
+        response = make_response(render_template_string(f"Establishment {new_est_id} created successfully!"))
+        response.headers["HX-Trigger"] = "refreshEstablishmentsList"
 
-    return response
+        return response
+    except Exception as e:
+        response = make_response(render_template_string(f"{e}"))
+        return response
 
 
 @app.route("/establishments/<est_id>", methods=["DELETE"])
@@ -245,7 +261,7 @@ def delete_establishment(est_id: int):
         establishment.delete(est_id)
 
         response = make_response(render_template_string(f"Establishment {est_id} deleted successfully!"))
-        response.headers["HX-Trigger"] = "refreshEstablishmentList"
+        response.headers["HX-Trigger"] = "refreshEstablishmentsList"
         
         return response
     
@@ -282,7 +298,7 @@ def delete_schedule(sch_id: int):
         schedule.delete(sch_id)
 
         response = make_response(render_template_string(f"Schedule {sch_id} deleted successfully!"))
-        response.headers["HX-Trigger"] = "refreshScheduleList"
+        response.headers["HX-Trigger"] = "refreshSchedulesList"
         
         return response
     
@@ -290,6 +306,27 @@ def delete_schedule(sch_id: int):
         response = make_response(render_template_string(f"{e}"))
         return response
 
+@app.route("/search-schedule", methods=["POST"])
+def search_schedule():
+    day_off = request.form.get("day_off")
+    schedulesData = schedule.list_schedules_by_day_off(day_off)
+    return render_template("schedules_list_admin.html", schedules=schedulesData)
+
+@app.route("/schedules", methods=["GET"])
+def create_schedule_form():
+    return render_template("schedule_details_form_admin.html")
+
+@app.route("/schedules", methods=["POST"])
+def create_schedule():
+    day_off = request.form.get("day_off")
+    start_time = request.form.get("start_time")
+    end_time = request.form.get("end_time")
+    schedule_id = schedule.create(day_off, start_time, end_time)
+
+    response = make_response(render_template_string(f"Schedule {schedule_id} created successfully!"))
+    response.headers["HX-Trigger"] = "refreshSchedulesList"
+
+    return response
 
 
 # ----------------- Specialities -----------------
@@ -311,7 +348,7 @@ def create_speciality():
     speciality.create(SpecialitySummary(speciality_designation))
 
     response = make_response(render_template_string(f"Speciality {speciality_designation} created successfully!"))
-    response.headers["HX-Trigger"] = "refreshSpecialityList"
+    response.headers["HX-Trigger"] = "refreshSpecialitiesList"
 
     return response
 
@@ -321,7 +358,7 @@ def delete_speciality(spc_designation: str):
         speciality.delete(spc_designation)
 
         response = make_response(render_template_string(f"Speciality {spc_designation} deleted successfully!"))
-        response.headers["HX-Trigger"] = "refreshSpecialityList"
+        response.headers["HX-Trigger"] = "refreshSpecialitiesList"
         
         return response
     

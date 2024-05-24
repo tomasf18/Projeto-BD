@@ -54,18 +54,20 @@ def read(schedule_id: int):
     )
 
 
-def create(schedule: ScheduleDetails):
+def create(day_off: str, start_time: str, end_time: str):
     with create_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT MAX(id) FROM Horario")
-        last_schedule_row = cursor.fetchone()
-        last_schedule_id = last_schedule_row[0]
-        new_schedule_id = last_schedule_id + 1
         try:
-            cursor.execute("INSERT INTO Horario VALUES (?, ?, ?, ?);", new_schedule_id, schedule.day_off, schedule.start_time, schedule.end_time)
+            cursor.execute("SELECT MAX(id) FROM Horario")
+            last_schedule_row = cursor.fetchone()
+            last_schedule_id = last_schedule_row[0]
+            new_schedule_id = last_schedule_id + 1
+            cursor.execute("INSERT INTO Horario VALUES (?, ?, ?, ?);", new_schedule_id, day_off, start_time, end_time)
             conn.commit()
+            return new_schedule_id
         except IntegrityError as e:
-            raise ValueError(f"ERROR: could not create schedule. Data integrity issue.") from e
+            if e.args[0] == '23000':
+                raise ValueError(f"ERROR: could not create schedule. Data integrity issue.") from e
         
 
 def update(schedule: ScheduleDetails):
