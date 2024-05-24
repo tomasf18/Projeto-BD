@@ -1,0 +1,15 @@
+<div class="client-details p-3" id="clientDetails1">
+    <h2 class="mb-4">Contract Details: {{ employee.fname }} {{ employee.lname }}</h2>
+
+    <table class="table">
+        <tbody>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Employee NIF:</th><td class="col-span-3"> {{ contract.nif_effective }}</td></tr>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Salary:</th><td class="col-span-3"> {{ contract.salary }}</td></tr>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Start Date:</th><td class="col-span-3"> {{ contract.start_date }}</td></tr>
+            <tr class="grid grid-cols-6"><th class="col-span-3">End Date:</th><td class="col-span-3"> {{ contract.end_date }}</td></tr>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Description:</th><td class="col-span-3"> {{ contract.description }}</td></tr>
+        </tbody>
+    </table>
+    <button class="btn border mx-2" hx-get="/employees/{{ employee_number }}" hx-target="#content" hx-swap="innerHTML">Back</button>
+    <button class="edit-button btn border mx-2" hx-get="/employees/{{ employee_number }}/contract?edit=true" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">Edit</button>
+</div>

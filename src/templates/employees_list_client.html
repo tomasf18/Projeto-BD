@@ -1,7 +1,7 @@
 {% for employee in employees %}
     <div class="w-11/12 border-4 my-2 rounded-lg d-flex flex-column p-3" hx-swap="innerHTML" hx-target="#content">
         <div class="d-flex justify-content-between align-items-center">
-            <div class="employee-list-item-details text-lg cursor-pointer" hx-get="/employees/{{ employee.employee_number }}" hx-trigger="click">
+            <div class="employee-list-item-details text-lg cursor-pointer" hx-get="/employees/{{ employee.employee_number }}/client" hx-trigger="click">
                 <div class="mb-2">
                     <strong>Name: {{ employee.fname }} {{ employee.lname }} </strong>
                 </div>
@@ -10,8 +10,7 @@
                 </div>
             </div>
             <div class="d-flex flex-column align-items-end">
-                <button style="width: 100px; margin-bottom: 10px;" class="edit-button btn btn-success border mx-2" hx-get="/employees/{{ employee.employee_number }}?edit=true" hx-trigger="click">Edit</button>
-                <button style="width: 100px;" class="delete-button btn btn-danger border mx-2" hx-delete="/employees/{{ employee.employee_number }}" hx-confirm="Are you sure?" hx-trigger="click">Delete</button>
+                <button style="width: 120px; margin-bottom: 10px;" class="edit-button btn btn-secondary border mx-2" hx-get="/employees/{{ employee.employee_number }}/client?review=true" hx-trigger="click">Make review</button>
             </div>
         </div>
     </div>

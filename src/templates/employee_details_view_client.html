@@ -1,12 +1,6 @@
 <div class="employee-details p-3 flex flex-col" id="employeeDetails1">
     <div class="flex flex-row">
         <h2 class="mb-4 mr-4">Employee Details</h2>
-        <div>
-            <button class="btn border mx-2" hx-get="/employees/{{ employee_number }}/schedule" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">See Schedule</button>
-            {% if emp_type == 'E' %}
-                <button class="edit-button btn border mx-2" hx-get="/employees/{{ employee_number }}/contract" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">See Contract</button>
-            {% endif %}
-        </div>
     </div>
     <div>
         <table class="table">

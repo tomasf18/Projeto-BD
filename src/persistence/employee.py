@@ -22,7 +22,17 @@ class EmployeeDetails(PersonDetails):
 def list_employees() -> list[EmployeeSummary]:
     with create_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT num_funcionario, Pnome, Unome FROM Funcionario JOIN Pessoa ON Funcionario.nif = Pessoa.nif;")
+        cursor.execute("""
+                        (SELECT num_funcionario, Pnome, Unome 
+                        FROM Pessoa 
+                        JOIN Funcionario ON Pessoa.nif = Funcionario.nif 
+                        JOIN Efetivo ON Funcionario.nif = Efetivo.nif) 
+                        UNION 
+                        (SELECT num_funcionario, Pnome, Unome 
+                        FROM Pessoa JOIN Funcionario ON Pessoa.nif = Funcionario.nif 
+                        JOIN Estagiario ON Funcionario.nif = Estagiario.nif)
+                        ORDER BY num_funcionario
+                       """)
         rows = cursor.fetchall()
         cursor.close()
 
@@ -37,7 +47,19 @@ def list_employees() -> list[EmployeeSummary]:
 def list_employees_by_name(name: str) -> list[EmployeeSummary]:
     with create_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(f"SELECT num_funcionario, Pnome, Unome FROM Funcionario JOIN Pessoa ON Funcionario.nif = Pessoa.nif WHERE Pnome + ' ' + Unome LIKE '%{name}%';")
+        cursor.execute(f"""
+                        SELECT * 
+						FROM  ((SELECT num_funcionario, Pnome, Unome 
+								FROM Pessoa 
+								JOIN Funcionario ON Pessoa.nif = Funcionario.nif 
+								JOIN Efetivo ON Funcionario.nif = Efetivo.nif) 
+								UNION 
+							   (SELECT num_funcionario, Pnome, Unome 
+								FROM Pessoa JOIN Funcionario ON Pessoa.nif = Funcionario.nif 
+								JOIN Estagiario ON Funcionario.nif = Estagiario.nif)) AS Employees
+						WHERE Pnome + ' ' + Unome LIKE '%{name}%'
+                        ORDER BY num_funcionario
+                       """)
         rows = cursor.fetchall()
         cursor.close()
 
@@ -55,7 +77,7 @@ def read(emp_num: int):
         cursor.execute("SELECT * FROM get_employee_details(?)", emp_num)
         row = cursor.fetchone()
 
-    return row.nif, row.num_funcionario, EmployeeDetails(
+    return row.nif, emp_num, EmployeeDetails(
         fname=row.fname,
         lname=row.lname,
         zip=row.zip or "",
@@ -82,20 +104,13 @@ def create(nif: int, employee: EmployeeDetails):
         try:
             cursor.execute(
                 """
-                INSERT INTO Funcionario (nif, num_funcionario, num_estabelecimento, id_horario) VALUES (?, ?, ?, ?);
-                GO
-                INSERT INTO Nums_telem_func (nif_func, num_telem) VALUES (?, ?);
-                GO
-                INSERT INTO Nums_telem_func (nif_func, num_telem) VALUES (?, ?);
-                GO
+                EXEC CreateEmployee ?, ?, ?, ?, ?, ?
                 """,
                 nif,
                 new_emp_num,
                 employee.establishment_number,
                 employee.schedule_id,
-                nif,
                 employee.private_phone,
-                nif,
                 employee.company_phone
             )
             conn.commit()
@@ -111,26 +126,13 @@ def update(nif: int, employee: EmployeeDetails):
         try:
             cursor.execute(
                 """
-                UPDATE Funcionario 
-                SET num_estabelecimento = ?, id_horario = ?
-                WHERE nif = ?;
-                GO
-                UPDATE Nums_telem_func
-                SET num_telem = ?
-                WHERE nif_func = ? AND num_telem LIKE '234%';
-                GO
-                UPDATE Nums_telem_func
-                SET num_telem = ?
-                WHERE nif_func = ? AND num_telem NOT LIKE '234%';
-                GO
+                EXEC UpdateEmployeeDetails ?, ?, ?, ?, ?
                 """,
                 employee.establishment_number,
                 employee.schedule_id,
                 nif,
                 employee.company_phone,
-                nif,
                 employee.private_phone,
-                nif
             )
             conn.commit()
         except IntegrityError as e:
@@ -139,12 +141,8 @@ def update(nif: int, employee: EmployeeDetails):
 
 
 def delete(nif: int):
-    with create_connection() as conn:
-        cursor = conn.cursor()
-        try:
-            cursor.execute("DELETE FROM Funcionario WHERE nif = ?;", nif)
-            conn.commit()
-            person.delete(nif)  # delete person after
-        except IntegrityError as e:
-            if e.args[0] == '23000':
-                raise ValueError(f"ERROR: could not delete employee {nif}. Data integrity issue.") from e
+    try:
+        person.delete(nif)  # delete the correspondent person, because it will activate the trigger to delete the employee and effective/intern
+    except IntegrityError as e:
+        if e.args[0] == '23000':
+            raise ValueError(f"ERROR: could not delete employee {nif}. Data integrity issue.") from e

@@ -136,3 +136,18 @@ def delete(est_id: int):
         except IntegrityError as e:
             if e.args[0] == '23000':
                 raise ValueError(f"ERROR: could not delete establishment {est_id}. Data integrity issue.") from e
+
+
+def list_establishments_id_locality():
+    with create_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, localidade FROM Estabelecimento ORDER BY id;")
+        rows = cursor.fetchall()
+        cursor.close()
+
+    establishments = []
+
+    for row in rows:
+        establishments.append((row.id, row.localidade))
+
+    return establishments

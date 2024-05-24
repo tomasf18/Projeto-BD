@@ -1,10 +1,14 @@
 from flask import Flask, make_response, render_template, render_template_string, request
 
-from persistence import establishment, schedule, effective, intern, employee, speciality, client, review
+from persistence import establishment, schedule, effective, intern, employee, speciality, client, review, contract, person
 from persistence.employee import EmployeeDetails
 from persistence.client import ClientDetails
 from persistence.establishment import EstablishmentDetails
 from persistence.speciality import SpecialitySummary
+from persistence.contract import ContractDetails
+from persistence.effective import EffectiveDetails
+from persistence.intern import InternDetails
+
 
 
 app = Flask(__name__) # create a Flask application instance
@@ -46,16 +50,98 @@ def employee_review():
     return render_template('employee_review.html')
 
 
-# ----------------- Employees -----------------
+# ----------------- Client -----------------
 
+@app.route('/client-review')
+def client_review():
+    return render_template('client_review.html')
+
+
+# ----------------- Employees -----------------
 
 
 @app.route("/employees-list", methods=["GET"])
 def get_employees_list():
-    effective_employeesData = effective.list_effectives()
-    intern_employeesData = intern.list_interns()
-    employeesData = sorted(effective_employeesData + intern_employeesData)
+    employeesData = employee.list_employees()
     return render_template("employees_list.html", employees=employeesData)
+
+
+@app.route("/search-employee", methods=["POST"])
+def search_employee_by_name():
+    name = request.form.get("name")
+    employeesData = employee.list_employees_by_name(name)
+    return render_template("employees_list.html", employees=employeesData)
+
+
+@app.route("/employees", methods=["GET"])
+def create_employee_form():
+    establishment_list = establishment.list_establishments_id_locality()
+    schedule_list = schedule.list_schedules()
+    speciality_list = speciality.list_specialities()
+    return render_template("employee_details_form.html", establishments=establishment_list, schedules=schedule_list, specialities=speciality_list)
+
+
+@app.route("/employees", methods=["POST"])
+def create_employee():
+    try:
+        nif = request.form.get("nif")
+        if request.form.get("emp_type") == "E":
+            contract_details = ContractDetails(request.form.get("nif"), request.form.get("contract_salary"), request.form.get("contract_description"), request.form.get("contract_start_date"), request.form.get("contract_end_date"))
+            specialities = []
+            if request.form.get("specialities_ids"):
+                for spc in request.form.getlist("specialities_ids"):
+                    if spc != "new":
+                        specialities.append(spc)
+            if request.form.get("new_speciality") != "":
+                for spc in request.form.get("new_speciality").split(","):
+                    specialities.append(spc)
+            if specialities != []:
+                for spc in specialities:
+                    if not speciality.speciality_exists(spc):
+                        speciality.create(SpecialitySummary(spc))
+            effective_details = EffectiveDetails(
+                fname=request.form.get("fname"),
+                lname=request.form.get("lname"),
+                zip=request.form.get("zip"),
+                locality=request.form.get("locality"),
+                street=request.form.get("street"),
+                number=request.form.get("number"),
+                birth_date=request.form.get("birth_date"),
+                sex=request.form.get("sex"),
+                establishment_number=request.form.get("establishment_number"),
+                schedule_id=request.form.get("schedule_id"),
+                private_phone=request.form.get("private_phone"),
+                company_phone=request.form.get("company_phone"),
+                specialities=specialities,
+                manager=False,
+                contract=contract_details
+            )
+            print(effective_details)
+            effective.create(nif, effective_details)
+        else:
+            intern_details = InternDetails(
+                fname=request.form.get("fname"),
+                lname=request.form.get("lname"),
+                zip=request.form.get("zip"),
+                locality=request.form.get("locality"),
+                street=request.form.get("street"),
+                number=request.form.get("number"),
+                birth_date=request.form.get("birth_date"),
+                sex=request.form.get("sex"),
+                establishment_number=request.form.get("establishment_number"),
+                schedule_id=request.form.get("schedule_id"),
+                private_phone=request.form.get("private_phone"),
+                company_phone=request.form.get("company_phone"),
+                internship_end_date=request.form.get("internship_end_date")
+            )
+            intern.create(nif, intern_details)
+        
+        response = make_response(render_template_string(f"Employee {nif} created successfully!"))
+        response.headers["HX-Trigger"] = "refreshEmployeesList"
+        return response
+    except Exception as e:
+        response = make_response(render_template_string(f"{e}"))
+        return response
 
 
 @app.route("/employees/<emp_num>", methods=["GET"])
@@ -72,10 +158,32 @@ def employee_details(emp_num: int):
     return render_template(template, employee_nif=emp_nif, employee_number=emp_num, employee=employee_details, emp_type=employee_type) 
 
 
+@app.route("/employees/<emp_num>", methods=["DELETE"])
+def delete_employee(emp_num: int):
+    try:
+        emp_nif, emp_num, employee_details = employee.read(emp_num)
+        employee.delete(emp_nif)
+
+        response = make_response(render_template_string(f"Employee {emp_num} deleted successfully!"))
+        response.headers["HX-Trigger"] = "refreshEmployeesList"
+        
+        return response
+    
+    except Exception as e:
+        response = make_response(render_template_string(f"{e}"))
+        return response
+
+
+@app.route("/employees/<emp_num>", methods=["POST"])
+def update_employee(emp_num: int):
+    pass
+
+
+
 @app.route("/employees/<emp_num>/schedule", methods=["GET"])
 def employee_schedule(emp_num: int):
     change = True if request.args.get("change") else False
-    print(change)
+    # print(change)
     if change:
         schedules_list = schedule.list_schedules()
         return render_template("schedules_list.html", sch_change=True, employee_number=emp_num, schedules=schedules_list)
@@ -90,7 +198,7 @@ def employee_schedule(emp_num: int):
 @app.route("/employees/<emp_num>/schedule/<sch_id>", methods=["PUT"])
 def update_schedule(emp_num: int, sch_id: int):
     emp_nif, emp_num, emp_details = employee.read(emp_num)
-    emp_details = EmployeeDetails(emp_details.fname, emp_details.lname, emp_details.zip, emp_details.locality, emp_details.street, emp_details.number, emp_details.birth_date, emp_details.sex, emp_details.establishment_number, sch_id)
+    emp_details = EmployeeDetails(emp_details.fname, emp_details.lname, emp_details.zip, emp_details.locality, emp_details.street, emp_details.number, emp_details.birth_date, emp_details.sex, emp_details.establishment_number, sch_id, emp_details.private_phone, emp_details.company_phone)
     employee.update(emp_nif, emp_details)
     
     response = make_response(render_template_string(f"Employee {emp_num} schedule updated successfully!"))
@@ -98,15 +206,24 @@ def update_schedule(emp_num: int, sch_id: int):
 
     return response
 
-
-@app.route("/search-employee", methods=["POST"])
-def search_employee_by_name():
-    name = request.form.get("name")
-    effective_employeesData = effective.list_effectives_by_name(name)
-    intern_employeesData = intern.list_interns_by_name(name)
-    employeesData = sorted(effective_employeesData + intern_employeesData)
-    return render_template("employees_list.html", employees=employeesData)
-
+@app.route("/employees/<emp_num>/contract", methods=["GET", "POST"])
+def employee_contract(emp_num: int):
+    emp_nif, emp_num, employee_details = effective.read(emp_num)
+    contract_details = employee_details.contract
+    if request.method == "GET":
+        edit = True if request.args.get("edit") else False
+        if edit:
+            return render_template("contract_details_form.html", contract=contract_details, employee=employee_details, employee_number=emp_num)
+        else:
+            return render_template("contract_details_view.html", contract=contract_details, employee=employee_details, employee_number=emp_num)
+    else:
+        salary = request.form.get("salary")
+        end_date = request.form.get("end_date")
+        description = request.form.get("description")
+        new_contract_details = ContractDetails(emp_nif, salary, description, contract_details.start_date, end_date)
+        contract.update(new_contract_details)
+        return render_template("contract_details_view.html", contract=new_contract_details, employee=employee_details, employee_number=emp_num)
+        
 
 
 # ----------------- Clients -----------------
@@ -207,8 +324,9 @@ def search_client_by_name():
 
 @app.route("/establishments-list", methods=["GET"]) # when user goes to /establishments-list, this function is called
 def get_establishments_list():
+    toSelect = True if request.args.get("select") else False
     establishmentsData = establishment.list_establishments()
-    return render_template("establishments_list.html", establishments=establishmentsData)
+    return render_template("establishments_list.html", toSelect=toSelect, establishments=establishmentsData)
 
 
 @app.route("/establishments/<est_id>", methods=["GET"]) # when user goes to /establishments/<est_id> (that is, user selects a establishment), this function is called
@@ -328,7 +446,6 @@ def create_schedule():
 
     return response
 
-
 # ----------------- Specialities -----------------
 
 
@@ -392,6 +509,47 @@ def get_reviews():
     return render_template("review_details_view.html", review=reviewDetails)
 
 
+# ----------------- ReviewsClient -----------------
+
+@app.route("/employees-list-client", methods=["GET"])
+def get_employees_list_client():
+    employeesData = employee.list_employees()
+    return render_template("employees_list_client.html", employees=employeesData)
+
+@app.route("/search-employee-client", methods=["POST"])
+def search_employee_by_name_client():
+    name = request.form.get("name")
+    employeesData = employee.list_employees_by_name(name)
+    return render_template("employees_list_client.html", employees=employeesData)
+
+@app.route("/employees/<emp_num>/client", methods=["GET"])
+def employee_details_client(emp_num: int):
+    isEffective = effective.isEffective(emp_num)
+    if isEffective:
+        emp_nif, emp_num, employee_details = effective.read(emp_num)
+        employee_type = "E"
+    else:
+        emp_nif, emp_num, employee_details = intern.read(emp_num)
+        employee_type = "I"
+
+    template = "employee_details_view_client.html" if not request.args.get("review") else "review_details_form_client.html"
+    return render_template(template, employee_nif=emp_nif, employee_number=emp_num, employee=employee_details, emp_type=employee_type)
+
+@app.route("/review/<emp_nif>", methods=["POST"])
+def create_review(emp_nif: int):
+    try:
+        nif_cli = request.form.get("nif_cli")
+        rating = request.form.get("rating")
+        comment = request.form.get("comment")
+        review.create(emp_nif, nif_cli, rating, comment)
+
+        response = make_response(render_template_string(f"Review for employee {emp_nif} created successfully!"))
+        response.headers["HX-Trigger"] = "refreshEmployeesList"
+
+        return response
+    except Exception as e:
+        response = make_response(render_template_string(f"{e}"))
+        return response
 
 if __name__ == '__main__':
     app.run(debug=True) # start the Flask application in debug mode

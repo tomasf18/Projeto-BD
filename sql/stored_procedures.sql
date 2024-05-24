@@ -20,6 +20,14 @@ IF OBJECT_ID('DeleteFuncionariosEstabelecimento', 'P') IS NOT NULL
 DROP PROCEDURE DeleteFuncionariosEstabelecimento;
 GO
 
+IF OBJECT_ID('UpdateEmployeeDetails', 'P') IS NOT NULL
+DROP PROCEDURE UpdateEmployeeDetails;
+GO
+
+IF OBJECT_ID('CreateEmployee', 'P') IS NOT NULL
+DROP PROCEDURE CreateEmployee;
+GO
+
 
 
 -- SP para eliminar um cliente
@@ -224,4 +232,34 @@ BEGIN
     -- Ativar novamente o trigger de eliminação de pessoa
     ENABLE TRIGGER DeletePessoaTrigger ON Pessoa;
 END
+GO
+
+
+-- SP to update employee details
+
+CREATE PROCEDURE UpdateEmployeeDetails @establishment_number INT, @schedule_id INT, @nif INT, @company_phone INT, @private_phone INT
+AS
+    BEGIN
+        UPDATE Funcionario 
+        SET num_estabelecimento = @establishment_number, id_horario = @schedule_id
+        WHERE nif = @nif;
+        
+        UPDATE Nums_telem_func
+        SET num_telem = @company_phone
+        WHERE nif_func = @nif AND num_telem LIKE '234%';
+
+        UPDATE Nums_telem_func
+        SET num_telem = @private_phone
+        WHERE nif_func = @nif AND num_telem NOT LIKE '234%';
+    END
+GO
+
+
+CREATE PROCEDURE CreateEmployee @nif INT, @emp_num INT, @establishment_number INT, @schedule_id INT, @company_phone INT, @private_phone INT
+AS
+    BEGIN
+        INSERT INTO Funcionario (nif, num_funcionario, num_estabelecimento, id_horario) VALUES (@nif, @emp_num, @establishment_number, @schedule_id);
+        INSERT INTO Nums_telem_func (nif_func, num_telem) VALUES (@nif, @company_phone);
+        INSERT INTO Nums_telem_func (nif_func, num_telem) VALUES (@nif, @private_phone);
+    END
 GO

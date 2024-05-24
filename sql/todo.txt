@@ -1,3 +1,7 @@
-ordenar as reviews por relevancia em termos de data
+ordenar as reviews por relevancia em termos de data (query complexa)
+cliente não consegue marcar para uma slot ocupada (query complexa)
 views para algumas queries de joins um pouco grandes
 trigger para quando eliminar um efetivo, o contrato tmb é eliminado
+Detalhes andam sempre a dançar
+Ao clicar num card, preciso de clicar no nome da pessoa para aparecer alguma coisa, mas eu quero que isso aconteça quando cilco no card todo (tirando nos botoes)
+Adicionar trigger que cada vez que adiciono um employee com algumas especialidades que não existem, em vez de dar erro, cria essas especialidades (substituir pela versao atual que faço em python)

@@ -50,3 +50,10 @@ def delete(speciality_designation: str):
             conn.commit()
         except IntegrityError as e:
             raise ValueError(f"ERROR: could not delete speciality {speciality_designation}. Data integrity issue.") from e
+
+def speciality_exists(speciality_designation: str) -> bool:
+    with create_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Especialidade WHERE designacao = ?;", speciality_designation)
+        row = cursor.fetchone()
+        return row is not None

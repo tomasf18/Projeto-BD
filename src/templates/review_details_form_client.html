@@ -1,0 +1,62 @@
+<style>
+    .large-label {
+        font-size: 1.5em;
+    }
+    .star {
+        font-size: 2em;
+        color: gray;
+        cursor: pointer;
+    }
+    
+    .star.selected {
+        color: gold;
+    }
+</style>
+<div id="reviewDetails1" class="review-details p-3">
+ <form class="review-details-form" hx-post="/review/{{ employee_nif }}" hx-target="#content" hx-swap="innerHTML">
+
+        <h2>Create review for {{ employee.fname + " " + employee.lname }}:</h2>
+        <div class="grid grid-cols-2 grid-rows-7 gap-2 mt-4">
+            <label class="large-label" for="nif_cli">Client NIF:</label>
+            <input class="form-control" type="text" id="nif_cli" name="nif_cli" value="">
+
+            <label class="large-label" for="rating">Rating:</label>
+            <div class="rating">
+                <span class="star" data-value="1">&#9733;</span>
+                <span class="star" data-value="2">&#9733;</span>
+                <span class="star" data-value="3">&#9733;</span>
+                <span class="star" data-value="4">&#9733;</span>
+                <span class="star" data-value="5">&#9733;</span>
+            </div>
+            <input type="hidden" id="rating" name="rating" value="0">
+
+            <label class="large-label" for="comment">Comment:</label>
+            <textarea class="form-control" type="text" id="comment" name="comment" value="" rows="3"></textarea>
+        </div>   
+        <div class="w-full flex items-center mt-4">
+               <div class="w-9/12 mt-3 grid grid-cols-2 grid-rows-1">
+                      <button class="btn btn-success submit">Save</button>
+               </div>
+        </div>                     
+ </form>
+</div>
+<script>
+    var stars = document.querySelectorAll('.star');
+    stars.forEach(function(star) {
+        star.addEventListener('click', setRating);
+    });
+
+    function setRating(ev) {
+        var span = ev.currentTarget;
+        var rating = span.dataset.value;
+        document.getElementById('rating').value = rating;
+
+        stars.forEach(function(star, index) {
+            if (index < rating) {
+                star.classList.add('selected');
+            } else {
+                star.classList.remove('selected');
+            }
+        });
+    }
+</script>

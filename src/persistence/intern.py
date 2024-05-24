@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import NamedTuple
 from pyodbc import IntegrityError
-from persistence import employee
+from persistence import employee, person
 from persistence.employee import EmployeeDetails
 from persistence.session import create_connection
 
@@ -54,7 +54,7 @@ def read(emp_num: int) -> InternDetails:
         cursor.execute("SELECT * FROM get_intern_details(?);", emp_num)
         row = cursor.fetchone()
 
-    return row.nif, row.num_funcionario, InternDetails(
+    return row.nif, emp_num, InternDetails(
         fname=row.fname,
         lname=row.lname,
         zip=row.zip or "",
@@ -108,12 +108,8 @@ def update(nif: int, intern: InternDetails):
 
 
 def delete(nif: int):
-    with create_connection() as conn:
-        cursor = conn.cursor()
-        try:
-            cursor.execute("DELETE FROM Estagiario WHERE nif = ?;", nif)
-            conn.commit()
-            employee.delete(nif)  # delete employee after
-        except IntegrityError as e:
-            if e.args[0] == '23000':
-                raise ValueError(f"ERROR: could not delete intern {nif}. Data integrity issue.") from e
+    try:
+        person.delete(nif)  # delete the correspondent person, because it will activate the trigger to delete the employee and effective/intern
+    except IntegrityError as e:
+        if e.args[0] == '23000':
+            raise ValueError(f"ERROR: could not delete intern {nif}. Data integrity issue.") from e

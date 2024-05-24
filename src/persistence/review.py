@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import NamedTuple   
 from pyodbc import IntegrityError
 from persistence.session import create_connection
@@ -51,3 +52,14 @@ def performance_by_nif_emp(nif: int) -> str:
         cursor.close()
 
     return performance
+
+def create(emp_nif: int, cli_nif: int, rating: int, comment: str):
+    with create_connection() as conn:
+        cursor = conn.cursor()
+        try:
+            review_date = datetime.now().strftime('%Y-%m-%d')
+            cursor.execute("INSERT INTO Avaliacao VALUES (?, ?, ?, ?, ?)", emp_nif, cli_nif, review_date, rating, comment)
+            cursor.commit()
+        except IntegrityError:
+            raise ValueError("ERROR: could not create review. Data integrity issue.")
+        cursor.close()
