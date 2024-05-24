@@ -1,0 +1,182 @@
+<style>
+    .large-label {
+        font-size: 1.5em;
+    }
+</style>
+<div id="employeeDetails1" class="employee-details p-3">
+    <form class="employee-details-form" hx-post="/employees{% if employee_number is defined %}/{{ employee_number }}{% endif %}" hx-target="#content" hx-swap="innerHTML">
+
+        <h2>{% if employee_number is not defined %}New {% endif %}Employee Details</h2>
+        <div class="grid grid-cols-2 grid-rows-7 gap-2 mt-4">
+            
+            <label class="large-label" for="emp_nif">Employee NIF</label>
+            {% if employee_number is defined %}
+            <label class="large-label" id="emp_nif">{{ employee_nif }}</label>
+            {% else %}
+            <input class="form-control" type="text" id="nif" name="nif">
+            {% endif %}
+
+            {% if employee_number is defined %}
+            <label class="large-label" for="emp_num">Employee Number</label>
+            <label class="large-label" id="emp_num">{{ employee_number }}</label>
+            {% endif %}
+
+            <label class="large-label" for="fname">Name</label>
+            <input class="form-control" type="text" id="fname" name="fname"
+                   value="{% if employee_number is defined %}{{ employee.fname }}{% endif %}">
+            
+            <label class="large-label" for="lname">Surname</label>
+            <input class="form-control" type="text" id="lname" name="lname"
+                   value="{% if employee_number is defined %}{{ employee.lname }}{% endif %}">
+
+            <label class="large-label" for="zip">Zip</label>
+            <input class="form-control" type="text" id="zip" name="zip"
+                   value="{% if employee_number is defined %}{{ employee.zip }}{% endif %}">
+
+            <label class="large-label" for="locality">Locality</label>
+            <input class="form-control" type="text" id="locality" name="locality"
+                   value="{% if employee_number is defined %}{{ employee.locality }}{% endif %}">
+
+            <label class="large-label" for="street">Street</label>
+            <input class="form-control" type="text" id="street" name="street" size="120"
+                   value="{% if employee_number is defined %}{{ employee.street }}{% endif %}">
+
+            <label class="large-label" for="number">Number</label>
+            <input class="form-control" type="text" id="number" name="number"
+                   value="{% if employee_number is defined %}{{ employee.number }}{% endif %}">
+
+            <label class="large-label" for="birth_date">Birth Date</label>
+            <input class="form-control" type="date" id="birth_date" name="birth_date"
+                   value="{% if employee_number is defined %}{{ employee.birth_date }}{% endif %}">
+
+            <label class="large-label" for="sex">Sex</label>
+            <input class="form-control" type="text" id="sex" name="sex"
+                   value="{% if employee_number is defined %}{{ employee.sex}}{% endif %}">
+
+            <label class="large-label" for="establishment_number">Establishment Number</label>
+            <select class="form-control cursor-pointer" id="establishment_number" name="establishment_number">
+                {% for establishment in establishments %}
+                    <option value="{{ establishment[0] }}"
+                            {% if employee_number is defined and employee.establishment_number == establishment[0] %}selected{% endif %}>
+                        {{ establishment[0] }} - {{ establishment[1] }}
+                    </option>
+                {% endfor %}
+            </select>
+            
+            <label class="large-label" for="schedule_id">Schedule</label>
+            <select class="form-control cursor-pointer" id="schedule_id" name="schedule_id">
+                {% for schedule in schedules %}
+                    <option value="{{ schedule.id }}">
+                        <span>{{ schedule.id }}  |</span>
+                        {{ schedule.start_time.split(":")[0] + ":" + schedule.start_time.split(":")[1] }}
+                        -
+                        {{ schedule.end_time.split(":")[0] + ":" + schedule.end_time.split(":")[1] }} |
+                        Day off: {{ schedule.day_off }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label class="large-label" for="company_phone">Company Phone</label>
+            <input class="form-control" type="text" id="company_phone" name="company_phone"
+                   value="{% if employee_number is defined %}{{ employee.company_phone }}{% endif %}">
+                
+            <label class="large-label" for="private_phone">Private Phone</label>
+            <input class="form-control" type="text" id="private_phone" name="private_phone"
+                   value="{% if employee_number is defined %}{{ employee.private_phone }}{% endif %}">
+
+            <label class="large-label" for="emp_type">Employee Type</label>
+            {% if employee_number is defined %}
+            <label class="large-label" id="emp_type_defined">{{ employee.emp_type }}</label>
+            {% else %}
+            <select class="form-control cursor-pointer" id="emp_type" name="emp_type">
+                <option value="E">Effective</option>
+                <option value="I">Intern</option>
+            </select>
+            {% endif %}
+        </div>
+
+        <div id="for_effective" class="w-full grid grid-cols-2 grid-rows-5 gap-2" style="display: {% if employee_number is defined and employee.emp_type == 'E' or employee_number is not defined  %}block{% else %}none{% endif %}">
+            <label class="large-label" for="specialities">Specialized In</label>
+            <!-- User can select zero or more specialities in the array specialities and can add one that doesn't exist too -->
+            <div>
+                <select class="form-control cursor-pointer" id="specialities_ids" name="specialities_ids" multiple>
+                    {% for speciality in specialities %}
+                        <option value="{{ speciality.designation }}">
+                            {{ speciality.designation }}
+                        </option>
+                    {% endfor %}
+                    <option value="new">Other</option>
+                </select>
+                <input class="form-control" type="text" id="new_speciality" name="new_speciality" style="display: none;" placeholder="Spec1,Spec2,Spec3,...">
+            </div>
+
+            {% if employee_number is not defined %}
+            <label class="large-label" for="contract_start_date">Contract Start Date</label>
+            <input class="form-control" type="date" id="contract_start_date" name="contract_start_date"
+                   value="">
+            
+            <label class="large-label" for="contract_end_date">Contract End Date</label>
+            <input class="form-control" type="date" id="contract_end_date" name="contract_end_date"
+                   value="">
+
+            <label class="large-label" for="contract_salary">Contract Salary</label>
+            <input class="form-control" type="text" id="contract_salary" name="contract_salary"
+                   value="">
+            
+            <label class="large-label" for="contract_description">Contract Description</label>
+            <input class="form-control" type="text" id="contract_description" name="contract_description"
+                   value="">
+            {% endif %}
+        </div>
+
+        <div id="for_intern" class="w-full flex flex-row" style="display: {% if employee_number is defined and employee.emp_type == 'I' %}block{% else %}none{% endif %}">
+            <label class="large-label" for="internship_end_date">Internship End Date</label>
+            <input class="form-control" type="date" id="internship_end_date" name="internship_end_date"
+                   value="">
+        </div>
+
+        {% if employee_number is defined %}
+        <div class="w-full flex items-center justify-center mt-4">
+            <div class="w-9/12 mt-3 grid grid-cols-2 grid-rows-1 gap-3">
+                <button class="btn btn-success submit">Save</button>
+                <button class="btn btn-secondary" hx-get="/employees/{{ employee_number }}">Cancel</button>
+            </div>
+        </div>
+        {% else %}
+        <div class="w-full flex items-center mt-4">
+            <div class="w-9/12 mt-3 grid grid-cols-2 grid-rows-1">
+                <button class="btn btn-success submit">Save</button>
+            </div>
+        {% endif %}                 
+           
+    </form>
+</div>
+
+<script>
+    document.getElementById('emp_type').addEventListener('change', function() {
+        if (this.value === 'E') {
+            document.getElementById('for_effective').style.display = 'block';
+            document.getElementById('for_intern').style.display = 'none';
+            $('#internship_end_date').val('');
+        } else {
+            document.getElementById('for_intern').style.display = 'block';
+            document.getElementById('for_effective').style.display = 'none';
+            $('#specialities_ids').val('');
+            $('#new_speciality').val('');
+            $('#contract_start_date').val('');
+            $('#contract_end_date').val('');
+            $('#contract_salary').val('');
+            $('#contract_description').val('');
+        }
+    });
+
+    $('#specialities_ids').on('change', function() {
+        var selectedValues = $(this).val();
+        if (selectedValues && selectedValues.includes('new')) {
+            $('#new_speciality').show();
+        } else {
+            $('#new_speciality').val('');
+            $('#new_speciality').hide();
+        }
+    });
+</script>

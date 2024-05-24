@@ -5,7 +5,7 @@ from persistence import employee
 from persistence.employee import EmployeeDetails
 from persistence.session import create_connection
 from persistence.contract import ContractDetails
-from persistence import contract
+from persistence import contract, person
 
 
 class EffectiveSummary(NamedTuple):
@@ -61,9 +61,9 @@ def read(emp_num: int) -> EffectiveDetails:
             if row.speciality:
                 specialities_list.append(row.speciality)
 
-        contract_details = contract.read(emp_num)
+        contract_details = contract.read(rows[0].nif)
 
-    return rows[0].nif, rows[0].num_funcionario, EffectiveDetails(
+    return rows[0].nif, emp_num, EffectiveDetails(
         fname=rows[0].fname,
         lname=rows[0].lname,
         zip=rows[0].zip or "",
@@ -134,15 +134,11 @@ def update(nif: int, effective: EffectiveDetails):
 
 
 def delete(nif: int):
-    with create_connection() as conn:
-        cursor = conn.cursor()
-        try:
-            cursor.execute("DELETE FROM Efetivo WHERE nif = ?;", nif)
-            conn.commit()
-            employee.delete(nif)  # delete employee after
-        except IntegrityError as e:
-            if e.args[0] == '23000':
-                raise ValueError(f"ERROR: could not delete effective {nif}. Data integrity issue.") from e
+    try:
+        person.delete(nif)  # delete the correspondent person, because it will activate the trigger to delete the employee and effective/intern
+    except IntegrityError as e:
+        if e.args[0] == '23000':
+            raise ValueError(f"ERROR: could not delete effective {nif}. Data integrity issue.") from e
             
 
 def isEffective(emp_num: int) -> bool:
