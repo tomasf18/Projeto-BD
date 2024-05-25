@@ -101,7 +101,7 @@ def create(nif: int, effective: EffectiveDetails):
                 contract_details.end_date
             )
             for speciality in effective.specialities:
-                cursor.execute("INSERT INTO Tem (nif_efetivo, especialidade) VALUES (?, ?);", nif, speciality)
+                cursor.execute("EXEC CreateTem ?, ?;", nif, speciality)
             conn.commit()
         except IntegrityError as e:
             if e.args[0] == '23000':
@@ -126,7 +126,7 @@ def update(nif: int, effective: EffectiveDetails):
                 effective.contract.end_date
             )
             for speciality in effective.specialities:
-                cursor.execute("INSERT INTO Tem (nif_efetivo, especialidade) VALUES (?, ?);", nif, speciality)
+                cursor.execute("EXEC CreateTem ?, ?;", nif, speciality)
             conn.commit()
         except IntegrityError as e:
             if e.args[0] == '23000':

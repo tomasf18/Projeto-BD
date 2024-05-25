@@ -62,6 +62,8 @@ BEGIN
     DECLARE @nif INT
     SELECT @nif = nif FROM deleted
     EXEC DeletePessoa @nif;
+    DELETE FROM Pessoa
+    WHERE nif = @nif;
 END
 GO
 

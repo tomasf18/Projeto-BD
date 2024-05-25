@@ -28,6 +28,10 @@ IF OBJECT_ID('CreateEmployee', 'P') IS NOT NULL
 DROP PROCEDURE CreateEmployee;
 GO
 
+IF OBJECT_ID('CreateTem', 'P') IS NOT NULL
+DROP PROCEDURE CreateTem;
+GO
+
 
 
 -- SP para eliminar um cliente
@@ -261,5 +265,17 @@ AS
         INSERT INTO Funcionario (nif, num_funcionario, num_estabelecimento, id_horario) VALUES (@nif, @emp_num, @establishment_number, @schedule_id);
         INSERT INTO Nums_telem_func (nif_func, num_telem) VALUES (@nif, @company_phone);
         INSERT INTO Nums_telem_func (nif_func, num_telem) VALUES (@nif, @private_phone);
+    END
+GO
+
+
+CREATE PROC CreateTem @nif INT, @speciality VARCHAR(20)
+AS
+    BEGIN
+        IF NOT EXISTS (SELECT * FROM Especialidade WHERE designacao = @speciality)
+        BEGIN
+            INSERT INTO Especialidade (designacao) VALUES (@speciality);
+        END
+        INSERT INTO Tem (nif_efetivo, especialidade) VALUES (@nif, @speciality);
     END
 GO

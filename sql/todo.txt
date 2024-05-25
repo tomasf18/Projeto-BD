@@ -1,7 +1,14 @@
 ordenar as reviews por relevancia em termos de data (query complexa)
 cliente não consegue marcar para uma slot ocupada (query complexa)
+
 views para algumas queries de joins um pouco grandes
-trigger para quando eliminar um efetivo, o contrato tmb é eliminado
+
 Detalhes andam sempre a dançar
 Ao clicar num card, preciso de clicar no nome da pessoa para aparecer alguma coisa, mas eu quero que isso aconteça quando cilco no card todo (tirando nos botoes)
+Na avaliação meter account number e fazer sp que vai buscar o nif e da insert
+Na pesquisa em funcionario por avaliacao, usar emp number
+Meter também a hora na avaliacao que a parece em employee
+
+Adicionar índices para pesquisa (consultar prática para ver se usámos tipos de indices diferentes)
+
 Adicionar trigger que cada vez que adiciono um employee com algumas especialidades que não existem, em vez de dar erro, cria essas especialidades (substituir pela versao atual que faço em python)

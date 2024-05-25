@@ -66,7 +66,7 @@
             <label class="large-label" for="schedule_id">Schedule</label>
             <select class="form-control cursor-pointer" id="schedule_id" name="schedule_id">
                 {% for schedule in schedules %}
-                    <option value="{{ schedule.id }}">
+                    <option value="{{ schedule.id }}" {% if employee_number is defined and employee.shedule_id == schedule.id %}selected{% endif %}>
                         <span>{{ schedule.id }}  |</span>
                         {{ schedule.start_time.split(":")[0] + ":" + schedule.start_time.split(":")[1] }}
                         -
@@ -84,24 +84,24 @@
             <input class="form-control" type="text" id="private_phone" name="private_phone"
                    value="{% if employee_number is defined %}{{ employee.private_phone }}{% endif %}">
 
-            <label class="large-label" for="emp_type">Employee Type</label>
+            <label class="large-label" for="employee_type">Employee Type</label>
             {% if employee_number is defined %}
-            <label class="large-label" id="emp_type_defined">{{ employee.emp_type }}</label>
+            <label class="large-label" id="employee_type">{% if emp_type == "E" %}Effective{% else %}Intern{% endif %}</label>
             {% else %}
-            <select class="form-control cursor-pointer" id="emp_type" name="emp_type">
+            <select class="form-control cursor-pointer" id="employee_type" name="employee_type">
                 <option value="E">Effective</option>
                 <option value="I">Intern</option>
             </select>
             {% endif %}
         </div>
 
-        <div id="for_effective" class="w-full grid grid-cols-2 grid-rows-5 gap-2" style="display: {% if employee_number is defined and employee.emp_type == 'E' or employee_number is not defined  %}block{% else %}none{% endif %}">
-            <label class="large-label" for="specialities">Specialized In</label>
+        <div id="for_effective" class="w-full grid grid-cols-2 grid-rows-5 gap-2" style="display: {% if employee_number is defined and emp_type == 'E' or employee_number is not defined %}block{% else %}none{% endif %}">
+            <label class="large-label" for="specialities_ids">Specialized In</label>
             <!-- User can select zero or more specialities in the array specialities and can add one that doesn't exist too -->
             <div>
-                <select class="form-control cursor-pointer" id="specialities_ids" name="specialities_ids" multiple>
+                <select class="form-control" id="specialities_ids" name="specialities_ids" multiple>
                     {% for speciality in specialities %}
-                        <option value="{{ speciality.designation }}">
+                        <option value="{{ speciality.designation }}" {% if employee_number is defined and speciality in employee.specialities %}selected{% endif %}>
                             {{ speciality.designation }}
                         </option>
                     {% endfor %}
@@ -129,7 +129,7 @@
             {% endif %}
         </div>
 
-        <div id="for_intern" class="w-full flex flex-row" style="display: {% if employee_number is defined and employee.emp_type == 'I' %}block{% else %}none{% endif %}">
+        <div id="for_intern" class="w-full flex flex-row" style="display: {% if employee_number is defined and emp_type == 'I' %}block{% else %}none{% endif %}">
             <label class="large-label" for="internship_end_date">Internship End Date</label>
             <input class="form-control" type="date" id="internship_end_date" name="internship_end_date"
                    value="">
@@ -153,7 +153,7 @@
 </div>
 
 <script>
-    document.getElementById('emp_type').addEventListener('change', function() {
+    document.getElementById('employee_type').addEventListener('change', function() {
         if (this.value === 'E') {
             document.getElementById('for_effective').style.display = 'block';
             document.getElementById('for_intern').style.display = 'none';
@@ -172,6 +172,7 @@
 
     $('#specialities_ids').on('change', function() {
         var selectedValues = $(this).val();
+        console.log(selectedValues);
         if (selectedValues && selectedValues.includes('new')) {
             $('#new_speciality').show();
         } else {

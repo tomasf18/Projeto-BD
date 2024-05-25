@@ -85,20 +85,19 @@ def create_employee_form():
 def create_employee():
     try:
         nif = request.form.get("nif")
-        if request.form.get("emp_type") == "E":
+        print(request.form)
+        if request.form.get("employee_type") == "E":
+            print("Effective")
             contract_details = ContractDetails(request.form.get("nif"), request.form.get("contract_salary"), request.form.get("contract_description"), request.form.get("contract_start_date"), request.form.get("contract_end_date"))
-            specialities = []
+            specialities_list = []
             if request.form.get("specialities_ids"):
                 for spc in request.form.getlist("specialities_ids"):
                     if spc != "new":
-                        specialities.append(spc)
+                        specialities_list.append(spc)
             if request.form.get("new_speciality") != "":
                 for spc in request.form.get("new_speciality").split(","):
-                    specialities.append(spc)
-            if specialities != []:
-                for spc in specialities:
-                    if not speciality.speciality_exists(spc):
-                        speciality.create(SpecialitySummary(spc))
+                    specialities_list.append(spc)
+
             effective_details = EffectiveDetails(
                 fname=request.form.get("fname"),
                 lname=request.form.get("lname"),
@@ -112,11 +111,10 @@ def create_employee():
                 schedule_id=request.form.get("schedule_id"),
                 private_phone=request.form.get("private_phone"),
                 company_phone=request.form.get("company_phone"),
-                specialities=specialities,
+                specialities=specialities_list,
                 manager=False,
                 contract=contract_details
             )
-            print(effective_details)
             effective.create(nif, effective_details)
         else:
             intern_details = InternDetails(
@@ -147,15 +145,18 @@ def create_employee():
 @app.route("/employees/<emp_num>", methods=["GET"])
 def employee_details(emp_num: int):
     isEffective = effective.isEffective(emp_num)
+    establishments_list = establishment.list_establishments_id_locality()
+    schedules_list = schedule.list_schedules()
+    specialities_list = speciality.list_specialities()
     if isEffective:
         emp_nif, emp_num, employee_details = effective.read(emp_num)
         employee_type = "E"
     else:
         emp_nif, emp_num, employee_details = intern.read(emp_num)
         employee_type = "I"
-
+    print(employee_details)
     template = "employee_details_view.html" if not request.args.get("edit") else "employee_details_form.html"
-    return render_template(template, employee_nif=emp_nif, employee_number=emp_num, employee=employee_details, emp_type=employee_type) 
+    return render_template(template, employee_nif=emp_nif, employee_number=emp_num, employee=employee_details, emp_type=employee_type, establishments=establishments_list, schedules=schedules_list, specialities=specialities_list) 
 
 
 @app.route("/employees/<emp_num>", methods=["DELETE"])
@@ -176,7 +177,58 @@ def delete_employee(emp_num: int):
 
 @app.route("/employees/<emp_num>", methods=["POST"])
 def update_employee(emp_num: int):
-    pass
+    print(request.form)
+    emp_nif, emp_num, emp_details = employee.read(emp_num)
+    if request.form.get("internship_end_date") == "": 
+        contract_details = ContractDetails(emp_nif, request.form.get("contract_salary"), request.form.get("contract_description"), request.form.get("contract_start_date"), request.form.get("contract_end_date"))
+        specialities_list = []
+        if request.form.get("specialities_ids"):
+            for spc in request.form.getlist("specialities_ids"):
+                if spc != "new":
+                    specialities_list.append(spc)
+        if request.form.get("new_speciality") != "":
+            for spc in request.form.get("new_speciality").split(","):
+                specialities_list.append(spc)
+
+        effective_details = EffectiveDetails(
+            fname=request.form.get("fname"),
+            lname=request.form.get("lname"),
+            zip=request.form.get("zip"),
+            locality=request.form.get("locality"),
+            street=request.form.get("street"),
+            number=request.form.get("number"),
+            birth_date=request.form.get("birth_date"),
+            sex=request.form.get("sex"),
+            establishment_number=request.form.get("establishment_number"),
+            schedule_id=request.form.get("schedule_id"),
+            private_phone=request.form.get("private_phone"),
+            company_phone=request.form.get("company_phone"),
+            specialities=specialities_list,
+            manager=False,
+            contract=contract_details
+        )
+        effective.update(emp_nif, effective_details)
+    else:
+        intern_details = InternDetails(
+            fname=request.form.get("fname"),
+            lname=request.form.get("lname"),
+            zip=request.form.get("zip"),
+            locality=request.form.get("locality"),
+            street=request.form.get("street"),
+            number=request.form.get("number"),
+            birth_date=request.form.get("birth_date"),
+            sex=request.form.get("sex"),
+            establishment_number=request.form.get("establishment_number"),
+            schedule_id=request.form.get("schedule_id"),
+            private_phone=request.form.get("private_phone"),
+            company_phone=request.form.get("company_phone"),
+            internship_end_date=request.form.get("internship_end_date")
+        )
+        intern.update(emp_nif, intern_details)
+
+    response = make_response(render_template_string(f"Employee {emp_num} updated successfully!"))
+    response.headers["HX-Trigger"] = "refreshEmployeesList"
+    return response
 
 
 
