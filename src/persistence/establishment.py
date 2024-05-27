@@ -1,5 +1,3 @@
-import random
-import string
 from typing import NamedTuple   # module that allows to define/create named data types (named tuples) that are immutable
 from pyodbc import IntegrityError
 from persistence.session import create_connection

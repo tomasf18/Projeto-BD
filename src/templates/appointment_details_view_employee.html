@@ -1,0 +1,15 @@
+<div class="appointment-details p-3" id="appointmentDetails1">
+    <h2 class="mb-4">Appointment Details</h2>
+
+    <table class="table">
+        <tbody>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Employee NIF:</th><td class="col-span-3">{{ appointment.emp_nif }}</td></tr>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Client NIF:</th><td class="col-span-3">{{ appointment.cli_nif }}</td></tr>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Client Name:</th><td class="col-span-3">{{ appointment.client_Fname + " " + appointment.client_Lname }}</td></tr>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Date:</th><td class="col-span-3">{{ appointment.app_date.strftime('%Y-%m-%d') }}</td></tr>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Hour:</th><td class="col-span-3">{{ appointment.app_date.strftime('%Hh') }}</td></tr>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Date of request:</th><td class="col-span-3">{{ appointment.app_date_requested }}</td></tr>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Services:</th><td class="col-span-3">{{ ', '.join(appointment.service_designation) }}</td></tr>
+        </tbody>
+    </table>
+</div>

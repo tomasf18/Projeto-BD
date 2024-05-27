@@ -1,0 +1,38 @@
+<style>
+    .large-label {
+        font-size: 1.5em;
+    }
+</style>
+{% if appointments|length > 0 %}
+    <form hx-post="/search-appointments-emp-order/{{ nif }}">
+        <div class="form-group">
+            <label class="large-label" for="order_by">Order By:</label>
+            <select class="form-control" id="order_by" name="order_by">
+                <option value="nif">NIF</option>
+                <option value="date">Date</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+    {% for appointment in appointments %} 
+    <div class="w-11/12 border-4 my-2 rounded-lg d-flex flex-column p-3" hx-swap="innerHTML" hx-target="#content">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="appointments-list-item-details text-lg cursor-pointer" hx-get="/appointments?nif_emp={{ appointment.emp_nif }}&nif_cli={{ appointment.cli_nif }}&date={{ appointment.app_date.strftime('%Y-%m-%d') }}&hour={{ appointment.app_date.strftime('%H:%M:%S.%f')[:-3] }}" hx-trigger="click">
+                <div class="mb-2">
+                    <strong>Client Name: {{ appointment.client_Fname + " " + appointment.client_Lname }}</strong>
+                </div>
+                <div>
+                    <strong>{{ appointment.app_date.strftime('%Y-%m-%d') }}</strong>
+                </div>
+            </div>
+            <div class="d-flex flex-column align-items-end">
+                <div class="appointment-date mr-4 text-lg">
+                    <strong>{{ appointment.app_date.strftime('%Hh') }}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <h4 class="mt-4">You have no appointments</h4>
+{% endif %}

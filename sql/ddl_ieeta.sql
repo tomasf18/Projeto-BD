@@ -205,7 +205,7 @@ CREATE TABLE Inclui (
 
 
 CREATE TABLE Servico (
-    nome                   VARCHAR(20)             NOT NULL,
+    nome                   VARCHAR(30)             NOT NULL,
     preco                  DECIMAL(10,2)           NOT NULL,
     sexo                   CHAR(1)                 NOT NULL,
     designacao             VARCHAR(30)             NOT NULL,

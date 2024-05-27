@@ -32,23 +32,23 @@
                 <div class="w-full border-bottom">
                     <ul class="nav justify-content-center">
                         <li class="nav-item">
-                            <a class="btn border h-10 m-2" aria-current="page" href="/employee-appointments">Appointments</a>
+                            <a class="btn border h-10 m-2 bg-info text-white" aria-current="page" href="/employee-appointments">Appointments</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn border h-10 m-2 bg-info text-white" aria-current="page" href="/employee-review">Reviews</a>
+                            <a class="btn border h-10 m-2" aria-current="page" href="/employee-review">Reviews</a>
                         </li>
                     </ul>
                 </div>
                 <div class="small w-full h-full">
                     <div class="w-full p-4"> 
-                        <form class="form-inline w-1/2 flex flex-row" hx-post="/search-review-emp-NIF" hx-trigger="submit" hx-target="#review_list" hx-swap="innerHTML">
+                        <form class="form-inline w-1/2 flex flex-row" hx-post="/search-appointments-emp-NIF" hx-trigger="submit" hx-target="#appointments_list" hx-swap="innerHTML">
                             <input class="form-control w-1/2 mr-3" name="nif" type="search" placeholder="Your NIF" aria-label="Search">
                             <button class="btn btn-primary" type="submit">Select</button>
                         </form>            
                     </div>
                     <div class="w-full px-4 grid grid-cols-2 grid-rows-1" style="height: 40rem; maxHeight: 40rem">
-                        <div id="review_list" class="col-span-1 overflow-auto border-2 rounded-md flex flex-col items-center"> 
-                            <h4 class="mt-4">Insert your NIF to check your reviews</h4>
+                        <div id="appointments_list" class="col-span-1 overflow-auto border-2 rounded-md flex flex-col items-center"> 
+                            <h4 class="mt-4">Insert your NIF to check your appointments</h4>
                         </div>
                         <div id="content" class="overflow-auto col-span-1 mx-8 border-2 rounded-md">
                         </div>

@@ -1,6 +1,6 @@
 from flask import Flask, make_response, render_template, render_template_string, request
 
-from persistence import establishment, schedule, effective, intern, employee, speciality, client, review, contract, person
+from persistence import establishment, schedule, effective, intern, employee, speciality, client, review, contract, person, appointment
 from persistence.employee import EmployeeDetails
 from persistence.client import ClientDetails
 from persistence.establishment import EstablishmentDetails
@@ -8,6 +8,7 @@ from persistence.speciality import SpecialitySummary
 from persistence.contract import ContractDetails
 from persistence.effective import EffectiveDetails
 from persistence.intern import InternDetails
+from persistence.appointment import AppointmentDetails
 
 
 
@@ -45,9 +46,14 @@ def admin_sch():
 
 # ----------------- Employee -----------------
 
+@app.route('/employee-appointments')
+def employee_appointments():
+    return render_template('employee_appointments.html')
+
 @app.route('/employee-review')
 def employee_review():
     return render_template('employee_review.html')
+    
 
 
 # ----------------- Client -----------------
@@ -559,6 +565,30 @@ def get_reviews():
     date = request.args.get('date', type=str)
     reviewDetails = review.read(nif_emp, nif_cli, date)
     return render_template("review_details_view.html", review=reviewDetails)
+
+
+# ----------------- AppointmentsEmployee -----------------
+
+@app.route("/search-appointments-emp-NIF", methods=["POST"])
+def search_appointments_employee_by_nif():
+    nif = request.form.get("nif")
+    employee_appointments = appointment.list_appointments_by_nif_emp(nif, 'nif')
+    return render_template("employee_appointments_list.html", appointments=employee_appointments, nif=nif)
+
+@app.route("/search-appointments-emp-order/<nif>", methods=["POST"])
+def search_appointments_employee_by_order(nif: int):
+    order_by = request.args.get('order_by', type=str)
+    employee_appointments = appointment.list_appointments_by_nif_emp(nif, order_by)
+    return render_template("employee_appointments_list.html", appointments=employee_appointments, nif=nif)
+
+@app.route("/appointments", methods=["GET"])
+def get_appointments():
+    nif_emp = request.args.get('nif_emp', type=int)
+    nif_cli = request.args.get('nif_cli', type=int)
+    date = request.args.get('date', type=str)
+    hour = request.args.get('hour', type=str)
+    appointmentDetails = appointment.read(nif_emp, nif_cli, date, hour)
+    return render_template("appointment_details_view_employee.html", appointment=appointmentDetails)
 
 
 # ----------------- ReviewsClient -----------------

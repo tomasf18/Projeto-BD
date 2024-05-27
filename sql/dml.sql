@@ -280,7 +280,247 @@ INSERT INTO Nums_telem_func(nif_func, num_telem) VALUES
 (527364891, '234655678'); -- Xavier Fernandes (Empresa)
 
 INSERT INTO Avaliacao(nif_funcionario, nif_cliente, data_avaliacao, n_estrelas, comentario) VALUES
-(238475910, 538194627, '2024-04-22', 5, NULL), -- Ana Santos
-(238475910, 825719364, '2024-04-15', 4, 'Serviço de qualidade, mas cheguei à hora da marcação e tive de esperar 15 minutos'), -- Pedro Silva
+-- Profissional 238475910 (João Silva): 5 avaliações
+(238475910, 538194627, '2024-04-22', 5, 'Serviço muito bom'), -- Ana Santos
+(238475910, 825719364, '2024-03-15', 4, 'Serviço de qualidade, mas cheguei à hora da marcação e tive de esperar 15 minutos'), -- Pedro Silva
 (238475910, 371928546, '2023-09-10', 5, 'Empregado excelente!'), -- Mariana Fernandes
-(238475910, 918273645, '2024-02-19', 3, NULL); -- Luís Martins
+(238475910, 918273645, '2024-02-19', 3, NULL), -- Luís Martins
+(238475910, 619482753, '2023-10-22', 4, 'Serviço eficiente, mas o tempo de espera foi longo'), -- Inês Ferreira
+
+-- Profissional 645892314 (Miguel Santos): 1 avaliação
+(645892314, 375926184, '2024-01-18', 5, 'Muito profissional e atencioso'), -- Gonçalo Sousa
+
+-- Profissional 784231096 (Maria Fernandes): 3 avaliações
+(784231096, 371928546, '2023-09-10', 5, 'Empregado excelente!'), -- Mariana Fernandes
+(784231096, 819473625, '2024-03-05', 4, 'Bom serviço, recomendo'), -- Carolina Rodrigues
+(784231096, 649182735, '2024-03-22', 3, 'Esperava mais do atendimento'), -- Catarina Oliveira
+
+-- Profissional 539287461 (Maria Santos): 4 avaliações
+(539287461, 917284563, '2024-02-19', 3, 'Atendimento regular, esperava mais'), -- Ricardo Pereira
+(539287461, 649182735, '2024-02-24', 5, 'Profissional excepcional, adorei!'), -- Catarina Oliveira
+(539287461, 679183254, '2024-01-20', 4, 'Serviço bom, mas pode melhorar a pontualidade'), -- Ingrid Santos
+(539287461, 728361954, '2023-09-18', 4, 'Bom atendimento, mas pode melhorar'), -- André Martins
+
+-- Profissional 102938475 (Manuel Fernandes): 0 avaliações
+
+-- Profissional 382910485 (Ana Ferreira): 7 avaliações
+(382910485, 728361954, '2024-05-12', 5, 'Profissional super atencioso e talentoso'), -- André Martins
+(382910485, 819473625, '2023-08-25', 4, 'Boa experiência, mas pode melhorar em alguns aspectos'), -- Carolina Rodrigues
+(382910485, 375926184, '2023-07-05', 3, 'Atendimento razoável, mas houve atraso'), -- Gonçalo Sousa
+(382910485, 649182735, '2023-10-30', 5, 'Excelente profissional, super recomendo!'), -- Catarina Oliveira
+(382910485, 917284563, '2024-01-25', 4, 'Muito atencioso e profissional'), -- Ricardo Pereira
+(382910485, 538194627, '2023-11-11', 5, 'Perfeito, nada a apontar'), -- Ana Santos
+(382910485, 927364815, '2024-02-20', 4, 'Serviço muito bom, voltarei com certeza'), -- Diogo Carvalho
+
+-- Profissional 657894321 (Bruno Martins): 2 avaliações
+(657894321, 918273645, '2023-12-02', 5, 'Excelente profissional, muito dedicado'), -- Luís Martins
+(657894321, 538194627, '2024-03-14', 4, 'Bom serviço, mas houve atraso'), -- Ana Santos
+
+-- Profissional 213456789 (Carla Rodrigues): 5 avaliações
+(213456789, 825719364, '2023-11-25', 5, 'Atendimento excelente, muito rápido e eficiente'), -- Pedro Silva
+(213456789, 371928546, '2024-04-01', 5, 'Profissional exemplar, super recomendo!'), -- Mariana Fernandes
+(213456789, 917284563, '2024-02-15', 4, 'Muito atencioso e profissional, gostei muito'), -- Ricardo Pereira
+(213456789, 649182735, '2024-03-22', 3, 'Esperava mais do atendimento'), -- Catarina Oliveira
+(213456789, 728361954, '2023-09-18', 4, 'Bom atendimento, mas pode melhorar'), -- André Martins
+
+-- Profissional 876543210 (Daniel Oliveira): 1 avaliação
+(876543210, 819473625, '2024-01-10', 5, 'Profissional muito dedicado, excelente atendimento'), -- Carolina Rodrigues
+
+-- Profissional 109283746 (Eva Sousa): 6 avaliações
+(109283746, 375926184, '2023-11-05', 5, 'Atendimento impecável, recomendo fortemente'), -- Gonçalo Sousa
+(109283746, 538194627, '2024-03-18', 4, 'Muito bom atendimento, mas houve um pouco de atraso'), -- Ana Santos
+(109283746, 825719364, '2023-10-25', 3, 'Serviço mediano, pode melhorar'), -- Pedro Silva
+(109283746, 371928546, '2024-02-27', 5, 'Excelente profissional, recomendo'), -- Mariana Fernandes
+(109283746, 917284563, '2023-12-30', 4, 'Bom atendimento, mas pode melhorar alguns aspectos'), -- Ricardo Pereira
+(109283746, 649182735, '2024-03-12', 5, 'Profissional super atencioso e talentoso, adorei!'), -- Catarina Oliveira
+
+-- Profissional 827364591 (Filipe Almeida): 2 avaliações
+(827364591, 679183254, '2024-04-15', 5, 'Excelente atendimento, muito profissional'), -- Ingrid Santos
+(827364591, 918273645, '2023-12-01', 3, 'Esperava mais do serviço'), -- Luís Martins
+
+-- Profissional 204819673 (Gabriela Pereira): 1 avaliação
+(204819673, 649182735, '2023-09-14', 3, 'Atendimento médio, esperava mais'), -- Catarina Oliveira
+
+-- Profissional 638172945 (Hugo Silveira): 0 avaliações
+
+-- Profissional 495867213 (Inês Costa): 4 avaliações
+(495867213, 825719364, '2023-10-15', 5, 'Profissional exemplar, recomendo!'), -- Pedro Silva
+(495867213, 371928546, '2024-03-10', 5, 'Atendimento impecável'), -- Mariana Fernandes
+(495867213, 917284563, '2024-01-25', 4, 'Muito atencioso e profissional'), -- Ricardo Pereira
+(495867213, 649182735, '2023-09-30', 3, 'Serviço regular, pode melhorar'), -- Catarina Oliveira
+
+-- Profissional 925638471 (Joana Mendes): 2 avaliações
+(925638471, 371928546, '2023-09-10', 5, 'Empregado excelente!'), -- Mariana Fernandes
+(925638471, 649182735, '2024-03-22', 3, 'Esperava mais do atendimento'), -- Catarina Oliveira
+
+-- Profissional 374691825 (Kevin Ramos): 3 avaliações
+(374691825, 917284563, '2024-02-19', 3, 'Atendimento regular, esperava mais'), -- Ricardo Pereira
+(374691825, 728361954, '2024-05-12', 5, 'Profissional super atencioso e talentoso'), -- André Martins
+(374691825, 819473625, '2023-08-25', 4, 'Boa experiência, mas pode melhorar em alguns aspectos'), -- Carolina Rodrigues
+
+-- Profissional 638127394 (Laura Teixeira): 0 avaliações
+
+-- Profissional 927364185 (Mário Lopes): 2 avaliações
+(927364185, 375926184, '2024-01-18', 5, 'Muito profissional e atencioso'), -- Gonçalo Sousa
+(927364185, 649182735, '2024-02-24', 5, 'Profissional excepcional, adorei!'), -- Catarina Oliveira
+
+-- Profissional 275931468 (Núria Ferreira): 1 avaliação
+(275931468, 679183254, '2024-01-20', 4, 'Serviço bom, mas pode melhorar a pontualidade'), -- Ingrid Santos
+
+-- Profissional 384619725 (Paulo Gomes): 0 avaliações
+
+-- Profissional 928374156 (Raquel Alves): 0 avaliações
+
+-- Profissional 736491825 (Sofia Pires): 3 avaliações
+(736491825, 918273645, '2023-12-02', 5, 'Excelente profissional, muito dedicado'), -- Luís Martins
+(736491825, 538194627, '2024-03-14', 4, 'Bom serviço, mas houve atraso'), -- Ana Santos
+(736491825, 825719364, '2023-11-25', 5, 'Atendimento excelente, muito rápido e eficiente'), -- Pedro Silva
+
+-- Profissional 182736495 (Tiago Carvalho): 2 avaliações
+(182736495, 371928546, '2024-04-01', 5, 'Profissional exemplar, super recomendo!'), -- Mariana Fernandes
+(182736495, 917284563, '2024-02-15', 4, 'Muito atencioso e profissional, gostei muito'), -- Ricardo Pereira
+
+-- Profissional 839274651 (Vanessa Sousa): 1 avaliação
+(839274651, 649182735, '2024-03-22', 3, 'Esperava mais do atendimento'), -- Catarina Oliveira
+
+-- Profissional 527364891 (Xavier Fernandes): 2 avaliações
+(527364891, 728361954, '2023-09-18', 4, 'Bom atendimento, mas pode melhorar'), -- André Martins
+(527364891, 819473625, '2024-01-10', 5, 'Profissional muito dedicado, excelente atendimento'); -- Carolina Rodrigues
+
+
+INSERT INTO Tipo_servico(sexo, designacao) VALUES
+('M', 'Corte de Cabelo'),
+('M', 'Barba'),
+('M', 'Sobrancelhas'),
+('M', 'Coloração'),
+('M', 'Madeixas'),
+('M', 'Tratamento Capilar'),
+('F', 'Corte de Cabelo'),
+('F', 'Coloração'),
+('F', 'Madeixas'),
+('F', 'Tratamento Capilar'),
+('F', 'Tratamento Facial'),
+('F', 'Maquilhagem'),
+('F', 'Manicure'),
+('F', 'Pedicure'),
+('F', 'Sobrancelhas');
+
+
+INSERT INTO Servico(nome, preco, sexo, designacao) VALUES
+-- Serviços Masculinos
+('Corte Clássico', 15.00, 'M', 'Corte de Cabelo'),
+('Corte Moderno', 18.00, 'M', 'Corte de Cabelo'),
+('Corte Completo', 25.00, 'M', 'Corte de Cabelo'),
+
+('Barba Tradicional', 10.00, 'M', 'Barba'),
+('Barba Design', 15.00, 'M', 'Barba'),
+
+('Design de Sobrancelhas', 8.00, 'M', 'Sobrancelhas'),
+('Tintura de Sobrancelhas', 12.00, 'M', 'Sobrancelhas'),
+
+('Coloração Básica', 25.00, 'M', 'Coloração'),
+('Coloração Completa', 40.00, 'M', 'Coloração'),
+
+('Madeixas Simples', 30.00, 'M', 'Madeixas'),
+('Madeixas Californianas', 45.00, 'M', 'Madeixas'),
+
+('Tratamento Anti-queda', 35.00, 'M', 'Tratamento Capilar'),
+('Tratamento de Hidratação', 40.00, 'M', 'Tratamento Capilar'),
+
+-- Serviços Femininos
+('Corte Curto', 20.00, 'F', 'Corte de Cabelo'),
+('Corte Médio', 25.00, 'F', 'Corte de Cabelo'),
+('Corte Longo', 30.00, 'F', 'Corte de Cabelo'),
+
+('Coloração Simples', 35.00, 'F', 'Coloração'),
+('Coloração Completa', 50.00, 'F', 'Coloração'),
+
+('Madeixas Tradicionais', 45.00, 'F', 'Madeixas'),
+('Balayage', 60.00, 'F', 'Madeixas'),
+
+('Tratamento de Reparação', 50.00, 'F', 'Tratamento Capilar'),
+('Tratamento de Brilho', 55.00, 'F', 'Tratamento Capilar'),
+
+('Limpeza de Pele', 40.00, 'F', 'Tratamento Facial'),
+('Hidratação Facial', 45.00, 'F', 'Tratamento Facial'),
+
+('Maquilhagem Básica', 30.00, 'F', 'Maquilhagem'),
+('Maquilhagem Completa', 50.00, 'F', 'Maquilhagem'),
+
+('Manicure Simples', 15.00, 'F', 'Manicure'),
+('Manicure Completa', 25.00, 'F', 'Manicure'),
+
+('Pedicure Simples', 20.00, 'F', 'Pedicure'),
+('Pedicure Completa', 30.00, 'F', 'Pedicure'),
+
+('Design de Sobrancelhas', 12.00, 'F', 'Sobrancelhas'),
+('Tintura de Sobrancelhas', 15.00, 'F', 'Sobrancelhas');
+
+
+-- Inserções na tabela Marcacao
+INSERT INTO Marcacao(nif_funcionario, nif_cliente, data_marcacao, data_pedido) VALUES
+-- Funcionario 238475910 (João Silva)
+(238475910, 538194627, '2024-05-10 10:00:00', '2024-05-01 09:00:00'),
+(238475910, 825719364, '2024-05-15 11:00:00', '2024-05-05 10:00:00'),
+(238475910, 371928546, '2024-05-20 14:00:00', '2024-05-10 12:00:00'),
+
+-- Funcionario 645892314 (Miguel Santos)
+(645892314, 917284563, '2024-05-08 09:00:00', '2024-05-01 08:00:00'),
+
+-- Funcionario 784231096 (Maria Fernandes)
+(784231096, 649182735, '2024-05-12 15:00:00', '2024-05-05 10:00:00'),
+(784231096, 728361954, '2024-05-20 10:00:00', '2024-05-10 09:00:00'),
+
+-- Funcionario 539287461 (Maria Santos)
+(539287461, 819473625, '2024-05-05 13:00:00', '2024-04-28 12:00:00'),
+(539287461, 375926184, '2024-05-18 16:00:00', '2024-05-08 15:00:00'),
+
+-- Funcionario 382910485 (Ana Ferreira)
+(382910485, 538194627, '2024-05-07 09:00:00', '2024-05-01 08:00:00'),
+(382910485, 819473625, '2024-05-10 14:00:00', '2024-05-03 13:00:00'),
+(382910485, 917284563, '2024-05-25 15:00:00', '2024-05-15 10:00:00'),
+
+-- Funcionario 657894321 (Bruno Martins)
+(657894321, 819473625, '2024-05-04 12:00:00', '2024-04-28 11:00:00'),
+(657894321, 649182735, '2024-05-12 09:00:00', '2024-05-05 08:00:00'),
+
+-- Funcionario 213456789 (Carla Rodrigues)
+(213456789, 538194627, '2024-05-02 14:00:00', '2024-04-25 13:00:00'),
+(213456789, 728361954, '2024-05-17 10:00:00', '2024-05-07 09:00:00'),
+(213456789, 649182735, '2024-05-25 11:00:00', '2024-05-15 08:00:00');
+
+-- Inserções na tabela Inclui
+INSERT INTO Inclui(data_marcacao, nif_funcionario, nif_cliente, sexo, designacao_tipo_serv) VALUES
+-- Serviços para João Silva
+('2024-05-10 10:00:00', 238475910, 538194627, 'F', 'Corte de Cabelo'),
+('2024-05-10 10:00:00', 238475910, 538194627, 'F', 'Manicure'),
+('2024-05-15 11:00:00', 238475910, 825719364, 'M', 'Corte de Cabelo'),
+('2024-05-20 14:00:00', 238475910, 371928546, 'F', 'Coloração'),
+
+-- Serviços para Miguel Santos
+('2024-05-08 09:00:00', 645892314, 917284563, 'M', 'Barba'),
+
+-- Serviços para Maria Fernandes
+('2024-05-12 15:00:00', 784231096, 649182735, 'F', 'Tratamento Capilar'),
+('2024-05-12 15:00:00', 784231096, 649182735, 'F', 'Tratamento Facial'),
+('2024-05-20 10:00:00', 784231096, 728361954, 'F', 'Maquilhagem'),
+
+-- Serviços para Maria Santos
+('2024-05-05 13:00:00', 539287461, 819473625, 'F', 'Pedicure'),
+('2024-05-18 16:00:00', 539287461, 375926184, 'M', 'Corte de Cabelo'),
+
+-- Serviços para Ana Ferreira
+('2024-05-07 09:00:00', 382910485, 538194627, 'F', 'Tratamento Facial'),
+('2024-05-10 14:00:00', 382910485, 819473625, 'F', 'Tratamento Capilar'),
+('2024-05-25 15:00:00', 382910485, 917284563, 'M', 'Sobrancelhas'),
+
+-- Serviços para Bruno Martins
+('2024-05-04 12:00:00', 657894321, 819473625, 'F', 'Corte de Cabelo'),
+('2024-05-04 12:00:00', 657894321, 819473625, 'F', 'Maquilhagem'),
+('2024-05-12 09:00:00', 657894321, 649182735, 'F', 'Coloração'),
+
+-- Serviços para Carla Rodrigues
+('2024-05-02 14:00:00', 213456789, 538194627, 'F', 'Corte de Cabelo'),
+('2024-05-02 14:00:00', 213456789, 538194627, 'F', 'Pedicure'),
+('2024-05-17 10:00:00', 213456789, 728361954, 'F', 'Tratamento Capilar'),
+('2024-05-25 11:00:00', 213456789, 649182735, 'F', 'Tratamento Facial');
