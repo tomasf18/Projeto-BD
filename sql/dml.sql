@@ -281,111 +281,111 @@ INSERT INTO Nums_telem_func(nif_func, num_telem) VALUES
 
 INSERT INTO Avaliacao(nif_funcionario, nif_cliente, data_avaliacao, n_estrelas, comentario) VALUES
 -- Profissional 238475910 (João Silva): 5 avaliações
-(238475910, 538194627, '2024-04-22', 5, 'Serviço muito bom'), -- Ana Santos
-(238475910, 825719364, '2024-03-15', 4, 'Serviço de qualidade, mas cheguei à hora da marcação e tive de esperar 15 minutos'), -- Pedro Silva
-(238475910, 371928546, '2023-09-10', 5, 'Empregado excelente!'), -- Mariana Fernandes
-(238475910, 918273645, '2024-02-19', 3, NULL), -- Luís Martins
-(238475910, 619482753, '2023-10-22', 4, 'Serviço eficiente, mas o tempo de espera foi longo'), -- Inês Ferreira
+(238475910, 538194627, '2024-04-22 10:23:45', 5, 'Serviço muito bom'), -- Ana Santos
+(238475910, 825719364, '2024-03-15 11:15:30', 4, 'Serviço de qualidade, mas cheguei à hora da marcação e tive de esperar 15 minutos'), -- Pedro Silva
+(238475910, 371928546, '2023-09-10 14:35:22', 5, 'Empregado excelente!'), -- Mariana Fernandes
+(238475910, 918273645, '2024-02-19 09:45:10', 3, NULL), -- Luís Martins
+(238475910, 619482753, '2023-10-22 16:50:05', 4, 'Serviço eficiente, mas o tempo de espera foi longo'), -- Inês Ferreira
 
 -- Profissional 645892314 (Miguel Santos): 1 avaliação
-(645892314, 375926184, '2024-01-18', 5, 'Muito profissional e atencioso'), -- Gonçalo Sousa
+(645892314, 375926184, '2024-01-18 10:40:12', 5, 'Muito profissional e atencioso'), -- Gonçalo Sousa
 
 -- Profissional 784231096 (Maria Fernandes): 3 avaliações
-(784231096, 371928546, '2023-09-10', 5, 'Empregado excelente!'), -- Mariana Fernandes
-(784231096, 819473625, '2024-03-05', 4, 'Bom serviço, recomendo'), -- Carolina Rodrigues
-(784231096, 649182735, '2024-03-22', 3, 'Esperava mais do atendimento'), -- Catarina Oliveira
+(784231096, 371928546, '2023-09-10 11:10:32', 5, 'Empregado excelente!'), -- Mariana Fernandes
+(784231096, 819473625, '2024-03-05 13:20:41', 4, 'Bom serviço, recomendo'), -- Carolina Rodrigues
+(784231096, 649182735, '2024-03-22 15:55:23', 3, 'Esperava mais do atendimento'), -- Catarina Oliveira
 
 -- Profissional 539287461 (Maria Santos): 4 avaliações
-(539287461, 917284563, '2024-02-19', 3, 'Atendimento regular, esperava mais'), -- Ricardo Pereira
-(539287461, 649182735, '2024-02-24', 5, 'Profissional excepcional, adorei!'), -- Catarina Oliveira
-(539287461, 679183254, '2024-01-20', 4, 'Serviço bom, mas pode melhorar a pontualidade'), -- Ingrid Santos
-(539287461, 728361954, '2023-09-18', 4, 'Bom atendimento, mas pode melhorar'), -- André Martins
+(539287461, 917284563, '2024-02-19 11:50:19', 3, 'Atendimento regular, esperava mais'), -- Ricardo Pereira
+(539287461, 649182735, '2024-02-24 12:05:37', 5, 'Profissional excepcional, adorei!'), -- Catarina Oliveira
+(539287461, 679183254, '2024-01-20 14:15:48', 4, 'Serviço bom, mas pode melhorar a pontualidade'), -- Ingrid Santos
+(539287461, 728361954, '2023-09-18 16:25:56', 4, 'Bom atendimento, mas pode melhorar'), -- André Martins
 
 -- Profissional 102938475 (Manuel Fernandes): 0 avaliações
 
 -- Profissional 382910485 (Ana Ferreira): 7 avaliações
-(382910485, 728361954, '2024-05-12', 5, 'Profissional super atencioso e talentoso'), -- André Martins
-(382910485, 819473625, '2023-08-25', 4, 'Boa experiência, mas pode melhorar em alguns aspectos'), -- Carolina Rodrigues
-(382910485, 375926184, '2023-07-05', 3, 'Atendimento razoável, mas houve atraso'), -- Gonçalo Sousa
-(382910485, 649182735, '2023-10-30', 5, 'Excelente profissional, super recomendo!'), -- Catarina Oliveira
-(382910485, 917284563, '2024-01-25', 4, 'Muito atencioso e profissional'), -- Ricardo Pereira
-(382910485, 538194627, '2023-11-11', 5, 'Perfeito, nada a apontar'), -- Ana Santos
-(382910485, 927364815, '2024-02-20', 4, 'Serviço muito bom, voltarei com certeza'), -- Diogo Carvalho
+(382910485, 728361954, '2024-05-12 10:30:22', 5, 'Profissional super atencioso e talentoso'), -- André Martins
+(382910485, 819473625, '2023-08-25 09:45:33', 4, 'Boa experiência, mas pode melhorar em alguns aspectos'), -- Carolina Rodrigues
+(382910485, 375926184, '2023-07-05 14:50:48', 3, 'Atendimento razoável, mas houve atraso'), -- Gonçalo Sousa
+(382910485, 649182735, '2023-10-30 11:55:29', 5, 'Excelente profissional, super recomendo!'), -- Catarina Oliveira
+(382910485, 917284563, '2024-01-25 15:05:18', 4, 'Muito atencioso e profissional'), -- Ricardo Pereira
+(382910485, 538194627, '2023-11-11 12:35:44', 5, 'Perfeito, nada a apontar'), -- Ana Santos
+(382910485, 927364815, '2024-02-20 09:10:27', 4, 'Serviço muito bom, voltarei com certeza'), -- Diogo Carvalho
 
 -- Profissional 657894321 (Bruno Martins): 2 avaliações
-(657894321, 918273645, '2023-12-02', 5, 'Excelente profissional, muito dedicado'), -- Luís Martins
-(657894321, 538194627, '2024-03-14', 4, 'Bom serviço, mas houve atraso'), -- Ana Santos
+(657894321, 918273645, '2023-12-02 10:25:39', 5, 'Excelente profissional, muito dedicado'), -- Luís Martins
+(657894321, 538194627, '2024-03-14 11:50:55', 4, 'Bom serviço, mas houve atraso'), -- Ana Santos
 
 -- Profissional 213456789 (Carla Rodrigues): 5 avaliações
-(213456789, 825719364, '2023-11-25', 5, 'Atendimento excelente, muito rápido e eficiente'), -- Pedro Silva
-(213456789, 371928546, '2024-04-01', 5, 'Profissional exemplar, super recomendo!'), -- Mariana Fernandes
-(213456789, 917284563, '2024-02-15', 4, 'Muito atencioso e profissional, gostei muito'), -- Ricardo Pereira
-(213456789, 649182735, '2024-03-22', 3, 'Esperava mais do atendimento'), -- Catarina Oliveira
-(213456789, 728361954, '2023-09-18', 4, 'Bom atendimento, mas pode melhorar'), -- André Martins
+(213456789, 825719364, '2023-11-25 09:20:12', 5, 'Atendimento excelente, muito rápido e eficiente'), -- Pedro Silva
+(213456789, 371928546, '2024-04-01 13:45:33', 5, 'Profissional exemplar, super recomendo!'), -- Mariana Fernandes
+(213456789, 917284563, '2024-02-15 16:10:41', 4, 'Muito atencioso e profissional, gostei muito'), -- Ricardo Pereira
+(213456789, 649182735, '2024-03-22 17:05:18', 3, 'Esperava mais do atendimento'), -- Catarina Oliveira
+(213456789, 728361954, '2023-09-18 11:30:49', 4, 'Bom atendimento, mas pode melhorar'), -- André Martins
 
 -- Profissional 876543210 (Daniel Oliveira): 1 avaliação
-(876543210, 819473625, '2024-01-10', 5, 'Profissional muito dedicado, excelente atendimento'), -- Carolina Rodrigues
+(876543210, 819473625, '2024-01-10 14:40:15', 5, 'Profissional muito dedicado, excelente atendimento'), -- Carolina Rodrigues
 
 -- Profissional 109283746 (Eva Sousa): 6 avaliações
-(109283746, 375926184, '2023-11-05', 5, 'Atendimento impecável, recomendo fortemente'), -- Gonçalo Sousa
-(109283746, 538194627, '2024-03-18', 4, 'Muito bom atendimento, mas houve um pouco de atraso'), -- Ana Santos
-(109283746, 825719364, '2023-10-25', 3, 'Serviço mediano, pode melhorar'), -- Pedro Silva
-(109283746, 371928546, '2024-02-27', 5, 'Excelente profissional, recomendo'), -- Mariana Fernandes
-(109283746, 917284563, '2023-12-30', 4, 'Bom atendimento, mas pode melhorar alguns aspectos'), -- Ricardo Pereira
-(109283746, 649182735, '2024-03-12', 5, 'Profissional super atencioso e talentoso, adorei!'), -- Catarina Oliveira
+(109283746, 375926184, '2023-11-05 10:35:21', 5, 'Atendimento impecável, recomendo fortemente'), -- Gonçalo Sousa
+(109283746, 538194627, '2024-03-18 16:50:34', 4, 'Muito bom atendimento, mas houve um pouco de atraso'), -- Ana Santos
+(109283746, 825719364, '2023-10-25 09:05:42', 3, 'Serviço mediano, pode melhorar'), -- Pedro Silva
+(109283746, 371928546, '2024-02-27 11:20:11', 5, 'Excelente profissional, recomendo'), -- Mariana Fernandes
+(109283746, 917284563, '2023-12-30 13:15:28', 4, 'Bom atendimento, mas pode melhorar alguns aspectos'), -- Ricardo Pereira
+(109283746, 649182735, '2024-03-12 15:40:19', 5, 'Profissional super atencioso e talentoso, adorei!'), -- Catarina Oliveira
 
 -- Profissional 827364591 (Filipe Almeida): 2 avaliações
-(827364591, 679183254, '2024-04-15', 5, 'Excelente atendimento, muito profissional'), -- Ingrid Santos
-(827364591, 918273645, '2023-12-01', 3, 'Esperava mais do serviço'), -- Luís Martins
+(827364591, 679183254, '2024-04-15 12:10:38', 5, 'Excelente atendimento, muito profissional'), -- Ingrid Santos
+(827364591, 918273645, '2023-12-01 09:45:47', 3, 'Esperava mais do serviço'), -- Luís Martins
 
 -- Profissional 204819673 (Gabriela Pereira): 1 avaliação
-(204819673, 649182735, '2023-09-14', 3, 'Atendimento médio, esperava mais'), -- Catarina Oliveira
+(204819673, 649182735, '2023-09-14 14:55:06', 3, 'Atendimento médio, esperava mais'), -- Catarina Oliveira
 
 -- Profissional 638172945 (Hugo Silveira): 0 avaliações
 
 -- Profissional 495867213 (Inês Costa): 4 avaliações
-(495867213, 825719364, '2023-10-15', 5, 'Profissional exemplar, recomendo!'), -- Pedro Silva
-(495867213, 371928546, '2024-03-10', 5, 'Atendimento impecável'), -- Mariana Fernandes
-(495867213, 917284563, '2024-01-25', 4, 'Muito atencioso e profissional'), -- Ricardo Pereira
-(495867213, 649182735, '2023-09-30', 3, 'Serviço regular, pode melhorar'), -- Catarina Oliveira
+(495867213, 825719364, '2023-10-15 10:30:39', 5, 'Profissional exemplar, recomendo!'), -- Pedro Silva
+(495867213, 371928546, '2024-03-10 14:45:16', 5, 'Atendimento impecável'), -- Mariana Fernandes
+(495867213, 917284563, '2024-01-25 16:20:24', 4, 'Muito atencioso e profissional'), -- Ricardo Pereira
+(495867213, 649182735, '2023-09-30 12:50:18', 3, 'Serviço regular, pode melhorar'), -- Catarina Oliveira
 
 -- Profissional 925638471 (Joana Mendes): 2 avaliações
-(925638471, 371928546, '2023-09-10', 5, 'Empregado excelente!'), -- Mariana Fernandes
-(925638471, 649182735, '2024-03-22', 3, 'Esperava mais do atendimento'), -- Catarina Oliveira
+(925638471, 371928546, '2023-09-10 09:20:34', 5, 'Empregado excelente!'), -- Mariana Fernandes
+(925638471, 649182735, '2024-03-22 13:10:51', 3, 'Esperava mais do atendimento'), -- Catarina Oliveira
 
 -- Profissional 374691825 (Kevin Ramos): 3 avaliações
-(374691825, 917284563, '2024-02-19', 3, 'Atendimento regular, esperava mais'), -- Ricardo Pereira
-(374691825, 728361954, '2024-05-12', 5, 'Profissional super atencioso e talentoso'), -- André Martins
-(374691825, 819473625, '2023-08-25', 4, 'Boa experiência, mas pode melhorar em alguns aspectos'), -- Carolina Rodrigues
+(374691825, 917284563, '2024-02-19 15:25:08', 3, 'Atendimento regular, esperava mais'), -- Ricardo Pereira
+(374691825, 728361954, '2024-05-12 11:40:37', 5, 'Profissional super atencioso e talentoso'), -- André Martins
+(374691825, 819473625, '2023-08-25 10:55:44', 4, 'Boa experiência, mas pode melhorar em alguns aspectos'), -- Carolina Rodrigues
 
 -- Profissional 638127394 (Laura Teixeira): 0 avaliações
 
 -- Profissional 927364185 (Mário Lopes): 2 avaliações
-(927364185, 375926184, '2024-01-18', 5, 'Muito profissional e atencioso'), -- Gonçalo Sousa
-(927364185, 649182735, '2024-02-24', 5, 'Profissional excepcional, adorei!'), -- Catarina Oliveira
+(927364185, 375926184, '2024-01-18 14:30:21', 5, 'Muito profissional e atencioso'), -- Gonçalo Sousa
+(927364185, 649182735, '2024-02-24 11:45:29', 5, 'Profissional excepcional, adorei!'), -- Catarina Oliveira
 
 -- Profissional 275931468 (Núria Ferreira): 1 avaliação
-(275931468, 679183254, '2024-01-20', 4, 'Serviço bom, mas pode melhorar a pontualidade'), -- Ingrid Santos
+(275931468, 679183254, '2024-01-20 10:15:38', 4, 'Serviço bom, mas pode melhorar a pontualidade'), -- Ingrid Santos
 
 -- Profissional 384619725 (Paulo Gomes): 0 avaliações
 
 -- Profissional 928374156 (Raquel Alves): 0 avaliações
 
 -- Profissional 736491825 (Sofia Pires): 3 avaliações
-(736491825, 918273645, '2023-12-02', 5, 'Excelente profissional, muito dedicado'), -- Luís Martins
-(736491825, 538194627, '2024-03-14', 4, 'Bom serviço, mas houve atraso'), -- Ana Santos
-(736491825, 825719364, '2023-11-25', 5, 'Atendimento excelente, muito rápido e eficiente'), -- Pedro Silva
+(736491825, 918273645, '2023-12-02 16:20:11', 5, 'Excelente profissional, muito dedicado'), -- Luís Martins
+(736491825, 538194627, '2024-03-14 15:55:43', 4, 'Bom serviço, mas houve atraso'), -- Ana Santos
+(736491825, 825719364, '2023-11-25 10:10:24', 5, 'Atendimento excelente, muito rápido e eficiente'), -- Pedro Silva
 
 -- Profissional 182736495 (Tiago Carvalho): 2 avaliações
-(182736495, 371928546, '2024-04-01', 5, 'Profissional exemplar, super recomendo!'), -- Mariana Fernandes
-(182736495, 917284563, '2024-02-15', 4, 'Muito atencioso e profissional, gostei muito'), -- Ricardo Pereira
+(182736495, 371928546, '2024-04-01 09:35:32', 5, 'Profissional exemplar, super recomendo!'), -- Mariana Fernandes
+(182736495, 917284563, '2024-02-15 14:45:49', 4, 'Muito atencioso e profissional, gostei muito'), -- Ricardo Pereira
 
 -- Profissional 839274651 (Vanessa Sousa): 1 avaliação
-(839274651, 649182735, '2024-03-22', 3, 'Esperava mais do atendimento'), -- Catarina Oliveira
+(839274651, 649182735, '2024-03-22 10:05:16', 3, 'Esperava mais do atendimento'), -- Catarina Oliveira
 
 -- Profissional 527364891 (Xavier Fernandes): 2 avaliações
-(527364891, 728361954, '2023-09-18', 4, 'Bom atendimento, mas pode melhorar'), -- André Martins
-(527364891, 819473625, '2024-01-10', 5, 'Profissional muito dedicado, excelente atendimento'); -- Carolina Rodrigues
+(527364891, 728361954, '2023-09-18 16:55:47', 4, 'Bom atendimento, mas pode melhorar'), -- André Martins
+(527364891, 819473625, '2024-01-10 11:20:58', 5, 'Profissional muito dedicado, excelente atendimento'); -- Carolina Rodrigues
 
 
 INSERT INTO Tipo_servico(sexo, designacao) VALUES

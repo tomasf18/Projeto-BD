@@ -550,12 +550,12 @@ def search_speciality():
 
 # ----------------- ReviewsEmployee -----------------
 
-@app.route("/search-review-emp-NIF", methods=["POST"])
+@app.route("/search-review-emp-num", methods=["POST"])
 def search_review_employee_by_nif():
-    nif = request.form.get("nif")
-    employee_reviews = review.list_reviews_by_nif_emp(nif)
-    average_rating = review.average_rating_by_nif_emp(nif)
-    performance = review.performance_by_nif_emp(nif)
+    func_num = request.form.get("num")
+    employee_reviews = review.list_reviews_by_num_emp(func_num)
+    average_rating = review.average_rating_by_num_emp(func_num)
+    performance = review.performance_by_num_emp(func_num)
     return render_template("employee_reviews_list.html", reviews=employee_reviews, average_rating=average_rating, performance=performance)
 
 @app.route("/reviews", methods=["GET"])
@@ -569,17 +569,11 @@ def get_reviews():
 
 # ----------------- AppointmentsEmployee -----------------
 
-@app.route("/search-appointments-emp-NIF", methods=["POST"])
+@app.route("/search-appointments-emp-num", methods=["POST"])
 def search_appointments_employee_by_nif():
-    nif = request.form.get("nif")
-    employee_appointments = appointment.list_appointments_by_nif_emp(nif, 'nif')
-    return render_template("employee_appointments_list.html", appointments=employee_appointments, nif=nif)
-
-@app.route("/search-appointments-emp-order/<nif>", methods=["POST"])
-def search_appointments_employee_by_order(nif: int):
-    order_by = request.args.get('order_by', type=str)
-    employee_appointments = appointment.list_appointments_by_nif_emp(nif, order_by)
-    return render_template("employee_appointments_list.html", appointments=employee_appointments, nif=nif)
+    func_number = request.form.get("num")
+    employee_appointments = appointment.list_appointments_by_acc_emp(func_number, 'nif')
+    return render_template("employee_appointments_list.html", appointments=employee_appointments)
 
 @app.route("/appointments", methods=["GET"])
 def get_appointments():
@@ -620,10 +614,10 @@ def employee_details_client(emp_num: int):
 @app.route("/review/<emp_nif>", methods=["POST"])
 def create_review(emp_nif: int):
     try:
-        nif_cli = request.form.get("nif_cli")
+        cli_acc = request.form.get("cli_acc")
         rating = request.form.get("rating")
         comment = request.form.get("comment")
-        review.create(emp_nif, nif_cli, rating, comment)
+        review.create(emp_nif, cli_acc, rating, comment)
 
         response = make_response(render_template_string(f"Review for employee {emp_nif} created successfully!"))
         response.headers["HX-Trigger"] = "refreshEmployeesList"

@@ -35,21 +35,30 @@ BEGIN
     WHERE id <> @deletedHorarioId
     ORDER BY NEWID(); -- Para obter um horário aleatório e não o primeiro
 
-    IF @novoHorarioId IS NOT NULL -- Se existir um novo horário
-        BEGIN
-            -- Atualizar o funcionário com o novo horário
-            UPDATE Funcionario
-            SET id_horario = @novoHorarioId
-            WHERE id_horario = @deletedHorarioId;
+    BEGIN TRANSACTION;
 
-            -- Eliminar o horário
-            DELETE FROM Horario
-            WHERE id = @deletedHorarioId;
-        END
-    ELSE -- Se não existir um novo horário
-        BEGIN
-            RAISERROR('Não é possível eliminar o horário pois não existe outro horário disponível.', 16, 1);
-        END
+    BEGIN TRY
+        IF @novoHorarioId IS NOT NULL -- Se existir um novo horário
+            BEGIN
+                -- Atualizar o funcionário com o novo horário
+                UPDATE Funcionario
+                SET id_horario = @novoHorarioId
+                WHERE id_horario = @deletedHorarioId;
+
+                -- Eliminar o horário
+                DELETE FROM Horario
+                WHERE id = @deletedHorarioId;
+            END
+        ELSE -- Se não existir um novo horário
+            BEGIN
+                RAISERROR('Não é possível eliminar o horário pois não existe outro horário disponível.', 16, 1);
+            END
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        RAISERROR('Ocorreu um erro ao eliminar o horário.', 16, 1);
+    END CATCH
 END
 GO
 
@@ -59,11 +68,22 @@ CREATE TRIGGER DeletePessoaTrigger ON Pessoa
 INSTEAD OF DELETE
 AS
 BEGIN
-    DECLARE @nif INT
-    SELECT @nif = nif FROM deleted
-    EXEC DeletePessoa @nif;
-    DELETE FROM Pessoa
-    WHERE nif = @nif;
+    BEGIN TRANSACTION;
+    BEGIN TRY
+
+        DECLARE @nif INT
+        SELECT @nif = nif FROM deleted
+        EXEC DeletePessoa @nif;
+        DELETE FROM Pessoa
+        WHERE nif = @nif;
+
+        COMMIT TRANSACTION;
+
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        RAISERROR('Ocorreu um erro ao eliminar a pessoa.', 16, 1);
+    END CATCH
 END
 GO
 
@@ -74,38 +94,48 @@ CREATE TRIGGER DeleteEstabelecimentoTrigger ON Estabelecimento
 INSTEAD OF DELETE
 AS
 BEGIN
-    -- Obter uma tabela com os nifs dos trabalhadores do estabelecimento
-    DECLARE @nifs TABLE (nif INT);
-    INSERT INTO @nifs
-    SELECT nif
-    FROM Funcionario
-    WHERE num_estabelecimento = (SELECT id FROM deleted);
+    BEGIN TRANSACTION;
 
-    -- Cursor para percorrer os nifs
-    DECLARE @nif INT;
-    DECLARE nif_cursor CURSOR FOR
-    SELECT nif
-    FROM @nifs;
+    BEGIN TRY
+        -- Obter uma tabela com os nifs dos trabalhadores do estabelecimento
+        DECLARE @nifs TABLE (nif INT);
+        INSERT INTO @nifs
+        SELECT nif
+        FROM Funcionario
+        WHERE num_estabelecimento = (SELECT id FROM deleted);
 
-    OPEN nif_cursor;
+        -- Cursor para percorrer os nifs
+        DECLARE @nif INT;
+        DECLARE nif_cursor CURSOR FOR
+        SELECT nif
+        FROM @nifs;
 
-    FETCH NEXT FROM nif_cursor INTO @nif;
-    WHILE @@FETCH_STATUS = 0
-    BEGIN
-        -- Eliminar os trabalhadores
-        EXEC DeleteFuncionariosEstabelecimento @nif;
+        OPEN nif_cursor;
 
         FETCH NEXT FROM nif_cursor INTO @nif;
-    END
-    CLOSE nif_cursor;
-    DEALLOCATE nif_cursor;
+        WHILE @@FETCH_STATUS = 0
+        BEGIN
+            -- Eliminar os trabalhadores
+            EXEC DeleteFuncionariosEstabelecimento @nif;
 
-    -- Eliminar o estabelecimento
-    DELETE FROM Estabelecimento
-    WHERE id = (SELECT id FROM deleted);
+            FETCH NEXT FROM nif_cursor INTO @nif;
+        END
+        CLOSE nif_cursor;
+        DEALLOCATE nif_cursor;
 
-    -- Alterar novamente a restrição de chave estrangeira
-    ALTER TABLE Estabelecimento ALTER COLUMN nif_gerente INT NOT NULL;
+        -- Eliminar o estabelecimento
+        DELETE FROM Estabelecimento
+        WHERE id = (SELECT id FROM deleted);
+
+        -- Alterar novamente a restrição de chave estrangeira
+        ALTER TABLE Estabelecimento ALTER COLUMN nif_gerente INT NOT NULL;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        RAISERROR('Ocorreu um erro ao eliminar o estabelecimento.', 16, 1);
+    END CATCH
 END
 GO
 
@@ -143,14 +173,24 @@ BEGIN
         -- Verificar se o gerente não está associado a outro estabelecimento
         IF NOT EXISTS (SELECT 1 FROM Estabelecimento WHERE nif_gerente = @nif_gerente)
             BEGIN
-                -- Inserir o novo estabelecimento
-                INSERT INTO Estabelecimento (id, especificacao, cod_postal, localidade, rua, numero, nif_gerente, data_inicio_gerente)
-                VALUES (@id, @especificacao, @cod_postal, @localidade, @rua, @numero, @nif_gerente, @data_inicio_gerente);
+                BEGIN TRANSACTION;
+                BEGIN TRY
 
-                -- Transferir o efetivo para o estabelecimento criado
-                UPDATE Funcionario
-                SET num_estabelecimento = @id
-                WHERE nif = @nif_gerente;
+                    -- Inserir o novo estabelecimento
+                    INSERT INTO Estabelecimento (id, especificacao, cod_postal, localidade, rua, numero, nif_gerente, data_inicio_gerente)
+                    VALUES (@id, @especificacao, @cod_postal, @localidade, @rua, @numero, @nif_gerente, @data_inicio_gerente);
+
+                    -- Transferir o efetivo para o estabelecimento criado
+                    UPDATE Funcionario
+                    SET num_estabelecimento = @id
+                    WHERE nif = @nif_gerente;
+
+                    COMMIT TRANSACTION;
+                END TRY
+                BEGIN CATCH
+                    ROLLBACK TRANSACTION;
+                    RAISERROR('Ocorreu um erro ao inserir o estabelecimento.', 16, 1);
+                END CATCH
             END
         ELSE
             BEGIN

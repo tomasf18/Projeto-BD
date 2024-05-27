@@ -1,7 +1,7 @@
 {% for employee in employees %}
-    <div class="w-11/12 border-4 my-2 rounded-lg d-flex flex-column p-3" hx-swap="innerHTML" hx-target="#content">
+    <div class="w-11/12 border-4 my-2 rounded-lg d-flex flex-column p-3 cursor-pointer" hx-swap="innerHTML" hx-target="#content" hx-get="/employees/{{ employee.employee_number }}/client" hx-trigger="click">
         <div class="d-flex justify-content-between align-items-center">
-            <div class="employee-list-item-details text-lg cursor-pointer" hx-get="/employees/{{ employee.employee_number }}/client" hx-trigger="click">
+            <div class="employee-list-item-details text-lg">
                 <div class="mb-2">
                     <strong>Name: {{ employee.fname }} {{ employee.lname }} </strong>
                 </div>
@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="d-flex flex-column align-items-end">
-                <button style="width: 120px; margin-bottom: 10px;" class="edit-button btn btn-secondary border mx-2" hx-get="/employees/{{ employee.employee_number }}/client?review=true" hx-trigger="click">Make review</button>
+                <button style="width: 120px; margin-bottom: 10px;" class="edit-button btn btn-secondary border mx-2" hx-get="/employees/{{ employee.employee_number }}/client?review=true" hx-trigger="click" onclick="event.stopPropagation();">Make review</button>
             </div>
         </div>
     </div>

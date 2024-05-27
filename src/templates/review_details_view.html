@@ -6,7 +6,8 @@
             <tr class="grid grid-cols-6"><th class="col-span-3">Employee NIF:</th><td class="col-span-3">{{ review.emp_nif }}</td></tr>
             <tr class="grid grid-cols-6"><th class="col-span-3">Client:</th><td class="col-span-3">{{ review.client_Fname + " " + review.client_Lname }}</td></tr>
             <tr class="grid grid-cols-6"><th class="col-span-3">Rate:</th><td class="col-span-3">{{ review.rating }} <i class="fas fa-star text-warning"></i></td></tr>
-            <tr class="grid grid-cols-6"><th class="col-span-3">Date:</th><td class="col-span-3">{{ review.review_date }}</td></tr>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Date:</th><td class="col-span-3">{{ review.review_date.strftime('%Y-%m-%d') }}</td></tr>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Hour:</th><td class="col-span-3">{{ review.review_date.strftime('%H:%M') }}</td></tr>
             {% if review.comment %}
             <tr class="grid grid-cols-6"><th class="col-span-3">Comment:</th><td class="col-span-3">{{ review.comment }}</td></tr>
             {% endif %}

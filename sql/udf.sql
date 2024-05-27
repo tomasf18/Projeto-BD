@@ -4,6 +4,10 @@ IF OBJECT_ID('get_employee_performance') IS NOT NULL
 DROP FUNCTION get_employee_performance;
 GO
 
+IF OBJECT_ID('get_appointment_details') IS NOT NULL
+DROP FUNCTION get_appointment_details;
+GO
+
 
 -- UDF para retornar a performance de um employee
 
@@ -27,6 +31,25 @@ BEGIN
         SET @performance = 'Very Poor';
     RETURN @performance;
 END
+GO
+
+
+-- UDF para retornar os detalhes de uma Marcação
+
+CREATE FUNCTION get_appointment_details(@nif_emp INT, @nif_cli INT, @date DATETIME)
+RETURNS table
+AS
+RETURN (
+    SELECT Marcacao.*, Pessoa.Pnome, Pessoa.Unome, Inclui.designacao_tipo_serv 
+    FROM Marcacao 
+    JOIN Pessoa ON Marcacao.nif_cliente = Pessoa.nif 
+    JOIN Inclui ON Marcacao.nif_funcionario = Inclui.nif_funcionario
+        AND Marcacao.nif_cliente = Inclui.nif_cliente 
+        AND Marcacao.data_marcacao = Inclui.data_marcacao
+    WHERE Marcacao.nif_funcionario = @nif_emp 
+    AND Marcacao.nif_cliente = @nif_cli 
+    AND Marcacao.data_marcacao = @date
+);
 GO
 
 

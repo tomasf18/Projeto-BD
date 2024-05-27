@@ -42,9 +42,24 @@ INDEX:
     
     - Ix_PessoaNome: INDEX para tornar a pesquisa de pessoas pelo primeiro e último nome mais eficiente;
 
+    - Ix_HorarioDiaFolga: INDEX para tornar a pesquisa de horários por dia de folga mais eficiente
+
 UDF:
     - get_employee_performance: UDF para retornar uma string da performance de um employee de acordo com
                     a média das suas avaliações
+    
+    - get_appointment_details: UDF que retorna uma tabela contendo os detalhes de uma marcação com base no 
+                    nif do employee e do client e também da data da marcação
+
+TRANSACTIONS:
+    - DeleteHorarioTrigger: Possui uma transaction pois as operações de atualizar o horário do funcionário
+                    e eliminar o horário antigo devem ser uma única operação atómica
+    - DeleteEstabelecimentoTrigger: Possui uma transação pois ou todos os funcionários e o estabelecimento são
+                    eliminados, ou nada é feito
+    - InsertEstabelecimentoTrigger: Possui uma transaction pois as operações de criar o estabelecimento e Transferir
+                    o gestor para esse estabelecimento devem ser uma só operação atómica
+    - DeletePessoaTrigger: Possui uma transaction pois todas as operações de delete chamadas pelos sp devem ser 
+                    uma única operação atómica, ou todos os tuplos que tenham o nif da pessoa sao eliminados, ou nada é
 
 Aggr:
     - obtain the next employee number or client's account number (employee.py, client.py)

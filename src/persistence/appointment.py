@@ -19,10 +19,11 @@ class AppointmentDetails(NamedTuple):
     client_Lname: str
     service_designation: str
 
-def list_appointments_by_nif_emp(nif: int, order_by: str) -> list[AppointmentSummary]:
+def list_appointments_by_acc_emp(func_number: int, order_by: str) -> list[AppointmentSummary]:
     order_by_column = 'Marcacao.nif_cliente' if order_by == 'nif' else 'Marcacao.data_marcacao'
     with create_connection() as conn:
         cursor = conn.cursor()
+        nif = cursor.execute(f"SELECT nif FROM Funcionario WHERE num_funcionario = {func_number};").fetchone()[0]
         cursor.execute(f"""
             SELECT Marcacao.*, Pessoa.Pnome, Pessoa.Unome 
             FROM Marcacao 
@@ -44,16 +45,7 @@ def read(nif_emp: int, nif_cli: int, date: str, hour: str) -> AppointmentDetails
     with create_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(f"""
-            SELECT Marcacao.*, Pessoa.Pnome, Pessoa.Unome, Inclui.designacao_tipo_serv 
-            FROM Marcacao 
-            JOIN Pessoa ON Marcacao.nif_cliente = Pessoa.nif 
-            JOIN Inclui ON Marcacao.nif_funcionario = Inclui.nif_funcionario
-                AND Marcacao.nif_cliente = Inclui.nif_cliente 
-                AND Marcacao.data_marcacao = Inclui.data_marcacao
-            WHERE Marcacao.nif_funcionario = {nif_emp} 
-            AND Marcacao.nif_cliente = {nif_cli} 
-            AND Marcacao.data_marcacao = '{date} {hour}';
-        """)
+            SELECT * FROM get_appointment_details({nif_emp}, {nif_cli}, '{date} {hour}');""")
         rows = cursor.fetchall()
         cursor.close()
 
