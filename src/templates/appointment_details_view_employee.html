@@ -3,7 +3,9 @@
 
     <table class="table">
         <tbody>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Establishment ID:</th><td class="col-span-3">{{ appointment.establishment_id }}</td></tr>
             <tr class="grid grid-cols-6"><th class="col-span-3">Employee NIF:</th><td class="col-span-3">{{ appointment.emp_nif }}</td></tr>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Employee Name:</th><td class="col-span-3">{{ appointment.emp_name + " " + appointment.emp_surname }}</td></tr>
             <tr class="grid grid-cols-6"><th class="col-span-3">Client NIF:</th><td class="col-span-3">{{ appointment.cli_nif }}</td></tr>
             <tr class="grid grid-cols-6"><th class="col-span-3">Client Name:</th><td class="col-span-3">{{ appointment.client_Fname + " " + appointment.client_Lname }}</td></tr>
             <tr class="grid grid-cols-6"><th class="col-span-3">Date:</th><td class="col-span-3">{{ appointment.app_date.strftime('%Y-%m-%d') }}</td></tr>

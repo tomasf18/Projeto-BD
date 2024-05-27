@@ -43,6 +43,25 @@ def list_employees() -> list[EmployeeSummary]:
 
     return employees
 
+def list_employees_by_establishment(establishment_number: int) -> list[EmployeeSummary]:
+    with create_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(f"""
+                        SELECT num_funcionario, Pnome, Unome
+                        FROM Funcionario
+                        JOIN Pessoa ON Funcionario.nif = Pessoa.nif
+                        WHERE Funcionario.num_estabelecimento = {establishment_number} 
+                       """)
+        rows = cursor.fetchall()
+        cursor.close()
+
+    employees = []
+
+    for row in rows:
+        employees.append(EmployeeSummary(row.num_funcionario, row.Pnome, row.Unome))
+
+    return employees
+
 
 def list_employees_by_name(name: str) -> list[EmployeeSummary]:
     with create_connection() as conn:

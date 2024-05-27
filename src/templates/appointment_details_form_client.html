@@ -1,0 +1,47 @@
+<style>
+    .large-label {
+        font-size: 1.5em;
+    }
+</style>
+<div id="appointmentDetails1" class="appointment-details p-3">
+    <form class="appointment-details-form" hx-post="/create-appointments" hx-target="#content" hx-swap="innerHTML">
+
+        <h2>New Appointment Details</h2>
+        <div class="grid grid-cols-2 grid-rows-7 gap-2 mt-4">
+
+            <label class="large-label" for="establishment_number">Establishment Number</label>
+            <select class="form-control cursor-pointer" id="establishment_number" name="establishment_number" hx-get="/get_employees_by_establishment" hx-trigger="change" hx-target="#employee_select" hx-swap="innerHTML">
+                {% for establishment in establishments %}
+                    <option value="{{ establishment[0] }}"
+                            {% if employee_number is defined and employee.establishment_number == establishment[0] %}selected{% endif %}>
+                        {{ establishment[0] }} - {{ establishment[1] }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <div id="employee_select" class="col-span-2">
+                <!-- O select de funcionários será inserido aqui -->
+            </div>
+
+            <label class="large-label" for="cli_acc">Account number:</label>
+            <input class="form-control" type="text" id="cli_acc" name="cli_acc" required>
+
+            <label class="large-label" for="date">Date:</label>
+            <input class="form-control" type="date" id="date" name="date" required>
+
+            <label class="large-label" for="time">Time:</label>
+            <input class="form-control" type="time" id="time" name="time" required>
+
+            <label class="large-label" for="service">Services:</label>
+            <select class="form-control cursor-pointer" id="service" name="service" multiple>
+                {% for service in services %}
+                    <option value="{{ service[0] }}">{{ service[1] }}</option>
+                {% endfor %}
+            </select>
+            <div class="w-full flex items-center mt-4">
+                <div class="w-9/12 mt-3 grid grid-cols-2 grid-rows-1">
+                    <button class="btn btn-success submit">Save</button>
+                </div>
+            </div>
+    </form>
+</div>

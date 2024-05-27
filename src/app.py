@@ -1,4 +1,4 @@
-from flask import Flask, make_response, render_template, render_template_string, request
+from flask import Flask, make_response, render_template, render_template_string, request  # type: ignore
 
 from persistence import establishment, schedule, effective, intern, employee, speciality, client, review, contract, person, appointment
 from persistence.employee import EmployeeDetails
@@ -61,6 +61,10 @@ def employee_review():
 @app.route('/client-review')
 def client_review():
     return render_template('client_review.html')
+
+@app.route('/client-appointments')
+def client_appointments():
+    return render_template('client_appointments.html')
 
 
 # ----------------- Employees -----------------
@@ -626,6 +630,49 @@ def create_review(emp_nif: int):
     except Exception as e:
         response = make_response(render_template_string(f"{e}"))
         return response
+    
+
+# ----------------- AppointmentsClient -----------------
+
+@app.route("/search-appointments-cli-acc", methods=["POST"])
+def search_appointments_client_by_acc():
+    cli_acc = request.form.get("acc")
+    client_appointments = appointment.list_appointments_by_acc_cli(cli_acc)
+    return render_template("client_appointments_list.html", appointments=client_appointments)
+
+@app.route("/create-appointments", methods=["GET"])
+def create_appointment_form():
+    establishment_list = establishment.list_establishments_id_locality()
+    return render_template("appointment_details_form_client.html", establishments=establishment_list)
+
+@app.route("/create-appointments", methods=["POST"])
+def create_appointment():
+    try:
+        nif_emp = request.form.get("nif_emp")
+        nif_cli = request.form.get("nif_cli")
+        date = request.form.get("date")
+        hour = request.form.get("hour")
+        appointment.create(nif_emp, nif_cli, date, hour)
+
+        response = make_response(render_template_string(f"Appointment for employee {nif_emp} and client {nif_cli} created successfully!"))
+        response.headers["HX-Trigger"] = "refreshEmployeesList"
+
+        return response
+    except Exception as e:
+        response = make_response(render_template_string(f"{e}"))
+        return response
+    
+@app.route("/get_employees_by_establishment", methods=["GET"])
+def get_employees_by_establishment():
+    num_estabelecimento = request.args.get('establishment_number')
+    if num_estabelecimento is not None:
+        num_estabelecimento = int(num_estabelecimento)
+        employees = employee.list_employees_by_establishment(num_estabelecimento)
+        services = [] # fazer depois !!!!!!!!
+        return render_template('employees_list_by_establishment.html', employees=employees, services=services)
+    else:
+        return render_template('employees_list_by_establishment.html', employees=[], services=[])
+
 
 if __name__ == '__main__':
     app.run(debug=True) # start the Flask application in debug mode

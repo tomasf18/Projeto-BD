@@ -1,0 +1,12 @@
+<style>
+    .large-label {
+        font-size: 1.5em;
+    }
+    
+</style>
+<label class="large-label" for="employee">Employee</label>
+<select class="form-control cursor-pointer" id="employee" name="employee">
+    {% for employee in employees %}
+        <option value="{{ employee.employee_number }}">{{ employee.fname }} {{ employee.lname }}</option>
+    {% endfor %}
+</select>

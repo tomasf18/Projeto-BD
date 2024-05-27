@@ -1,0 +1,23 @@
+{% if appointments|length > 0 %}
+    {% for appointment in appointments %} 
+    <div class="w-11/12 border-4 my-2 rounded-lg d-flex flex-column p-3 cursor-pointer" hx-swap="innerHTML" hx-target="#content" hx-get="/appointments?nif_emp={{ appointment.emp_nif }}&nif_cli={{ appointment.cli_nif }}&date={{ appointment.app_date.strftime('%Y-%m-%d') }}&hour={{ appointment.app_date.strftime('%H:%M:%S.%f')[:-3] }}" hx-trigger="click">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="appointments-list-item-details text-lg">
+                <div class="mb-2">
+                    <strong>Employee Name: {{ appointment.emp_name + " " + appointment.emp_surname }}</strong>
+                </div>
+                <div>
+                    <strong>{{ appointment.app_date.strftime('%Y-%m-%d') }}</strong>
+                </div>
+            </div>
+            <div class="d-flex flex-column align-items-end">
+                <div class="appointment-date mr-4 text-lg">
+                    <strong>{{ appointment.app_date.strftime('%Hh') }}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <h4 class="mt-4">You have no appointments</h4>
+{% endif %}

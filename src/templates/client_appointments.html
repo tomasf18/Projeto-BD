@@ -13,7 +13,7 @@
                 background-color: rgb(13, 202, 240); /* Corresponde ao bg-info no Bootstrap */
                 color: white;
             }
-        </style>        
+        </style>            
         <div class="bg-white big w-10/12 m-8 flex flex-col items-center rounded-xl shadow shadow-md" style="height: 83vh;"> 
             <div class="w-full">
                 <ul class="nav nav-tabs">
@@ -24,7 +24,7 @@
                         <a class="nav-link" aria-current="page" href="/employee-appointments">Employee</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white active bg-info" href="/client-appointments">Client</a>
+                        <a class="nav-link text-white active bg-info" aria-current="page" href="/client-appointments">Client</a>
                     </li>
                 </ul>
             </div>
@@ -32,28 +32,30 @@
                 <div class="w-full border-bottom">
                     <ul class="nav justify-content-center">
                         <li class="nav-item">
-                            <a class="btn border h-10 m-2" aria-current="page" href="/client-appointments">My Appointments</a>
+                            <a class="btn border h-10 m-2 bg-info text-white" aria-current="page" href="/client-appointments">My Appointments</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn border h-10 m-2 bg-info text-white" aria-current="page" href="/client-review">Make Review</a>
+                            <a class="btn border h-10 m-2" aria-current="page" href="/client-review">Make Review</a>
                         </li>
                     </ul>
                 </div>
                 <div class="small w-full h-full">
                     <div class="w-full p-4"> 
-                        <form class="form-inline w-1/2 flex flex-row" hx-post="/search-employee-client" hx-trigger="keyup, submit" hx-target="#emp_list" hx-swap="innerHTML">
-                            <input class="form-control w-1/2 mr-3" name="name" type="search" placeholder="Search by name" aria-label="Search">
-                            <button class="btn btn-primary" type="submit">Search</button>
+                        <form class="form-inline w-1/2 flex flex-row" hx-post="/search-appointments-cli-acc" hx-trigger="submit" hx-target="#appointments_list" hx-swap="innerHTML">
+                            <input class="form-control w-1/2 mr-3" name="acc" type="search" placeholder="Your Account number" aria-label="Search">
+                            <button class="btn btn-primary" type="submit">Select</button>
                         </form>            
                     </div>
                     <div class="w-full px-4 grid grid-cols-2 grid-rows-1" style="height: 40rem; maxHeight: 40rem">
-                        <div id="emp_list" class="col-span-1 overflow-auto border-2 rounded-md flex flex-col items-center" hx-get="/employees-list-client" hx-trigger="load, refreshEmployeesList from:body"> 
-                            {% include "employees_list_client.html" %}
+                        <div id="appointments_list" class="col-span-1 overflow-auto border-2 rounded-md flex flex-col items-center" hx-trigger="load, refreshAppointmentsList from:body"> 
+                            <h4 class="mt-4">Insert your account number to check your appointments</h4>
                         </div>
                         <div id="content" class="overflow-auto col-span-1 mx-8 border-2 rounded-md">
-                            <!-- This div will be updated -->
                         </div>
                     </div>
+                    <div class="w-full py-3 px-4">
+                        <button class="btn btn-primary w-2/12" hx-get="/create-appointments" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">Create Appointment</button>
+                    <div>
                 </div>        
             </div> 
         </div>        
