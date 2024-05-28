@@ -12,6 +12,12 @@ TRIGGERS:
     - InsertEstabelecimentoTrigger: TRIGGER INSTEAD OF INSERT desenvolvido para verificar se o nif
                     do gerente introduzido é válido e para transferir esse efetivo para o estabelecimento
                     adicionado à base de dados;
+    
+    - InsertAppointment: TRIGGER INSTEAD OF INSERT desenvolvido para verificar se a hora da marcação inserida
+                    corresponde a uma hora válida do horário do funcionário correspondente;
+    
+    - InsertInclui: TRIGGER INSTEAD OF INSERT desenvolvido para verificar se os dados inseridos existem na
+                    tabela Marcacao;
 
 STORED PROCEDURES:
     - DeletePessoa: STORED PROCEDURE desenvolvido para eliminar a pessoa com o nif desejado, caso 
@@ -35,6 +41,10 @@ STORED PROCEDURES:
                     do estabelecimento a ser eliminado (foram despedidos). Para isso
                     é alterada temporariamente a restrição NOT NULL da chave estrangeira 
                     nif_gerente, para que o gerente também possa ser eliminado;
+    
+    - DeleteAppointment: STORED PROCEDURE desenvolvido para eliminar um determinado appointment. Para isso,
+                    elimina primeiro esse appointment da tabela Inclui (onde possui o tipo de serviço do appointment)
+                    e depois elimina da tabela da Marcacao
 
 INDEX:
     - Ix_EstabelecimentoLocalidade: INDEX para tornar a pesquisa de estabelecimentos pela localidade mais

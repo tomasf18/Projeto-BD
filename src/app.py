@@ -1,6 +1,6 @@
 from flask import Flask, make_response, render_template, render_template_string, request  # type: ignore
 
-from persistence import establishment, schedule, effective, intern, employee, speciality, client, review, contract, person, appointment
+from persistence import establishment, schedule, effective, intern, employee, speciality, client, review, contract, person, appointment, service
 from persistence.employee import EmployeeDetails
 from persistence.client import ClientDetails
 from persistence.establishment import EstablishmentDetails
@@ -9,6 +9,7 @@ from persistence.contract import ContractDetails
 from persistence.effective import EffectiveDetails
 from persistence.intern import InternDetails
 from persistence.appointment import AppointmentDetails
+from persistence.service import ServiceType
 
 
 
@@ -643,19 +644,33 @@ def search_appointments_client_by_acc():
 @app.route("/create-appointments", methods=["GET"])
 def create_appointment_form():
     establishment_list = establishment.list_establishments_id_locality()
-    return render_template("appointment_details_form_client.html", establishments=establishment_list)
+    services = service.list_services()
+    return render_template("appointment_details_form_client.html", establishments=establishment_list, services=services)
 
 @app.route("/create-appointments", methods=["POST"])
 def create_appointment():
     try:
-        nif_emp = request.form.get("nif_emp")
-        nif_cli = request.form.get("nif_cli")
-        date = request.form.get("date")
-        hour = request.form.get("hour")
-        appointment.create(nif_emp, nif_cli, date, hour)
 
-        response = make_response(render_template_string(f"Appointment for employee {nif_emp} and client {nif_cli} created successfully!"))
-        response.headers["HX-Trigger"] = "refreshEmployeesList"
+
+        employee_number = request.form.get("employee")
+        cli_acc = request.form.get("cli_acc")
+        date = request.form.get("date")
+        time = request.form.get("time")
+
+        services=[]
+        if request.form.get("services"):
+            for service in request.form.getlist("services"):
+                services.append(service)
+        print(employee_number)
+        print(cli_acc)
+        print(date)
+        print(time)
+        print(services)
+        appointment.create(employee_number, cli_acc, date, time, services)
+
+
+        response = make_response(render_template_string(f"Appointment for employee {employee_number} created successfully!"))
+        response.headers["HX-Trigger"] = "refreshAppointmentsList"
 
         return response
     except Exception as e:
@@ -668,10 +683,23 @@ def get_employees_by_establishment():
     if num_estabelecimento is not None:
         num_estabelecimento = int(num_estabelecimento)
         employees = employee.list_employees_by_establishment(num_estabelecimento)
-        services = [] # fazer depois !!!!!!!!
-        return render_template('employees_list_by_establishment.html', employees=employees, services=services)
+        return render_template('employees_list_by_establishment.html', employees=employees)
     else:
-        return render_template('employees_list_by_establishment.html', employees=[], services=[])
+        return render_template('employees_list_by_establishment.html', employees=[])
+    
+@app.route("/appointments/<emp_nif>/<cli_nif>/<date>/<time>", methods=["DELETE"])
+def delete_appointment(emp_nif: int, cli_nif: int, date: str, time: str):
+    try:
+        appointment.delete(emp_nif, cli_nif, date, time)
+
+        response = make_response(render_template_string(f"Appointment for employee {emp_nif} deleted successfully!"))
+        response.headers["HX-Trigger"] = "refreshAppointmentsList"
+        
+        return response
+    
+    except Exception as e:
+        response = make_response(render_template_string(f"{e}"))
+        return response
 
 
 if __name__ == '__main__':

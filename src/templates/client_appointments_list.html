@@ -6,14 +6,15 @@
                 <div class="mb-2">
                     <strong>Employee Name: {{ appointment.emp_name + " " + appointment.emp_surname }}</strong>
                 </div>
+                <div class="mb-2">
+                    <strong>Date: {{ appointment.app_date.strftime('%Y-%m-%d') }}</strong>
+                </div>
                 <div>
-                    <strong>{{ appointment.app_date.strftime('%Y-%m-%d') }}</strong>
+                    <strong>Hour: {{ appointment.app_date.strftime('%Hh') }}</strong>
                 </div>
             </div>
             <div class="d-flex flex-column align-items-end">
-                <div class="appointment-date mr-4 text-lg">
-                    <strong>{{ appointment.app_date.strftime('%Hh') }}</strong>
-                </div>
+                <button style="width: 100px;" class="delete-button btn btn-danger border mx-2" hx-delete="/appointments/{{ appointment.emp_nif }}/{{ appointment.cli_nif }}/{{ appointment.app_date.strftime('%Y-%m-%d') }}/{{ appointment.app_date.strftime('%H:%M') }}" hx-confirm="Are you sure?" hx-trigger="click" onclick="event.stopPropagation();">Delete</button>
             </div>
         </div>
     </div>

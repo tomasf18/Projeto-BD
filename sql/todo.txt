@@ -1,7 +1,7 @@
 ordenar as reviews por relevancia em termos de data (query complexa)
-cliente não consegue marcar para uma slot ocupada (query complexa)
+DONE: cliente não consegue marcar para uma slot ocupada (query complexa)
 
-fazer trigger para ao adicionar uma marcacao, ver se a hora esta dentro do horario do employee
+DONE: fazer trigger para ao adicionar uma marcacao, ver se a hora esta dentro do horario do employee
 
 -- dúvida
 views para algumas queries de joins um pouco grandes (vale a pena? usamos so udf?)

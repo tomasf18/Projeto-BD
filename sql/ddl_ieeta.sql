@@ -181,7 +181,7 @@ CREATE TABLE Marcacao (
     data_marcacao           DATETIME                NOT NULL,
     data_pedido             DATETIME                NOT NULL,
     PRIMARY KEY (nif_funcionario, nif_cliente, data_marcacao),
-    CHECK (data_pedido <= CAST(GETDATE() AS DATE))
+    CHECK (data_pedido <= GETDATE())
 );
 
 

@@ -32,6 +32,9 @@ IF OBJECT_ID('CreateTem', 'P') IS NOT NULL
 DROP PROCEDURE CreateTem;
 GO
 
+IF OBJECT_ID('DeleteAppointment', 'P') IS NOT NULL
+DROP PROCEDURE DeleteAppointment;
+GO
 
 
 -- SP para eliminar um cliente
@@ -279,3 +282,26 @@ AS
         INSERT INTO Tem (nif_efetivo, especialidade) VALUES (@nif, @speciality);
     END
 GO
+
+
+-- SP para eliminar uma marcação
+CREATE PROCEDURE DeleteAppointment @emp_nif INT, @client_nif INT, @date DATETIME
+AS
+BEGIN
+    BEGIN TRANSACTION;
+
+    BEGIN TRY
+        DELETE FROM Inclui
+        WHERE data_marcacao = @date AND nif_funcionario = @emp_nif AND nif_cliente = @client_nif;
+
+        DELETE FROM Marcacao
+        WHERE nif_funcionario = @emp_nif AND nif_cliente = @client_nif AND data_marcacao = @date;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        RAISERROR('Ocorreu um erro ao eliminar a marcação.', 16, 1);
+    END CATCH
+END
+GO  

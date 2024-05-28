@@ -11,6 +11,7 @@
 
             <label class="large-label" for="establishment_number">Establishment Number</label>
             <select class="form-control cursor-pointer" id="establishment_number" name="establishment_number" hx-get="/get_employees_by_establishment" hx-trigger="change" hx-target="#employee_select" hx-swap="innerHTML">
+                <option value="">Select an establishment</option>
                 {% for establishment in establishments %}
                     <option value="{{ establishment[0] }}"
                             {% if employee_number is defined and employee.establishment_number == establishment[0] %}selected{% endif %}>
@@ -30,12 +31,27 @@
             <input class="form-control" type="date" id="date" name="date" required>
 
             <label class="large-label" for="time">Time:</label>
-            <input class="form-control" type="time" id="time" name="time" required>
+            <select class="form-control" id="time" name="time" required>
+                <option value="">Select Hour</option>
+                <option value="08:00">08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
+                <option value="19:00">19:00</option>
+                <option value="20:00">20:00</option>
+            </select>
 
             <label class="large-label" for="service">Services:</label>
-            <select class="form-control cursor-pointer" id="service" name="service" multiple>
+            <select class="form-control cursor-pointer" id="services" name="services" multiple>
                 {% for service in services %}
-                    <option value="{{ service[0] }}">{{ service[1] }}</option>
+                    <option value="{{ service[0] }},{{ service[1] }}">{{ service[1] }}</option>
                 {% endfor %}
             </select>
             <div class="w-full flex items-center mt-4">
