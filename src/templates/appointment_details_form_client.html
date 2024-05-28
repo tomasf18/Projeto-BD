@@ -51,7 +51,7 @@
             <label class="large-label" for="service">Services:</label>
             <select class="form-control cursor-pointer" id="services" name="services" multiple>
                 {% for service in services %}
-                    <option value="{{ service[0] }},{{ service[1] }}">{{ service[1] }}</option>
+                    <option value="{{ service[0] }},{{ service[1] }}">{{ service[1] }} - {{ service[0] }}</option>
                 {% endfor %}
             </select>
             <div class="w-full flex items-center mt-4">

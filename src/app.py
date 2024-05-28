@@ -44,6 +44,10 @@ def admin_spc():
 def admin_sch():
     return render_template('admin_sch.html')
 
+@app.route('/admin-serv')
+def admin_serv():
+    return render_template('admin_serv.html')
+
 
 # ----------------- Employee -----------------
 
@@ -508,6 +512,38 @@ def create_schedule():
     response.headers["HX-Trigger"] = "refreshSchedulesList"
 
     return response
+
+
+# ----------------- Services -----------------
+
+@app.route("/services-list", methods=["GET"]) # when user goes to /services-list, this function is called
+def get_services_list():
+    servicesData = service.list_services()
+    return render_template("services_list.html", services=servicesData)
+
+@app.route("/search-service", methods=["POST"])
+def search_service():
+    service_type = request.form.get("designation")
+    servicesData = service.list_services_by_type(service_type)
+    return render_template("services_list.html", services=servicesData)
+
+@app.route("/services/<sex>/<designation>", methods=["GET"])
+def service_details():
+    return render_template("service_details_view.html")
+
+@app.route("/services/<sex>/<designation>", methods=["DELETE"])
+def delete_service(sex: str, designation: str):
+    try:
+        service.delete(sex, designation)
+
+        response = make_response(render_template_string(f"Service {designation} deleted successfully!"))
+        response.headers["HX-Trigger"] = "refreshServicesList"
+    
+        return response
+    except Exception as e:
+        response = make_response(render_template_string(f"{e}"))
+        return response
+
 
 # ----------------- Specialities -----------------
 

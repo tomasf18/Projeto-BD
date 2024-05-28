@@ -1,0 +1,23 @@
+{% for service in services %} 
+    <div class="w-11/12 border-4 my-2 rounded-lg d-flex flex-column p-3 cursor-pointer"
+        hx-get="/services/{{ service.sex }}/{{ service.designation}}"
+        hx-trigger="click"
+        hx-target="#content"
+        hx-swap="innerHTML"
+    >
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="service-list-item-details text-lg ">
+                
+                <div class="mb-2">
+                    <strong>Designation: {{ service.designation }}</strong>
+                </div>
+                <div>
+                    <strong>Sex: {{ service.sex }}</strong>
+                </div>
+            </div>
+            <div class="d-flex flex-column align-items-end">
+                <button style="width: 100px;" class="delete-button btn btn-danger border mx-2" hx-delete="/services/{{ service.sex }}/{{ service.designation }}" hx-confirm="Are you sure?" hx-trigger="click" onclick="event.stopPropagation();">Delete</button>
+            </div>
+        </div>
+    </div>
+{% endfor %}
