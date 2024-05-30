@@ -9,7 +9,7 @@ from persistence.contract import ContractDetails
 from persistence.effective import EffectiveDetails
 from persistence.intern import InternDetails
 from persistence.appointment import AppointmentDetails
-from persistence.service import ServiceType
+from persistence.service import ServiceDetails
 
 
 
@@ -528,8 +528,10 @@ def search_service():
     return render_template("services_list.html", services=servicesData)
 
 @app.route("/services/<sex>/<designation>", methods=["GET"])
-def service_details():
-    return render_template("service_details_view.html")
+def service_details(sex, designation):
+    services = service.read(sex, designation)
+    print(services)
+    return render_template("service_details_view.html", services=services)
 
 @app.route("/services/<sex>/<designation>", methods=["DELETE"])
 def delete_service(sex: str, designation: str):
@@ -544,6 +546,24 @@ def delete_service(sex: str, designation: str):
         response = make_response(render_template_string(f"{e}"))
         return response
 
+@app.route("/services", methods=["GET"])
+def create_service_form():
+    return render_template("service_details_form.html")
+
+@app.route("/services", methods=["POST"])
+def create_service():
+    try:
+        new_service = ServiceDetails(**request.form)
+
+        service_designation = service.create(new_service)
+
+        response = make_response(render_template_string(f"Service {service_designation} created successfully!"))
+        response.headers["HX-Trigger"] = "refreshServicesList"
+    
+        return response
+    except Exception as e:
+        response = make_response(render_template_string(f"{e}"))
+        return response
 
 # ----------------- Specialities -----------------
 

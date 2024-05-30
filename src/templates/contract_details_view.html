@@ -10,6 +10,6 @@
             <tr class="grid grid-cols-6"><th class="col-span-3">Description:</th><td class="col-span-3"> {{ contract.description }}</td></tr>
         </tbody>
     </table>
-    <button class="btn border mx-2" hx-get="/employees/{{ employee_number }}" hx-target="#content" hx-swap="innerHTML">Back</button>
-    <button class="edit-button btn border mx-2" hx-get="/employees/{{ employee_number }}/contract?edit=true" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">Edit</button>
+    <button class="btn btn-secondary border mx-2" hx-get="/employees/{{ employee_number }}" hx-target="#content" hx-swap="innerHTML">Back</button>
+    <button class="edit-button btn btn-success border mx-2" hx-get="/employees/{{ employee_number }}/contract?edit=true" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">Edit</button>
 </div>

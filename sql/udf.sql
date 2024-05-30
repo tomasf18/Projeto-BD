@@ -9,7 +9,7 @@ DROP FUNCTION get_appointment_details;
 GO
 
 
--- UDF para retornar a performance de um employee
+-- UDF to return the performance of an employee based on the average rating of their reviews
 
 CREATE FUNCTION get_employee_performance(@nif INT)
 RETURNS VARCHAR(50)
@@ -17,7 +17,8 @@ AS
 BEGIN
     DECLARE @average_rating FLOAT;
     DECLARE @performance VARCHAR(50);
-    SELECT @average_rating = AVG(CAST(n_estrelas AS FLOAT)) FROM Avaliacao WHERE nif_funcionario = @nif;
+    SELECT @average_rating = AVG(CAST(n_estrelas AS FLOAT)) 
+    FROM Avaliacao WHERE nif_funcionario = @nif;
 
     IF @average_rating > 4
         SET @performance = 'Excelent';
@@ -34,33 +35,17 @@ END
 GO
 
 
--- UDF para retornar os detalhes de uma Marcação
+-- UDF to return all of the details of an appointment
 
 CREATE FUNCTION get_appointment_details(@nif_emp INT, @nif_cli INT, @date DATETIME)
 RETURNS table
 AS
 RETURN (
-    SELECT 
-        Marcacao.nif_cliente, 
-        PessoaCliente.Pnome AS client_name, 
-        PessoaCliente.Unome AS client_surname, 
-        Marcacao.nif_funcionario, 
-        PessoaFuncionario.Pnome AS employee_name, 
-        PessoaFuncionario.Unome AS employee_surname, 
-        Inclui.designacao_tipo_serv, 
-        Marcacao.data_marcacao, 
-        Marcacao.data_pedido, 
-        Funcionario.num_estabelecimento
-    FROM Marcacao 
-    JOIN Pessoa AS PessoaCliente ON Marcacao.nif_cliente = PessoaCliente.nif 
-    JOIN Pessoa AS PessoaFuncionario ON Marcacao.nif_funcionario = PessoaFuncionario.nif 
-    JOIN Funcionario ON Marcacao.nif_funcionario = Funcionario.nif
-    JOIN Inclui ON Marcacao.nif_funcionario = Inclui.nif_funcionario
-        AND Marcacao.nif_cliente = Inclui.nif_cliente 
-        AND Marcacao.data_marcacao = Inclui.data_marcacao
-    WHERE Marcacao.nif_funcionario = @nif_emp 
-    AND Marcacao.nif_cliente = @nif_cli 
-    AND Marcacao.data_marcacao = @date
+    SELECT *
+    FROM viewAppointmentDetails
+    WHERE nif_funcionario = @nif_emp 
+    AND nif_cliente = @nif_cli 
+    AND data_marcacao = @date
 );
 GO
 

@@ -19,6 +19,10 @@ TRIGGERS:
     - InsertInclui: TRIGGER INSTEAD OF INSERT desenvolvido para verificar se os dados inseridos existem na
                     tabela Marcacao;
 
+    - DeleteTipoServicoTrigger: TRIGGER INSTEAD OF desenvolvido para eliminar as entradas na tabela Marcacao
+                    e Inclui ao eliminar determinado Tipo de Serviço. É utilizado um cursor, uma tabela temporaria
+                    e o SP DeleteAppointment
+
 STORED PROCEDURES:
     - DeletePessoa: STORED PROCEDURE desenvolvido para eliminar a pessoa com o nif desejado, caso 
                     a pessoa seja um cliente, chama o SP DeleteCliente, caso contrário chama o SP
@@ -60,6 +64,10 @@ UDF:
     
     - get_appointment_details: UDF que retorna uma tabela contendo os detalhes de uma marcação com base no 
                     nif do employee e do client e também da data da marcação
+
+
+VIEW:
+    - viewAppointmentDetails: VIEW que retorna as informações de um appointment (utilizada na UDF get_appointment_details)
 
 TRANSACTIONS:
     - DeleteHorarioTrigger: Possui uma transaction pois as operações de atualizar o horário do funcionário

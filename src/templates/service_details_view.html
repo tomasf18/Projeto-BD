@@ -1,0 +1,20 @@
+<div class="service-details p-3" id="serviceDetails1">
+    <h2 class="mb-4">Service Details:</h2>
+
+    <table class="table">
+        <tbody>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Service Type:</th><td class="col-span-3">{{ services[0].designation }}</td></tr>
+            <tr class="grid grid-cols-6"><th class="col-span-3">Service Sex: </th><td class="col-span-3">{{ services[0].sex }}</td></tr>            
+        </tbody>
+    </table>
+
+    <h2 class="mb-4 mt-8">Available Services:</h2>
+    
+    <table class="table">
+        <tbody>
+            {% for service in services %}
+            <tr class="grid grid-cols-6"><td class="col-span-3">{{ service.name }}</td><td class="col-span-3">{{ service.price }} $</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

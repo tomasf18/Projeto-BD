@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="d-flex flex-column align-items-end">
-                <button style="width: 100px;" class="delete-button btn btn-danger border mx-2" hx-delete="/appointments/{{ appointment.emp_nif }}/{{ appointment.cli_nif }}/{{ appointment.app_date.strftime('%Y-%m-%d') }}/{{ appointment.app_date.strftime('%H:%M') }}" hx-confirm="Are you sure?" hx-trigger="click" onclick="event.stopPropagation();">Delete</button>
+                <button style="width: 100px;" class="delete-button btn btn-danger border mx-2" hx-delete="/appointments/{{ appointment.emp_nif }}/{{ appointment.cli_nif }}/{{ appointment.app_date.strftime('%Y-%m-%d') }}/{{ appointment.app_date.strftime('%H:%M') }}" hx-confirm="Are you sure?" hx-trigger="click" onclick="event.stopPropagation();">Cancel</button>
             </div>
         </div>
     </div>

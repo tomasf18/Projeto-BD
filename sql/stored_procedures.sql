@@ -37,126 +37,126 @@ DROP PROCEDURE DeleteAppointment;
 GO
 
 
--- SP para eliminar um cliente
+-- SP to delete a client
 CREATE PROCEDURE DeleteCliente @nif INT
 AS
 BEGIN
-    -- Eliminar as avaliações do cliente
+    -- delete the client's reviews
     DELETE FROM Avaliacao
     WHERE nif_cliente = @nif;
 
-    -- Eliminar as marcações do cliente
+    -- delete the client's appointments
     DELETE FROM Marcacao
     WHERE nif_cliente = @nif;
 
-    -- Eliminar o cliente
+    -- delete the client
     DELETE FROM Cliente
     WHERE nif = @nif;
 END
 GO
 
--- SP para eliminar um efetivo
+-- SP to delete an effective employee
 CREATE PROCEDURE DeleteEfetivo @nif INT
 AS
 BEGIN
     DECLARE @nif_estabelecimento INT;
     DECLARE @novo_gerente INT;
 
-    -- Verificar se o efetivo é um gerente e obter o id do estabelecimento
+    -- Check if the employee is a manager
     SELECT @nif_estabelecimento = id
     FROM Estabelecimento
     WHERE nif_gerente = @nif;
 
-    IF @nif_estabelecimento IS NOT NULL -- Se for gerente, temos que atribuir um novo gerente ao estabelecimento
+    IF @nif_estabelecimento IS NOT NULL -- It is a manager
     BEGIN
-        -- Tentar encontrar um efetivo que já trabalhe no estabelecimento
+        -- Try to find another effective employee in the establishment
         SELECT TOP 1 @novo_gerente = Efetivo.nif
         FROM Efetivo
         JOIN Funcionario ON Efetivo.nif = Funcionario.nif
         WHERE Funcionario.num_estabelecimento = @nif_estabelecimento
         AND Efetivo.nif <> @nif;
 
-        IF @novo_gerente IS NULL -- Se não houver mauis efetivos no estabelecimento, tentar encontrar um efetivo disponível noutro estabelecimento
+        IF @novo_gerente IS NULL -- If there is no other effective employee in the establishment, find another
         BEGIN
             SELECT TOP 1 @novo_gerente = Efetivo.nif
             FROM Efetivo
             WHERE Efetivo.nif <> @nif
             AND Efetivo.nif NOT IN (SELECT nif_gerente FROM Estabelecimento);
 
-            IF @novo_gerente IS NOT NULL -- Mover o funcionário para o estabelecimento do gerente a ser eliminado
+            IF @novo_gerente IS NOT NULL -- Move the employee to the establishment
             BEGIN
                 UPDATE Funcionario
                 SET num_estabelecimento = @nif_estabelecimento
                 WHERE nif = @novo_gerente;
             END
-            ELSE -- Não existe nenhum efetivo disponível
+            ELSE -- there is no other effective employee available
             BEGIN
-                RAISERROR('Não é possível eliminar o gerente, não existe outro gerente disponível', 16, 1);
+                RAISERROR('It is not possible to remove the manager, there is no other available', 16, 1);
                 RETURN;
             END
         END
 
-        -- Atualizar o gerente do estabelecimento
+        -- update the establishment manager
         UPDATE Estabelecimento
         SET nif_gerente = @novo_gerente
         WHERE id = @nif_estabelecimento;
 
-        -- Eliminar as entradas na tabela Tem
+        -- delete the entries in the Tem table
         DELETE FROM Tem
         WHERE nif_efetivo = @nif;
 
-        -- Eliminar o contrato do efetivo
+        -- delete the employee's contract
         DELETE FROM Contrato
         WHERE nif_efetivo = @nif;
 
-        -- Eliminar o efetivo
+        -- delete the effective
         DELETE FROM Efetivo
         WHERE nif = @nif;
     END
-    ELSE -- Se não for gerente pode ser eliminado
+    ELSE -- it is not a manager
     BEGIN
-        -- Eliminar as entradas na tabela Tem
+        -- delete the entries in the Tem table
         DELETE FROM Tem
         WHERE nif_efetivo = @nif;
 
-        -- Eliminar o contrato do efetivo
+        -- delete the employee's contract
         DELETE FROM Contrato
         WHERE nif_efetivo = @nif;
 
-        -- Eliminar o efetivo
+        -- delete the effective
         DELETE FROM Efetivo
         WHERE nif = @nif;
     END
 END
 GO
 
--- SP para eliminar um funcionário
+-- SP to delete an employee
 CREATE PROCEDURE DeleteFuncionario @nif INT
 AS
 BEGIN
-    -- Verificar se o funcionário a ser eliminado é um efetivo
+    -- check if the employee is an effective
     IF EXISTS (SELECT 1 FROM Efetivo WHERE nif = @nif)
         BEGIN
             EXEC DeleteEfetivo @nif;
         END
-    ELSE -- É um estagiário, pode ser eliminado
+    ELSE -- it is an intern
         BEGIN
             DELETE FROM Estagiario
             WHERE nif = @nif;
         END
-    -- Eliminar as avaliações do funcionário
+    -- delete the employee's reviews
     DELETE FROM Avaliacao
     WHERE nif_funcionario = @nif;
 
-    -- Eliminar as marcações do funcionário
+    -- delete the employee's appointments
     DELETE FROM Marcacao
     WHERE nif_funcionario = @nif;
 
-    -- Eliminar os numeros de telemovel do funcionário
+    -- delete the employee's phone numbers
     DELETE FROM Nums_telem_func
     WHERE nif_func = @nif;
 
-    -- Eliminar o funcionário
+    -- delete the employee
     DELETE FROM Funcionario
     WHERE nif = @nif;
 END
@@ -167,7 +167,7 @@ GO
 CREATE PROCEDURE DeletePessoa @nif INT
 AS
 BEGIN
-    -- Verificar se a pessoa a ser eliminada é um cliente
+    -- Check if the person is a client
     IF EXISTS (SELECT 1 FROM Cliente WHERE nif = @nif)
         BEGIN
             EXEC DeleteCliente @nif;

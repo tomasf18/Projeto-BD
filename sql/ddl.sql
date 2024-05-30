@@ -181,7 +181,7 @@ CREATE TABLE Marcacao (
     data_marcacao           DATETIME                NOT NULL,
     data_pedido             DATETIME                NOT NULL,
     PRIMARY KEY (nif_funcionario, nif_cliente, data_marcacao),
-    CHECK (data_pedido <= CAST(GETDATE() AS DATE))
+    CHECK (data_pedido <= GETDATE())
 );
 
 
@@ -273,13 +273,10 @@ ALTER TABLE Marcacao
     ADD CONSTRAINT FK_Marcacao_Cliente FOREIGN KEY (nif_cliente) REFERENCES Cliente(nif);
 
 ALTER TABLE Inclui 
-    ADD CONSTRAINT FK_Inclui_Marcacao FOREIGN KEY (nif_funcionario, nif_cliente, data_marcacao) REFERENCES Marcacao(nif_funcionario, nif_cliente, data_marcacao)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE;
+    ADD CONSTRAINT FK_Inclui_Marcacao FOREIGN KEY (nif_funcionario, nif_cliente, data_marcacao) REFERENCES Marcacao(nif_funcionario, nif_cliente, data_marcacao);
 
 ALTER TABLE Inclui
-    ADD CONSTRAINT FK_Inclui_Tipo_servico FOREIGN KEY (sexo, designacao_tipo_serv) REFERENCES Tipo_servico(sexo, designacao)
-    ON DELETE CASCADE;
+    ADD CONSTRAINT FK_Inclui_Tipo_servico FOREIGN KEY (sexo, designacao_tipo_serv) REFERENCES Tipo_servico(sexo, designacao);
 
 ALTER TABLE Servico 
     ADD CONSTRAINT FK_Servico_Tipo_servico FOREIGN KEY (sexo, designacao) REFERENCES Tipo_servico(sexo, designacao)

@@ -1,13 +1,17 @@
-<div class="schedule-details" id="scheduleDetails">
-    <h2>ID: {{ schedule_id }}</h2>
+<div class="schedule-details p-3" id="scheduleDetails">
+    <h2 class="mb-4">Schedule ID: {{ schedule_id }}</h2>
 
-    <p><strong>Sun</strong> {% if day_off == 'Domingo' %}Day-off{% else %}{{ start_time }}-{{ end_time }}{% endif %}</p>
-    <p><strong>Mon</strong> {% if day_off == 'Segunda-feira' %}Day-off{% else %}{{ start_time }}-{{ end_time }}{% endif %}</p>
-    <p><strong>Tue</strong> {% if day_off == 'Terça-feira' %}Day-off{% else %}{{ start_time }}-{{ end_time }}{% endif %}</p>
-    <p><strong>Wed</strong> {% if day_off == 'Quarta-feira' %}Day-off{% else %}{{ start_time }}-{{ end_time }}{% endif %}</p>
-    <p><strong>Thu</strong> {% if day_off == 'Quinta-feira' %}Day-off{% else %}{{ start_time }}-{{ end_time }}{% endif %}</p>
-    <p><strong>Fri</strong> {% if day_off == 'Sexta-feira' %}Day-off{% else %}{{ start_time }}-{{ end_time }}{% endif %}</p>
-    <p><strong>Sat</strong> {% if day_off == 'Sábado' %}Day-off{% else %}{{ start_time }}-{{ end_time }}{% endif %}</p>
-    <button class="btn border mx-2" hx-get="/employees/{{ employee_number }}" hx-target="#content" hx-swap="innerHTML">Back</button>
-    <button class="edit-button btn border mx-2" hx-get="/employees/{{ employee_number }}/schedule?change=true" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">Change</button>
+    <table class="table">
+        <tbody>
+            <tr><th>Sun</th><td>{% if day_off == 'Domingo' %}Day-off{% else %}{{ start_time }}-{{ end_time }}{% endif %}</td></tr>
+            <tr><th>Mon</th><td>{% if day_off == 'Segunda-feira' %}Day-off{% else %}{{ start_time }}-{{ end_time }}{% endif %}</td></tr>
+            <tr><th>Tue</th><td>{% if day_off == 'Terça-feira' %}Day-off{% else %}{{ start_time }}-{{ end_time }}{% endif %}</td></tr>
+            <tr><th>Wed</th><td>{% if day_off == 'Quarta-feira' %}Day-off{% else %}{{ start_time }}-{{ end_time }}{% endif %}</td></tr>
+            <tr><th>Thu</th><td>{% if day_off == 'Quinta-feira' %}Day-off{% else %}{{ start_time }}-{{ end_time }}{% endif %}</td></tr>
+            <tr><th>Fri</th><td>{% if day_off == 'Sexta-feira' %}Day-off{% else %}{{ start_time }}-{{ end_time }}{% endif %}</td></tr>
+            <tr><th>Sat</th><td>{% if day_off == 'Sábado' %}Day-off{% else %}{{ start_time }}-{{ end_time }}{% endif %}</td></tr>
+        </tbody>
+    </table>
+    <button class="btn btn-secondary border mx-2" hx-get="/employees/{{ employee_number }}" hx-target="#content" hx-swap="innerHTML">Back</button>
+    <button class="edit-button btn btn-success border mx-2" hx-get="/employees/{{ employee_number }}/schedule?change=true" hx-trigger="click" hx-target="#content" hx-swap="innerHTML">Change</button>
 </div>
