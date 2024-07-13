@@ -7,7 +7,7 @@ Ano Letivo: 2022/2023 — 2º ano, 2º Semestre
 `Nota: 18.2`  
 
 
-# Informações sobre o projeto:  
+# Informações sobre o projeto  
 
 ## Trabalho Prático
 
